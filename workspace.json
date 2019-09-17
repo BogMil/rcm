@@ -1,0 +1,171 @@
+{
+  "version": 1,
+  "projects": {
+    "react-crud-master-e2e": {
+      "root": "apps/react-crud-master-e2e",
+      "sourceRoot": "apps/react-crud-master-e2e/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/react-crud-master-e2e",
+            "index": "apps/react-crud-master-e2e/src/index.html",
+            "main": "apps/react-crud-master-e2e/src/main.tsx",
+            "polyfills": "apps/react-crud-master-e2e/src/polyfills.ts",
+            "tsConfig": "apps/react-crud-master-e2e/tsconfig.app.json",
+            "assets": [
+              "apps/react-crud-master-e2e/src/favicon.ico",
+              "apps/react-crud-master-e2e/src/assets"
+            ],
+            "styles": ["apps/react-crud-master-e2e/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/babel"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/react-crud-master-e2e/src/environments/environment.ts",
+                  "with": "apps/react-crud-master-e2e/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "react-crud-master-e2e:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "react-crud-master-e2e:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/react-crud-master-e2e/.eslintrc",
+            "tsConfig": [
+              "apps/react-crud-master-e2e/tsconfig.app.json",
+              "apps/react-crud-master-e2e/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/react-crud-master-e2e/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/react-crud-master-e2e/jest.config.js",
+            "tsConfig": "apps/react-crud-master-e2e/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "react-crud-master-e2e-e2e": {
+      "root": "apps/react-crud-master-e2e-e2e",
+      "sourceRoot": "apps/react-crud-master-e2e-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/react-crud-master-e2e-e2e/cypress.json",
+            "tsConfig": "apps/react-crud-master-e2e-e2e/tsconfig.e2e.json",
+            "devServerTarget": "react-crud-master-e2e:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "react-crud-master-e2e:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/react-crud-master-e2e-e2e/.eslintrc",
+            "tsConfig": ["apps/react-crud-master-e2e-e2e/tsconfig.e2e.json"],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/react-crud-master-e2e-e2e/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/web": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "react-crud-master-e2e"
+}
