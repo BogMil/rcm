@@ -1,0 +1,20 @@
+.rcm-header-table-holder{
+    overflow-x: hidden;
+    border-right: 5px solid rgba(0, 0, 0, 0.05);
+}
+
+.rcm-header-table-thead{
+    align-items: center
+}
+
+.rcm-header-table {
+    margin-bottom: 0;
+    table-layout: fixed;
+  }
+
+  .rcm-header-table-colum-header {
+    vertical-align: middle !important;
+    position: sticky;
+    background-color: "#c6cad4";
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+  }

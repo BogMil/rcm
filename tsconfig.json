@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@react-crud-master-workspace/react-crud-master": [
+        "libs/react-crud-master/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

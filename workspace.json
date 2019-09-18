@@ -111,6 +111,33 @@
           }
         }
       }
+    },
+    "react-crud-master": {
+      "root": "libs/react-crud-master",
+      "sourceRoot": "libs/react-crud-master/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/react-crud-master/.eslintrc",
+            "tsConfig": [
+              "libs/react-crud-master/tsconfig.lib.json",
+              "libs/react-crud-master/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/react-crud-master/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/react-crud-master/jest.config.js",
+            "tsConfig": "libs/react-crud-master/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {

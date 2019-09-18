@@ -1,107 +1,187 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import './app.css';
+import { ReactCrudMaster, ColModel } from '@react-crud-master-workspace/react-crud-master';
+// import 'react-crud-master/css/bundle.css'
 
-export const App = () => {
+export class App extends Component {
   /*
    * Replace the elements below with your own.
    *
    * Note: The corresponding styles are in the ./${fileName}.${style} file.
    */
-  return (
-    <div className="app">
-      <header className="flex">
-        <img
-          alt=""
-          width="75"
-          src="https://nx.dev/assets/images/nx-logo-white.svg"
-        />
-        <h1>Welcome to react-crud-master-e2e!</h1>
-      </header>
-      <main>
-        <h2>Resources &amp; Tools</h2>
-        <p>Thank you for using and showing some ♥ for Nx.</p>
-        <div className="flex github-star-container">
-          <a
-            href="https://github.com/nrwl/nx"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            If you like Nx, please give it a star:
-            <div className="github-star-badge">
-              <svg
-                className="material-icons"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-              Star
-            </div>
-          </a>
-        </div>
-        <p>Here are some links to help you get started.</p>
-        <ul className="resources">
-          <li className="col-span-2">
-            <a
-              className="resource flex"
-              href="https://nx.dev/react/getting-started/what-is-nx"
-            >
-              Nx video tutorial
-            </a>
-          </li>
-          <li className="col-span-2">
-            <a
-              className="resource flex"
-              href="https://nx.dev/react/tutorial/01-create-application"
-            >
-              Interactive tutorial
-            </a>
-          </li>
-          <li className="col-span-2">
-            <a className="resource flex" href="https://connect.nrwl.io/">
-              <img
-                height="36"
-                alt="Nrwl Connect"
-                src="https://connect.nrwl.io/assets/img/CONNECT_ColorIcon.png"
-              />
-              <span className="gutter-left">Nrwl Connect</span>
-            </a>
-          </li>
-        </ul>
-        <h2>Next Steps</h2>
-        <p>Here are some things you can do with Nx.</p>
-        <details open>
-          <summary>Add UI library</summary>
-          <pre>{`# Generate UI lib
-nx g @nrwl/react:lib ui
 
-# Add a component
-nx g @nrwl/react:component xyz --project ui`}</pre>
-        </details>
-        <details>
-          <summary>View dependency graph</summary>
-          <pre>{`nx dep-graph`}</pre>
-        </details>
-        <details>
-          <summary>Run affected commands</summary>
-          <pre>{`# see what's been affected by changes
-nx affected:dep-graph
+  data: any;
+  colModels: ColModel[];
 
-# run tests for current changes
-nx affected:test
+  constructor(props) {
+    super(props);
 
-# run e2e tests for current changes
-nx affected:e2e
-`}</pre>
-        </details>
-      </main>
-    </div>
-  );
+
+    this.data = [
+      {
+        Id: 1,
+        FirstName:
+          "Milan Milan Milan Milan Milan Milan Milan Milan Milan Milan Milan ",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 2,
+
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 3,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 4,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 5,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 6,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 7,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 8,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 9,
+        FirstName: "Milan BOgdanovic BOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovic",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 10,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 11,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 12,
+        FirstName: "Milan BOgdanovic BOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovic",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 13,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 14,
+        FirstName: "Milan",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      },
+      {
+        Id: 15,
+        FirstName: "Milan BOgdanovic BOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovicBOgdanovic BOgdanovic",
+        LastName: "BOgdanovic",
+        Username: "mbogda",
+        Contact: "12345",
+        Email: "mail@gmail.com"
+      }
+    ];
+
+    this.colModels = [
+      new ColModel({
+        name: "Id",
+        label: "Id",
+        width: 150,
+        minWidth: 150
+      }),
+
+      new ColModel({
+        name: "FirstName",
+        label: "first name",
+        width: 200
+      }),
+      new ColModel({
+        name: "LastName",
+        label: "last name",
+        width: 400,
+        // minWidth: 150
+      }),
+      new ColModel({
+        name: "Username",
+        label: "Username",
+        width: 150,
+        minWidth: 150
+      }),
+      new ColModel({
+        name: "Contact",
+        label: "Contact",
+        width: 150,
+        // minWidth: 150
+      })
+    ];
+  }
+
+  render = () => {
+    return (
+      <ReactCrudMaster data={this.data} colModels={this.colModels} />
+    );
+  }
+
 };
 
 export default App;
