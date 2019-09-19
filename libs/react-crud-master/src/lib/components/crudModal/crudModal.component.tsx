@@ -43,6 +43,7 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
                 show={this.props.show}
                 onHide={this.handleClose}
                 centered
+                className="cm-crud-modal"
             >
                 <Modal.Header style={{ borderRadius: 0 }} closeButton >
                     <Modal.Title>Modal heading </Modal.Title>
@@ -91,7 +92,7 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: CrudModalOwnProps): CrudModalDispatchProps => {
     return {
         closeCrudModal: () => dispatch(CrudModalActions.closeModal()),
-        onRowDataChange: (name:string,value:any) => dispatch(CrudModalActions.onRowDataChange(name,value))
+        onRowDataChange: (name: string, value: any) => dispatch(CrudModalActions.onRowDataChange(name, value))
     };
 }
 

@@ -29,18 +29,6 @@ export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
     }
 }
 
-// export interface ReactCrudMasterProps { }
-
-// export const ReactCrudMaster = (props: ReactCrudMasterProps) => {
-//     return (
-//         <div>
-//             <h1>Welcome to react-crud-master component!</h1>
-//         </div>
-//     );
-// };
-
-// export default ReactCrudMaster;
-
 export default ReactCrudMaster
 
 export { ColModel } from './types/ColModel'

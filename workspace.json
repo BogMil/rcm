@@ -19,7 +19,9 @@
               "apps/react-crud-master-e2e/src/favicon.ico",
               "apps/react-crud-master-e2e/src/assets"
             ],
-            "styles": ["apps/react-crud-master-e2e/src/styles.css"],
+            "styles": [
+              "apps/react-crud-master-e2e/src/styles.css"
+            ],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/babel"
           },
@@ -68,7 +70,10 @@
               "apps/react-crud-master-e2e/tsconfig.app.json",
               "apps/react-crud-master-e2e/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/react-crud-master-e2e/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/react-crud-master-e2e/**"
+            ]
           }
         },
         "test": {
@@ -103,7 +108,9 @@
           "options": {
             "linter": "eslint",
             "config": "apps/react-crud-master-e2e-e2e/.eslintrc",
-            "tsConfig": ["apps/react-crud-master-e2e-e2e/tsconfig.e2e.json"],
+            "tsConfig": [
+              "apps/react-crud-master-e2e-e2e/tsconfig.e2e.json"
+            ],
             "exclude": [
               "**/node_modules/**",
               "!apps/react-crud-master-e2e-e2e/**"
@@ -127,7 +134,10 @@
               "libs/react-crud-master/tsconfig.lib.json",
               "libs/react-crud-master/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/react-crud-master/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/react-crud-master/**"
+            ]
           }
         },
         "test": {

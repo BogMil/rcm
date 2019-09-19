@@ -18,6 +18,7 @@ import * as ReactCrudMasterActions from '../reactCrudMaster/reactCrudMaster.acti
 import * as ColMenuModelActions from '../colMenuModal/colMenuModal.actions'
 import { ThunkDispatch } from "redux-thunk";
 import './tableHeader.css'
+import * as TextSelection from '../../utils/textSelection'
 
 class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>{
     constructor(props: TableHeaderProps) {
@@ -31,31 +32,26 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
 
     render() {
         return (
-            <div className='rcm-header-table-holder' id='z' onScroll={()=>{
-                //fix for autoscroll after closing colMenuModal
-                var x = document.getElementById('z');
-                var q = document.getElementById('q');
-                q!.scrollLeft = x!.scrollLeft
-            }}>
-                <Table id="x" className="rcm-header-table" striped bordered hover size="sm"
+            <div className='cm-table-header-holder' id={`cm-table-header-holder-${this.props.RCMID}`} onScroll={this.onHorizontalScroll}>
+                <Table className="cm-header-table" striped bordered hover size="sm"
                     style={{ width: this.props.tableWidth }}
                 >
-                    <thead className='rcm-header-table-thead'>
+                    <thead className='cm-header-table-thead'>
                         <tr>
                             {this.props.colModels.map((column) => {
                                 return (
-                                    <th className="rcm-header-table-colum-header"
+                                    <th className="cm-header-table-colum-header"
                                         key={column.name}
                                         style={{ width: column.width }}
                                         id={column.name}
                                     >
-                                        <div className="column-header-content-holder" >
-                                            <div className="column-header-label" onClick={() => this.onThClick(column)}>
+                                        <div className="cm-column-header-content-holder" >
+                                            <div className="cm-column-header-label" onClick={() => this.onThClick(column)}>
                                                 {column.orderDirection != "" && column.orderDirection}{" "}{column.label}
                                             </div>
-                                            < div className="column-header-menu-holder">
+                                            < div className="cm-column-header-menu-holder">
                                                 <Button
-                                                    onClick={()=>this.props.openColMenuModel(column)}
+                                                    onClick={() => this.props.openColMenuModel(column)}
                                                     size="sm"
                                                     className="border-radius-0"
                                                     style={{ marginRight: 5, padding: '1px 4px' }}
@@ -64,7 +60,7 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
                                                 </Button>
                                             </div>
                                         </div>
-                                        <div className="column-header-resize-bar"
+                                        <div className="cm-column-header-resize-bar"
                                             onDragStart={e => e.preventDefault()}
                                             onMouseDown={e => this.setColumnToResize(e, column)}
                                         >
@@ -81,12 +77,16 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
         );
     }
 
+    onHorizontalScroll = () => {
+        var x = document.getElementById(`cm-table-header-holder-${this.props.RCMID}`);
+        var q = document.getElementById(`cm-data-table-holder-${this.props.RCMID}`);
+        q!.scrollLeft = x!.scrollLeft;
+    }
+
     setColumnToResize(e: any, column: ColModel) {
 
         this.props.setColumnToResize(column, e);
-        document.body.style.webkitUserSelect = "none";
-        document.body.style.msUserSelect = "none";
-        document.body.style.userSelect = "none";
+        TextSelection.disableTextSelectionOnPage();
     }
 
     onThClick = (column: ColModel) => {
@@ -103,7 +103,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: Tabl
         setColumnToResize: (column: (ColModel | null) = null, e: (any | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, e)),
         resetTableoffsetWidth: () => dispatch(ReactCrudMasterActions.resetTableoffsetWidth()),
         changeOrderDirection: (column: ColModel) => dispatch(ReactCrudMasterActions.changeOrderDirection(column)),
-        openColMenuModel:(colModel:ColModel) =>dispatch(ColMenuModelActions.openModal(colModel))
+        openColMenuModel: (colModel: ColModel) => dispatch(ColMenuModelActions.openModal(colModel))
     };
 }
 

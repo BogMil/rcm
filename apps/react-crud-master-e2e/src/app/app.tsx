@@ -178,7 +178,11 @@ export class App extends Component {
 
   render = () => {
     return (
-      <ReactCrudMaster data={this.data} colModels={this.colModels} />
+      <>
+        <ReactCrudMaster data={this.data} colModels={this.colModels} />
+        <br />
+        {/* <ReactCrudMaster data={this.data} colModels={this.colModels} /> */}
+      </>
     );
   }
 

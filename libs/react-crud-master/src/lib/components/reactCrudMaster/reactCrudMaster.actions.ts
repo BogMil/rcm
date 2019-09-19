@@ -9,7 +9,7 @@ import * as CrudModalActions from '../crudModal/crudModal.actions'
 const namespace = REACT_CRUD_MASTER;
 
 export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActionType {
-    let clonedColModels = cloneDeep(colModels);
+    let clonedColModels = <ColModel[]>cloneDeep(colModels);
 
     let tableWidth: number = 0;
     clonedColModels.forEach((colModel: ColModel) => {
@@ -17,7 +17,7 @@ export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActio
         colModel.showColMenuModal = false;
     });
 
-    return  {
+    return {
         type: ReactCrudMasterActionTypeNames.SET_COL_MODELS,
         payload: {
             colModels: clonedColModels,
@@ -27,13 +27,13 @@ export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActio
     }
 }
 
-function getUsefullColModelWith(colModel:ColModel):number{
-    if(colModel.width!=null)
+function getUsefullColModelWith(colModel: ColModel): number {
+    if (colModel.width != null)
         return colModel.width;
     return 0;
 }
 
-export const setColModels = (colModels:ColModel[]): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+export const setColModels = (colModels: ColModel[]): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
         dispatch(privateSetColModels(colModels));
         dispatch(CrudModalActions.generateColNamePropertiesInRowData(colModels))
@@ -43,24 +43,24 @@ export const setColModels = (colModels:ColModel[]): ThunkAction<Promise<void>, {
 export function setData(data: any[]): ReactCrudMasterActionType {
     let clonedData = cloneDeep(data);
     return {
-        type:ReactCrudMasterActionTypeNames.SET_DATA,
-        payload:{data:clonedData},
+        type: ReactCrudMasterActionTypeNames.SET_DATA,
+        payload: { data: clonedData },
         namespace,
     }
 }
 
 export function resizeColumn(e: MouseEvent): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.RESIZE_COLUMN,
-        payload:{e,},
+        type: ReactCrudMasterActionTypeNames.RESIZE_COLUMN,
+        payload: { e },
         namespace,
     }
 }
 
-export function setColumnToResize(column:(ColModel | null) = null,e: any =null): ReactCrudMasterActionType {
+export function setColumnToResize(column: (ColModel | null) = null, e: any = null): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE,
-        payload:{
+        type: ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE,
+        payload: {
             e,
             column
         },
@@ -70,33 +70,33 @@ export function setColumnToResize(column:(ColModel | null) = null,e: any =null):
 
 export function resetTableoffsetWidth(): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.SET_INITIAL_TABLE_OFFSET_WIDTH,
+        type: ReactCrudMasterActionTypeNames.SET_INITIAL_TABLE_OFFSET_WIDTH,
         namespace,
-        payload:null
+        payload: null
     }
 }
 
 
-export function changeOrderDirection(column : ColModel): ReactCrudMasterActionType {
+export function changeOrderDirection(column: ColModel): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.CHANGE_ORDER_DIRECTION,
+        type: ReactCrudMasterActionTypeNames.CHANGE_ORDER_DIRECTION,
         namespace,
-        payload:{column}
+        payload: { column }
     }
 }
 
-export function selectRow(row :any): ReactCrudMasterActionType {
+export function selectRow(row: any): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.SELECT_ROW,
+        type: ReactCrudMasterActionTypeNames.SELECT_ROW,
         namespace,
-        payload:{row}
+        payload: { row }
     }
 }
 
-export function setTableTitle(tableTitle :any): ReactCrudMasterActionType {
+export function setTableTitle(tableTitle: any): ReactCrudMasterActionType {
     return {
-        type:ReactCrudMasterActionTypeNames.SET_TABLE_TITLE,
+        type: ReactCrudMasterActionTypeNames.SET_TABLE_TITLE,
         namespace,
-        payload:{tableTitle}
+        payload: { tableTitle }
     }
 }

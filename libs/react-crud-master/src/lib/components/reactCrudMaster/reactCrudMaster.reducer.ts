@@ -51,7 +51,7 @@ export function reactCrudMasterReducer(
 
             return Object.assign({}, { ...state },
                 {
-                    data:typedAction.payload.data
+                    data: typedAction.payload.data
                 });
         }
 

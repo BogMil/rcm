@@ -17,6 +17,7 @@ import TableBody from '../tableBody/tableBody.component'
 import CrudModal from '../crudModal/crudModal.component'
 import ColMenuModal from '../colMenuModal/colMenuModal.component'
 import ContextMenuModal from '../contextMenuModal/contextMenuModal.component'
+import * as TextSelection from '../../utils/textSelection'
 
 import { ThunkDispatch } from "redux-thunk";
 
@@ -35,69 +36,54 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
         if(this.props.tableTitle != null)
             this.props.setTableTitle(this.props.tableTitle);        
 
-        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mouseup", () => {
-            this.disableResizingColumnIfInResizeMode()
-        });
+        this.onMouseUp();
+        this.onMouseMove();
 
-        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mousemove", (e: MouseEvent) => {
-            this.resizeColumnIfInResizeMode(e);
-        });
-    };
-
-    componentWillMount = () => {
-        window.addEventListener("resize", this.handleWindowSizeChange);
+        window.addEventListener("resize", this.props.resetTableoffsetWidth);
     };
 
     componentWillUnmount = () => {
-        window.removeEventListener("resize", this.handleWindowSizeChange);
+        window.removeEventListener("resize", this.props.resetTableoffsetWidth);
     };
 
-    handleWindowSizeChange = () => {
-        this.props.resetTableoffsetWidth();
-    };
+    onMouseMove=()=>{
+        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mousemove", (e: MouseEvent) => {
+            if (this.props.columnToResize != null) {
+                this.props.resizeColumn(e);
+            }
+        });
+    }
 
-    disableResizingColumnIfInResizeMode = () => {
-        if (this.props.columnToResize == null)
+    onMouseUp=()=>{
+        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mouseup", () => {
+            if (this.props.columnToResize == null)
             return;
 
         this.props.setColumnToResize();
-        this.enableTextSelectionOnPage();
-    }
-
-    resizeColumnIfInResizeMode = (e: MouseEvent) => {
-        if (this.props.columnToResize != null) {
-            this.props.resizeColumn(e);
-        }
-    }
-
-    enableTextSelectionOnPage = () => {
-        document.body.style.webkitUserSelect = "";
-        document.body.style.msUserSelect = "";
-        document.body.style.userSelect = "";
+        TextSelection.enableTextSelectionOnPage();
+        });
     }
 
     render() {
 
         return (
             <>
-                <Card id={`CMID-${this.props.RCMID}`}
-                    style={{ minWidth: 360, borderRadius: 0 }}
-                >
-                    <Card.Header className='cm-table-header' data-testid='cm-table-header' style={{ padding: 5 }} as="h5" >{this.props.tableTitleProp}</Card.Header>
-                    <Card.Body style={{ padding: 0 }}>
-                        <div id={`reactable-card-body-${this.props.RCMID}`} className="reactable-table-holder">
+                <Card className='react-crud-master' id={`CMID-${this.props.RCMID}`}>
+                    <Card.Header className='cm-table-header' as="h5" >{this.props.tableTitleProp}</Card.Header>
+                    <Card.Body className='cm-table-body'>
+                        <div id={`reactable-card-body-${this.props.RCMID}`} className="cm-data-table-holder">
                             <TableHeader />
                             <TableBody />
                         </div>
 
-                        <div style={{ paddingRight: 20, paddingLeft: 20, paddingTop: 10, paddingBottom: 10 }}>
+                        <div className='cm-table-footer-holder' >
                             <TableFooter tableWidth={this.props.width} />
                         </div>
                     </Card.Body>
 
                 </Card>
 
-                <CrudModal />
+                <CrudModal/>
                 <ColMenuModal />
                 <ContextMenuModal />
             </>

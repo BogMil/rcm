@@ -36,8 +36,8 @@ class TableFooterComponent extends Component<TableFooterProps, TableFooterState>
 
         if (this.props.tableWidth < 620)
             return (
-                
-                <Row>
+
+                <Row className="cm-table-footer">
                     <Col xs={2} >
                         <Dropdown style={{ textAlign: "left" }}>
                             <Dropdown.Toggle size="sm" style={{ ...buttonStyle }} variant="primary" id="dropdown-basic">
@@ -45,20 +45,20 @@ class TableFooterComponent extends Component<TableFooterProps, TableFooterState>
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1"  onClick={()=>this.props.openCrudModal()}>
-                                    <i className="fas fa-plus" /><span style={{paddingLeft:10}}>Add</span>
+                                <Dropdown.Item href="#/action-1" className="cm-add-btn" onClick={() => this.props.openCrudModal()}>
+                                    <i className="fas fa-plus" /><span style={{ paddingLeft: 10 }}>Add</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-edit" /><span style={{paddingLeft:10}}>Edit</span>
+                                    <i className="fas fa-edit" /><span style={{ paddingLeft: 10 }}>Edit</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-trash-alt" /><span style={{paddingLeft:10}}>Delete</span>
+                                    <i className="fas fa-trash-alt" /><span style={{ paddingLeft: 10 }}>Delete</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-eye" /> <span style={{paddingLeft:10}}>View</span>
+                                    <i className="fas fa-eye" /> <span style={{ paddingLeft: 10 }}>View</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-search" /> <span style={{paddingLeft:10}}>Search</span>
+                                    <i className="fas fa-search" /> <span style={{ paddingLeft: 10 }}>Search</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -94,57 +94,58 @@ class TableFooterComponent extends Component<TableFooterProps, TableFooterState>
                 </Row>
             );
         return (
-                <Row>
-                    <Col xs={4} style={{ textAlign: "left" }}>
-                        <Button
-                            size="sm"
-                            style={{ ...buttonStyle }}
-                            onClick={()=>this.props.openCrudModal()}
-                        >
-                            <i className="fas fa-plus" />
-                        </Button>
-                        < Button
-                            size="sm"
-                            style={{ ...buttonStyle }}
-                        // onClick={this.openModalToEdit}
-                        >
-                            <i className="far fa-edit" />
+            <Row className="cm-table-footer">
+                <Col xs={4} style={{ textAlign: "left" }}>
+                    <Button
+                        className="cm-add-btn"
+                        size="sm"
+                        style={{ ...buttonStyle }}
+                        onClick={() => this.props.openCrudModal()}
+                    >
+                        <i className="fas fa-plus" />
+                    </Button>
+                    < Button
+                        size="sm"
+                        style={{ ...buttonStyle }}
+                    // onClick={this.openModalToEdit}
+                    >
+                        <i className="far fa-edit" />
+                    </Button>
+                    < Button size="sm" style={{ ...buttonStyle }}>
+                        <i className="fas fa-trash-alt" />
+                    </Button>
+                    < Button size="sm" style={{ ...buttonStyle }}>
+                        <i className="fas fa-eye" />
+                    </Button>
+                    < Button size="sm" style={{ ...buttonStyle }}>
+                        <i className="fas fa-search" />
+                    </Button>
+                </Col>
+                < Col xs={4} >
+                    <InputGroup className="" style={{ textAlign: "center", alignItems: 'center', justifyContent: 'center' }}>
+                        < Button size="sm" style={{ ...buttonStyle }}>
+                            <i className="fas fa-angle-double-left"></i>
                         </Button>
                         < Button size="sm" style={{ ...buttonStyle }}>
-                            <i className="fas fa-trash-alt" />
+                            <i className="fas fa-angle-left"></i>
+                        </Button>
+                        <div style={{ display: 'inline-block' }}>
+                            <Form.Control className="border-radius-0" style={{ height: 31, margin: 1, padding: 2, width: 50 }}
+                                defaultValue="asd" />
+                        </div>
+                        < Button size="sm" style={{ ...buttonStyle }}>
+                            <i className="fas fa-angle-right"></i>
                         </Button>
                         < Button size="sm" style={{ ...buttonStyle }}>
-                            <i className="fas fa-eye" />
+                            <i className="fas fa-angle-double-right"></i>
                         </Button>
-                        < Button size="sm" style={{ ...buttonStyle }}>
-                            <i className="fas fa-search" />
-                        </Button>
-                    </Col>
-                    < Col xs={4} >
-                        <InputGroup className="" style={{ textAlign: "center", alignItems: 'center', justifyContent: 'center' }}>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-double-left"></i>
-                            </Button>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-left"></i>
-                            </Button>
-                            <div style={{ display: 'inline-block' }}>
-                                <Form.Control className="border-radius-0" style={{ height: 31, margin: 1, padding: 2, width: 50 }}
-                                    defaultValue="asd" />
-                            </div>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-right"></i>
-                            </Button>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-double-right"></i>
-                            </Button>
-                        </InputGroup>
-                    </Col>
-                    < Col xs={4} style={{ textAlign: "right" }}>
-                        <Button>{"<"} </Button>
-                        < Button > {">"} </Button>
-                    </Col>
-                </Row>
+                    </InputGroup>
+                </Col>
+                < Col xs={4} style={{ textAlign: "right" }}>
+                    <Button>{"<"} </Button>
+                    < Button > {">"} </Button>
+                </Col>
+            </Row>
         );
     };
 

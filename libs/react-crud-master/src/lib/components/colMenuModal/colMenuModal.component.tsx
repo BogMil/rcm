@@ -35,6 +35,7 @@ class ColMenuModalComponent extends Component<ColMenuModalProps, ColMenuModalSta
                 centered
                 show={this.props.show}
                 onHide={this.props.closeColMenuModel}
+                className="cm-colmenu-modal"
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">

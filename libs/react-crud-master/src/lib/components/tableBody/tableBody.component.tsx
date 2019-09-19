@@ -34,7 +34,7 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
     };
 
     testScroll = (e: any) => {
-        var x = document.getElementById('z');
+        var x = document.getElementById(`cm-table-header-holder-${this.props.RCMID}`);
         x!.scrollLeft = e.target.scrollLeft
 
         var z = document.getElementsByClassName('react-contextmenu--visible') as HTMLCollectionOf<HTMLElement>;
@@ -48,12 +48,12 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
 
     render() {
         return (
-            <div id='q' className="reactable-data-table-holder" style={{ overflowX: 'auto', overflowY: 'auto' }} onScroll={(e: any) => this.testScroll(e)}>
+            <div id={`cm-data-table-holder-${this.props.RCMID}`} className="reactable-data-table-holder" style={{ overflowX: 'auto', overflowY: 'auto' }} onScroll={(e: any) => this.testScroll(e)}>
                 <Table className="reactable-table reactable-data-table" striped bordered hover size="sm"
                     style={{
                         width: this.props.tableWidth,
                         borderBottom: 0,
-                        height:'100%'
+                        height: '100%'
                         //20 moz
                         //7 chrome
                     }}>
@@ -88,7 +88,7 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): TableBodyDispatchProps => {
     return {
-        selectRow:(row:any)=>dispatch(ReactableActions.selectRow(row))
+        selectRow: (row: any) => dispatch(ReactableActions.selectRow(row))
     };
 }
 
@@ -100,8 +100,8 @@ const mapStateToProps = (state: AppState): TableBodyStateProps => {
         columnToResize: state.reactCrudMaster.columnToResize,
         RCMID: state.reactCrudMaster.RCMID,
         width: state.reactCrudMaster.width,
-        selectedRow:state.reactCrudMaster.selectedRow,
-        contextTrigger:state.contextMenuModal.contextMenuTrigger
+        selectedRow: state.reactCrudMaster.selectedRow,
+        contextTrigger: state.contextMenuModal.contextMenuTrigger
     } as TableBodyStateProps;
 }
 

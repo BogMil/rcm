@@ -16,7 +16,7 @@ class ContextMenuModalComponent extends Component<ContextMenuModalProps, Context
 
     render() {
         return (
-            <>
+            <div className="cm-context-menu-modal">
                 <ContextMenuTrigger id={`context_menu_${this.props.RCMID}`} ref={c => this.props.setContextMenuTriggerRef(c)}>
                     <span></span>
                 </ContextMenuTrigger>
@@ -33,7 +33,7 @@ class ContextMenuModalComponent extends Component<ContextMenuModalProps, Context
                         <i className="fas fa-eye" /> <span style={{ paddingLeft: 10 }}>View</span>
                     </MenuItem>
                 </ContextMenu>
-            </>
+            </div>
         );
     }
 }
@@ -43,14 +43,14 @@ class ContextMenuModalComponent extends Component<ContextMenuModalProps, Context
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ContextMenuModalDispatchProps => {
     return {
-        setContextMenuTriggerRef:(c:any)=>dispatch(ContextMenuActions.setContextMenuTriggerRef(c)),
+        setContextMenuTriggerRef: (c: any) => dispatch(ContextMenuActions.setContextMenuTriggerRef(c)),
     };
 }
 
 const mapStateToProps = (state: AppState): ContextMenuModalStateProps => {
     return {
         // contextMenuTrigger:state.contextMenuModal.contextMenuTrigger,
-        RCMID:state.reactCrudMaster.RCMID
+        RCMID: state.reactCrudMaster.RCMID
     } as ContextMenuModalStateProps;
 }
 

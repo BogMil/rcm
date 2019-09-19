@@ -24,10 +24,10 @@ export class ColModel {
         if (init.minWidth == undefined)
             this.minWidth = this.calculateMinWithOfColumnByLabel(this.label)
 
-        if (init.width == null){
+        if (init.width == null) {
             this.width = this.getWidthOfWord(this.label)
         }
-            
+
     }
 
     private _minWidth: number = 0;
@@ -67,7 +67,7 @@ export class ColModel {
     }
     private getWidthOfWord = (word: string): number => {
         let tempWordHolder: HTMLElement = document.getElementById("label-width-tester")!;
-        
+
         tempWordHolder.textContent = word;
         return tempWordHolder.offsetWidth;
     };
