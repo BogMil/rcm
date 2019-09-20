@@ -57,10 +57,10 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
     onMouseUp=()=>{
         document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mouseup", () => {
             if (this.props.columnToResize == null)
-            return;
+                return;
 
-        this.props.setColumnToResize();
-        TextSelection.enableTextSelectionOnPage();
+            this.props.setColumnToResize();
+            TextSelection.enableTextSelectionOnPage();
         });
     }
 

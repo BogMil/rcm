@@ -78,9 +78,9 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
     }
 
     onHorizontalScroll = () => {
-        var x = document.getElementById(`cm-table-header-holder-${this.props.RCMID}`);
-        var q = document.getElementById(`cm-data-table-holder-${this.props.RCMID}`);
-        q!.scrollLeft = x!.scrollLeft;
+        var tableHeaderHolder = document.getElementById(`cm-table-header-holder-${this.props.RCMID}`);
+        var dataTableHolder = document.getElementById(`cm-data-table-holder-${this.props.RCMID}`);
+        dataTableHolder!.scrollLeft = tableHeaderHolder!.scrollLeft;
     }
 
     setColumnToResize(e: any, column: ColModel) {
