@@ -78,10 +78,10 @@ export function reactCrudMasterReducer(
 
         case ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE: {
             let typedAction = <SetColumnToResizeRetType>action;
-            let { column, e } = { ...typedAction.payload }
+            let { column, startOffset } = { ...typedAction.payload }
 
             if (column != null)
-                return Object.assign({}, { ...state }, { columnToResize: column, startOffset: e.target.parentNode.offsetWidth - e.pageX })
+                return Object.assign({}, { ...state }, { columnToResize: column, startOffset: startOffset })
             return Object.assign({}, { ...state }, { columnToResize: null })
         }
 

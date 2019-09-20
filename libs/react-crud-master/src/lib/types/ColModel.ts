@@ -28,6 +28,9 @@ export class ColModel {
             this.width = this.getWidthOfWord(this.label)
         }
 
+        if (init.label == null)
+            this.label = this.name
+
     }
 
     private _minWidth: number = 0;

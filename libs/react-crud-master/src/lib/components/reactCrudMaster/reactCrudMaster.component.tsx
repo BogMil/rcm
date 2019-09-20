@@ -98,7 +98,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ReactCrudMast
         setColModels: (colModels: ColModel[]) => dispatch(ReactCrudMasterActions.setColModels(colModels)),
         setData: (data: any[]) => dispatch(ReactCrudMasterActions.setData(data)),
         resizeColumn: (e: MouseEvent) => dispatch(ReactCrudMasterActions.resizeColumn(e)),
-        setColumnToResize: (column: (ColModel | null) = null, e: (any | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, e)),
+        setColumnToResize: (column: (ColModel | null) = null, startOffset: (number | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, startOffset)),
         resetTableoffsetWidth: () => dispatch(ReactCrudMasterActions.resetTableoffsetWidth()),
         setTableTitle: (tableTitle:string) => dispatch(ReactCrudMasterActions.setTableTitle(tableTitle)),
     };

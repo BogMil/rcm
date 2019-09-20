@@ -57,11 +57,11 @@ export function resizeColumn(e: MouseEvent): ReactCrudMasterActionType {
     }
 }
 
-export function setColumnToResize(column: (ColModel | null) = null, e: any = null): ReactCrudMasterActionType {
+export function setColumnToResize(column: (ColModel | null) = null, startOffset: number): ReactCrudMasterActionType {
     return {
         type: ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE,
         payload: {
-            e,
+            startOffset,
             column
         },
         namespace,

@@ -86,14 +86,14 @@ describe('ReactCrudMaster.actions', () => {
     describe('setColumnToResize', () => {
         it('should return proper object', async () => {
             let colModel = TestData.colModels()[0];
-            let e: any = 1;
+            let startOffset = 0;
 
             let expectedResult = {
                 type: ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE,
-                payload: { e, column: colModel },
+                payload: { startOffset, column: colModel },
                 namespace: REACT_CRUD_MASTER
             }
-            let actionResult = ReactCrudMasterActions.setColumnToResize(colModel, e);
+            let actionResult = ReactCrudMasterActions.setColumnToResize(colModel, startOffset);
             expect(actionResult).toMatchObject(expectedResult)
         })
     })

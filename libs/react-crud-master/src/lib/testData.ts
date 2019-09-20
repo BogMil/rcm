@@ -84,7 +84,7 @@ export const colModels = (): ColModel[] => [
     }),
     new ColModel({
         name: "Username",
-        label: "Username",
+        label: "",
         width: 150,
         minWidth: 150
     }),

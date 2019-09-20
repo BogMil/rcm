@@ -42,7 +42,8 @@ export interface ResizeColumnRetType extends IReduxAction {
 export interface SetColumnToResizeRetType extends IReduxAction {
   type: typeof ReactCrudMasterActionTypeNames.RESIZE_COLUMN
   payload: {
-    e: any | null,
+    // e: any | null,
+    startOffset: number
     column: ColModel | null,
   }
 }
@@ -151,7 +152,7 @@ export interface ReactCrudMasterDispatchProps {
   setColModels: (colModels: ColModel[]) => ThunkAction<Promise<void>, {}, {}, AnyAction>,
   setData: (data: any[]) => void,
   resizeColumn: (e: MouseEvent) => void,
-  setColumnToResize: (column?: ColModel | null, e?: any | null) => void,
+  setColumnToResize: (column?: ColModel | null, startOffset?: number | null) => void,
   resetTableoffsetWidth: () => void,
   setTableTitle: (tableTitle: string) => void
 }

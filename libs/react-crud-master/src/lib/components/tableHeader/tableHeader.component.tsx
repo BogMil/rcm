@@ -47,13 +47,13 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
                                     >
                                         <div className="cm-column-header-content-holder" >
                                             <div className="cm-column-header-label" onClick={() => this.onThClick(column)}>
-                                                {column.orderDirection != "" && column.orderDirection}{" "}{column.label}
+                                                {column.orderDirection != "" && `${column.orderDirection} `}{column.label}
                                             </div>
                                             < div className="cm-column-header-menu-holder">
                                                 <Button
                                                     onClick={() => this.props.openColMenuModel(column)}
                                                     size="sm"
-                                                    className="border-radius-0"
+                                                    className="border-radius-0 cm-column-header-menu-btn"
                                                     style={{ marginRight: 5, padding: '1px 4px' }}
                                                 >
                                                     <i style={{ padding: 0 }} className="fas fa-sliders-h"></i>
@@ -84,8 +84,8 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
     }
 
     setColumnToResize(e: any, column: ColModel) {
-
-        this.props.setColumnToResize(column, e);
+        let startOffset = e.target.parentNode.offsetWidth - e.pageX;
+        this.props.setColumnToResize(column, startOffset);
         TextSelection.disableTextSelectionOnPage();
     }
 
@@ -100,7 +100,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: Tabl
     return {
         setColModels: (colModels: ColModel[]) => dispatch(ReactCrudMasterActions.setColModels(colModels)),
         resizeColumn: (e: MouseEvent) => dispatch(ReactCrudMasterActions.resizeColumn(e)),
-        setColumnToResize: (column: (ColModel | null) = null, e: (any | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, e)),
+        setColumnToResize: (column: (ColModel | null) = null, startOffset: (number | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, startOffset)),
         resetTableoffsetWidth: () => dispatch(ReactCrudMasterActions.resetTableoffsetWidth()),
         changeOrderDirection: (column: ColModel) => dispatch(ReactCrudMasterActions.changeOrderDirection(column)),
         openColMenuModel: (colModel: ColModel) => dispatch(ColMenuModelActions.openModal(colModel))
