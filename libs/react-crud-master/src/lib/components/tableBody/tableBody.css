@@ -1,0 +1,46 @@
+.cm-data-table-holder {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.cm-data-table {
+  border-bottom: 0;
+  height: 100%;
+}
+.cm-data-table-tbody {
+  display: block;
+  /* overflow-y: auto; */
+
+  max-height: 400px;
+}
+
+.cm-data-table-holder::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.cm-data-table-holder::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.cm-data-table-holder::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.cm-data-table-holder::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.cm-selected-row {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.cm-selected-row:hover {
+  background-color: rgba(0, 0, 0, 0.35) !important;
+}
+
+.cm-data-cell {
+  word-wrap: 'break-word';
+  white-space: 'normal';
+  word-break: 'break-all';
+}

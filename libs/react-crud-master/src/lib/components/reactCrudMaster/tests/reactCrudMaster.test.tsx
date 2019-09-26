@@ -73,9 +73,9 @@ describe('<ReactCrudMaster/>', () => {
                 expect(x.length).toBe(1)
             })
 
-            it('shoult render one cm-data-table-holder div', () => {
+            it('shoult render one cm-table-header-and-table-body-holder div', () => {
                 renderReactCrudMaster();
-                let x = document.body.querySelectorAll('.cm-data-table-holder')
+                let x = document.body.querySelectorAll('.cm-table-header-and-table-body-holder')
                 expect(x.length).toBe(1)
             })
 
@@ -85,9 +85,9 @@ describe('<ReactCrudMaster/>', () => {
                 expect(x.length).toBe(1)
             })
 
-            it('shoult render one reactable-data-table-holder div', () => {
+            it('shoult render one cm-table-header-and-table-body-holder div', () => {
                 renderReactCrudMaster();
-                let x = document.body.querySelectorAll('.reactable-data-table-holder')
+                let x = document.body.querySelectorAll('.cm-table-header-and-table-body-holder')
                 expect(x.length).toBe(1)
             })
 

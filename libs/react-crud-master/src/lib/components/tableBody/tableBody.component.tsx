@@ -28,9 +28,8 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
     }
 
     openContextMenu = (e: any) => {
-        if (this.props.contextTrigger != null) {
-            this.props.contextTrigger.handleContextClick(e);
-        }
+        // if (this.props.contextTrigger != null)
+        this.props.contextTrigger.handleContextClick(e);
     };
 
     testScroll = (e: any) => {
@@ -48,30 +47,26 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
 
     render() {
         return (
-            <div id={`cm-data-table-holder-${this.props.RCMID}`} className="reactable-data-table-holder" style={{ overflowX: 'auto', overflowY: 'auto' }} onScroll={(e: any) => this.testScroll(e)}>
-                <Table className="reactable-table reactable-data-table" striped bordered hover size="sm"
+            <div id={`cm-data-table-holder-${this.props.RCMID}`} className="cm-data-table-holder" onScroll={(e: any) => this.testScroll(e)}>
+                <Table className="cm-data-table" striped bordered hover size="sm"
                     style={{
                         width: this.props.tableWidth,
-                        borderBottom: 0,
-                        height: '100%'
                         //20 moz
                         //7 chrome
                     }}>
-                    <tbody className="reactable-data-body">
+                    <tbody className="cm-data-table-tbody">
                         {
                             this.props.data.map((dataRow, index) => {
                                 return (
                                     <tr
                                         key={index}
-                                        className={
-                                            dataRow == this.props.selectedRow ? "selectedRow" : ""
-                                        }
+                                        className={dataRow == this.props.selectedRow ? "cm-selected-row cm-data-row" : "cm-data-row"}
                                         onClick={() => this.onClickOnRow(dataRow)}
                                         onContextMenu={(e: any) => this.onRightClickOnRow(e, dataRow)}
                                     >
                                         {
                                             this.props.colModels.map((colModel, index) => {
-                                                return <td key={index} style={{ width: colModel.width, wordWrap: 'break-word', whiteSpace: 'normal', wordBreak: 'break-all' }}> {dataRow[colModel.name]} </td>;
+                                                return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {dataRow[colModel.name]} </td>;
                                             })
                                         }
                                     </tr>
@@ -97,7 +92,6 @@ const mapStateToProps = (state: AppState): TableBodyStateProps => {
         colModels: state.reactCrudMaster.colModels,
         data: state.reactCrudMaster.data,
         tableWidth: state.reactCrudMaster.tableWidth,
-        columnToResize: state.reactCrudMaster.columnToResize,
         RCMID: state.reactCrudMaster.RCMID,
         width: state.reactCrudMaster.width,
         selectedRow: state.reactCrudMaster.selectedRow,

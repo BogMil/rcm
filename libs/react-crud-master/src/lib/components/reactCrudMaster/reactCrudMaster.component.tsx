@@ -71,7 +71,7 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
                 <Card className='react-crud-master' id={`CMID-${this.props.RCMID}`}>
                     <Card.Header className='cm-table-header' as="h5" >{this.props.tableTitleProp}</Card.Header>
                     <Card.Body className='cm-table-body'>
-                        <div id={`reactable-card-body-${this.props.RCMID}`} className="cm-data-table-holder">
+                        <div id={`reactable-card-body-${this.props.RCMID}`} className="cm-table-header-and-table-body-holder">
                             <TableHeader />
                             <TableBody />
                         </div>
