@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import {
     Table,
 } from "react-bootstrap";
-import '../contexMenu.css';
-import '../reactCrudMaster/reactCrudMaster.css';
+import './tableBody.css'
 
 import { connect } from 'react-redux'
 import { AppState } from '../../rootReducer'
