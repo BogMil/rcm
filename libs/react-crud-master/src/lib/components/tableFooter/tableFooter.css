@@ -1,0 +1,10 @@
+.cm-footer-button {
+  border-radius: 0px;
+  margin: 1px;
+}
+
+.cm-pagination-holder {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
