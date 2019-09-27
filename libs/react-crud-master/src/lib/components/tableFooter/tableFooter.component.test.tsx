@@ -64,9 +64,37 @@ describe('<TableFooter/>', () => {
             expect(buttons.length).toBe(1)
         }
 
+        describe("caling proper actions", () => {
+            test('that click on add dispatch proper actions', () => {
+
+                let mockedStore = configureMockStore()({});
+                mockedStore.dispatch = jest.fn();
+
+                render(
+                    <Provider store={mockedStore} >
+                        <TableFooter tableWidth={width} />
+                    </Provider>
+                )
+
+                let menuHamburgerBtn = document.body.querySelectorAll('.cm-crud-menu-button');
+                fireEvent.click(menuHamburgerBtn[0]);
+
+                let addBtn = document.body.querySelectorAll('.cm-add-btn')[0];
+                fireEvent.click(addBtn)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: CrudModalActionTypeNames.OPEN_MODAL,
+                        namespace: CRUD_MODAL,
+                        payload: null
+                    }
+                );
+            })
+        })
     });
 
-    describe('renders proper number of elements onlarge screen (above 620px)', () => {
+    describe(' (above 620px)', () => {
         const width = 800
         it('shoult render without problems', () => {
             renderComponent(width);
@@ -88,31 +116,31 @@ describe('<TableFooter/>', () => {
         it('shoult render one => first page button', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-first-page-btn', () => renderComponent(width)));
         it('shoult render one =>  last page button', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-last-page-btn', () => renderComponent(width)));
         it('shoult render one =>  page number input', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-page-number-input', () => renderComponent(width)));
-    })
 
-    describe("caling proper actions", () => {
-        test('that click on add dispatch proper actions', () => {
+        describe("caling proper actions", () => {
+            test('that click on add dispatch proper actions', () => {
 
-            let mockedStore = configureMockStore()({});
-            mockedStore.dispatch = jest.fn();
+                let mockedStore = configureMockStore()({});
+                mockedStore.dispatch = jest.fn();
 
-            render(
-                <Provider store={mockedStore} >
-                    <TableFooter />
-                </Provider>
-            )
+                render(
+                    <Provider store={mockedStore} >
+                        <TableFooter tableWidth={900} />
+                    </Provider>
+                )
 
-            let x = document.body.querySelectorAll('.cm-add-btn');
-            fireEvent.click(x[0])
+                let x = document.body.querySelectorAll('.cm-add-btn');
+                fireEvent.click(x[0])
 
-            expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
-            expect(mockedStore.dispatch).toHaveBeenCalledWith(
-                {
-                    type: CrudModalActionTypeNames.OPEN_MODAL,
-                    namespace: CRUD_MODAL,
-                    payload: null
-                }
-            );
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: CrudModalActionTypeNames.OPEN_MODAL,
+                        namespace: CRUD_MODAL,
+                        payload: null
+                    }
+                );
+            })
         })
     })
 

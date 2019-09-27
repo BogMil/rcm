@@ -1,20 +1,5 @@
 import React, { Component, FormEvent, ChangeEvent } from "react";
 import * as Redux from 'redux'
-import {
-    Table,
-    Card,
-    Modal,
-    Navbar,
-    NavDropdown,
-    Nav,
-    Form,
-    FormControl,
-    Button,
-    Dropdown,
-    Col,
-    Row,
-    InputGroup
-} from "react-bootstrap";
 
 import '../reactCrudMaster/reactCrudMaster.css'
 
@@ -53,5 +38,3 @@ const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFoot
 }
 
 export default connect<TableFooterStateProps, TableFooterDispatchProps, TableFooterOwnProps, AppState>(mapStateToProps, mapDispatchToProps)(TableFooterComponent);
-
-// export default Footer;
