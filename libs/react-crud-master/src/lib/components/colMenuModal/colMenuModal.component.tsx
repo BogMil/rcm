@@ -23,7 +23,6 @@ class ColMenuModalComponent extends Component<ColMenuModalProps, ColMenuModalSta
 
     render() {
         return (
-
             <Modal
                 size="sm"
                 centered
