@@ -32,22 +32,18 @@ class TableFooterComponent extends Component<TableFooterProps, TableFooterState>
         this.state = {};
     }
 
-
     render = () => {
-        let buttonStyle = { borderRadius: 0, margin: 1 };
 
         if (this.props.tableWidth < 620)
             return <SmTableFooter tableWidth={this.props.tableWidth} />;
 
         return <LgTableFooter tableWidth={this.props.tableWidth} />
     };
-
-
 }
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: TableFooterOwnProps): TableFooterDispatchProps => {
     return {
-        openCrudModal: () => dispatch(CurdModalActions.openModal()),
+        openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
     };
 }
 

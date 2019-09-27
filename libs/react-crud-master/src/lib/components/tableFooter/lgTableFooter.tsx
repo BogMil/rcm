@@ -28,7 +28,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         return (
             <Row className="cm-table-footer cm-table-footer-lg">
                 <Col xs={4} style={{ textAlign: "left" }}>
-                    <Button className="cm-add-btn cm-footer-button" size="sm" onClick={() => this.props.openCrudModal()}>
+                    <Button className="cm-add-btn cm-footer-button" size="sm" onClick={() => this.props.openCrudModalToCreate()}>
                         <i className={FontAwesomeClasses.add} />
                     </Button>
                     < Button size="sm" className="cm-edit-btn cm-footer-button">
@@ -76,7 +76,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFooterDispatchProps => {
     return {
-        openCrudModal: () => dispatch(CurdModalActions.openModal()),
+        openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
     };
 }
 

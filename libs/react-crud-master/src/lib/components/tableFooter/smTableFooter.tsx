@@ -44,7 +44,7 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item className="cm-add-btn" onClick={() => this.props.openCrudModal()}>
+                                <Dropdown.Item className="cm-add-btn" onClick={() => this.props.openCrudModalToCreate()}>
                                     <i className={FontAwesomeClasses.add} /><span className="cm-padding-left-10">Add</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item  >
@@ -85,7 +85,7 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: TableFooterOwnProps): TableFooterDispatchProps => {
     return {
-        openCrudModal: () => dispatch(CurdModalActions.openModal()),
+        openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
     };
 }
 
