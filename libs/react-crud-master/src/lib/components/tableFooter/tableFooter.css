@@ -8,3 +8,19 @@
   align-items: center;
   justify-content: center;
 }
+
+.cm-padding-left-10 {
+  padding-left: 10px;
+}
+
+.cm-page-number-input {
+  height: 31px;
+  margin: 1px;
+  padding: 2px;
+  width: 50px;
+  border-radius: 0px;
+}
+
+.cm-page-number-input-holder {
+  display: inline-block;
+}

@@ -18,11 +18,12 @@ import {
 
 import '../reactCrudMaster/reactCrudMaster.css'
 
-import update from 'immutability-helper'
 import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, TableFooterProps, TableFooterState } from "./tableFooter.types";
 import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
+import * as FontAwesomeClasses from './FontAwesomeClasses'
+
 
 class SmTableFooterComponent extends Component<TableFooterProps, TableFooterState>{
     constructor(props: TableFooterProps) {
@@ -32,49 +33,45 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 
 
     render = () => {
-        let buttonStyle = { borderRadius: 0, margin: 1 };
-
         if (this.props.tableWidth < 620)
             return (
 
                 <Row className="cm-table-footer cm-table-footer-xs">
                     <Col xs={2} >
                         <Dropdown style={{ textAlign: "left" }}>
-                            <Dropdown.Toggle className="cm-crud-menu-button" size="sm" style={{ ...buttonStyle }} variant="primary" id="dropdown-basic">
+                            <Dropdown.Toggle className="cm-crud-menu-button cm-footer-button" size="sm" variant="primary" id="dropdown-basic">
                                 <i className="fas fa-bars"></i>
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
                                 <Dropdown.Item className="cm-add-btn" onClick={() => this.props.openCrudModal()}>
-                                    <i className="fas fa-plus" /><span style={{ paddingLeft: 10 }}>Add</span>
+                                    <i className={FontAwesomeClasses.add} /><span className="cm-padding-left-10">Add</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-edit" /><span style={{ paddingLeft: 10 }}>Edit</span>
+                                < Dropdown.Item  >
+                                    <i className={FontAwesomeClasses.edit} /><span className="cm-padding-left-10">Edit</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-trash-alt" /><span style={{ paddingLeft: 10 }}>Delete</span>
+                                < Dropdown.Item >
+                                    <i className={FontAwesomeClasses.del} /><span className="cm-padding-left-10">Delete</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-eye" /> <span style={{ paddingLeft: 10 }}>View</span>
+                                < Dropdown.Item >
+                                    <i className={FontAwesomeClasses.view} /> <span className="cm-padding-left-10">View</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item href="#/action-2" >
-                                    <i className="fas fa-search" /> <span style={{ paddingLeft: 10 }}>Search</span>
+                                < Dropdown.Item >
+                                    <i className={FontAwesomeClasses.search} /> <span className="cm-padding-left-10">Search</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
-
                     < Col xs={6} >
-                        <InputGroup className="" style={{ textAlign: "center", alignItems: 'center', justifyContent: 'center' }}>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-left"></i>
+                        <InputGroup className="cm-pagination-holder">
+                            < Button size="sm" className="cm-footer-button cm-previous-page-btn">
+                                <i className={FontAwesomeClasses.previousPage}></i>
                             </Button>
-                            <div style={{ display: 'inline-block' }}>
-                                <Form.Control className="border-radius-0" style={{ height: 31, margin: 1, padding: 2, width: 50 }}
-                                    defaultValue="asd" />
+                            <div className="cm-page-number-input-holder">
+                                <Form.Control className="cm-page-number-input" defaultValue="" />
                             </div>
-                            < Button size="sm" style={{ ...buttonStyle }}>
-                                <i className="fas fa-angle-right"></i>
+                            < Button size="sm" className="cm-footer-button cm-next-page-btn">
+                                <i className={FontAwesomeClasses.nextPage}></i>
                             </Button>
                         </InputGroup>
                     </Col>

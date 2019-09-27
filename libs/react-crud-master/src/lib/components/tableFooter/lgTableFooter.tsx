@@ -1,16 +1,8 @@
-import React, { Component, FormEvent, ChangeEvent } from "react";
+import React, { Component } from "react";
 import * as Redux from 'redux'
 import {
-    Table,
-    Card,
-    Modal,
-    Navbar,
-    NavDropdown,
-    Nav,
     Form,
-    FormControl,
     Button,
-    Dropdown,
     Col,
     Row,
     InputGroup
@@ -33,7 +25,6 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 
 
     render = () => {
-        let buttonStyle = { borderRadius: 0, margin: 1 };
         return (
             <Row className="cm-table-footer cm-table-footer-lg">
                 <Col xs={4} style={{ textAlign: "left" }}>
@@ -55,19 +46,19 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                 </Col>
                 < Col xs={4} >
                     <InputGroup className="cm-pagination-holder" >
-                        < Button size="sm" className="cm-footer-button">
+                        < Button size="sm" className="cm-footer-button cm-first-page-btn">
                             <i className={FontAwesomeClasses.firstPage} />
                         </Button>
-                        < Button size="sm" className="cm-footer-button">
+                        < Button size="sm" className="cm-footer-button cm-previous-page-btn">
                             <i className={FontAwesomeClasses.previousPage} />
                         </Button>
-                        <div style={{ display: 'inline-block' }}>
-                            <Form.Control className="border-radius-0" style={{ height: 31, margin: 1, padding: 2, width: 50 }} />
+                        <div className="cm-page-number-input-holder">
+                            <Form.Control className="cm-page-number-input" defaultValue="" />
                         </div>
-                        < Button size="sm" className="cm-footer-button">
+                        < Button size="sm" className="cm-footer-button cm-next-page-btn">
                             <i className={FontAwesomeClasses.nextPage} />
                         </Button>
-                        < Button size="sm" className="cm-footer-button">
+                        < Button size="sm" className="cm-footer-button cm-last-page-btn">
                             <i className={FontAwesomeClasses.lastPage} />
                         </Button>
                     </InputGroup>
@@ -83,13 +74,13 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 
 }
 
-const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: TableFooterOwnProps): TableFooterDispatchProps => {
+const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFooterDispatchProps => {
     return {
         openCrudModal: () => dispatch(CurdModalActions.openModal()),
     };
 }
 
-const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFooterStateProps => {
+const mapStateToProps = (): TableFooterStateProps => {
     return {
     } as TableFooterStateProps;
 }
