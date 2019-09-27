@@ -11,6 +11,7 @@ import { ContextMenuModalProps, ContextMenuModalState, initialState, ContextMenu
 import * as ContextMenuActions from './contextMenuModal.actions'
 import { ThunkDispatch } from "redux-thunk";
 import { ContextMenuTrigger, ContextMenu, MenuItem } from "react-contextmenu";
+import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 
 class ContextMenuModalComponent extends Component<ContextMenuModalProps, ContextMenuModalState>{
 
@@ -24,13 +25,13 @@ class ContextMenuModalComponent extends Component<ContextMenuModalProps, Context
                 <ContextMenu id={`context_menu_${this.props.RCMID}`}>
 
                     <MenuItem>
-                        <i className="fas fa-edit" /><span style={{ paddingLeft: 10 }}>Edit</span>
+                        <i className={FontAwesomeClasses.edit} /><span style={{ paddingLeft: 10 }}>Edit</span>
                     </MenuItem>
                     <MenuItem>
-                        <i className="fas fa-trash-alt" /><span style={{ paddingLeft: 10 }}>Delete</span>
+                        <i className={FontAwesomeClasses.del} /><span style={{ paddingLeft: 10 }}>Delete</span>
                     </MenuItem>
                     <MenuItem>
-                        <i className="fas fa-eye" /> <span style={{ paddingLeft: 10 }}>View</span>
+                        <i className={FontAwesomeClasses.view} /> <span style={{ paddingLeft: 10 }}>View</span>
                     </MenuItem>
                 </ContextMenu>
             </div>
@@ -49,7 +50,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ContextMenuMo
 
 const mapStateToProps = (state: AppState): ContextMenuModalStateProps => {
     return {
-        // contextMenuTrigger:state.contextMenuModal.contextMenuTrigger,
         RCMID: state.reactCrudMaster.RCMID
     } as ContextMenuModalStateProps;
 }

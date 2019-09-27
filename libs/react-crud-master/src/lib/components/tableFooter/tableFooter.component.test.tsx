@@ -17,7 +17,7 @@ import * as ReactCrudMasterActions from '../reactCrudMaster/reactCrudMaster.acti
 import configureMockStore from 'redux-mock-store'
 import { shouldRenderNumberOfTimesWithCssClass } from '../../utils/testHelpers'
 import { CrudModalActionTypeNames } from '../crudModal/crudModal.types'
-import * as FontAwesomeClasses from './FontAwesomeClasses'
+import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 
 
 let colModels = TestData.colModels();

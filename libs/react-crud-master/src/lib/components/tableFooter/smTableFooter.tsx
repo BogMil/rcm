@@ -22,7 +22,7 @@ import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, T
 import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
-import * as FontAwesomeClasses from './FontAwesomeClasses'
+import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 
 
 class SmTableFooterComponent extends Component<TableFooterProps, TableFooterState>{
