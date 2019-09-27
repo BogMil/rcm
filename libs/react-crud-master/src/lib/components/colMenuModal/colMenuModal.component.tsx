@@ -1,18 +1,12 @@
-import React, { Component, FormEvent, ChangeEvent } from "react";
+import React, { Component } from "react";
 import {
-    Table,
     Modal,
-    Button,
 } from "react-bootstrap";
 import '../contexMenu.css';
 import '../reactCrudMaster/reactCrudMaster.css';
 
-import { Provider, connect } from 'react-redux'
-import { createStore } from 'redux'
-import * as Redux from 'redux'
-import { ColModel } from "../../types/colModel";
-import { rootReducer, AppState } from '../../rootReducer'
-import { any } from "prop-types";
+import { connect } from 'react-redux'
+import { AppState } from '../../rootReducer'
 import { ColMenuModalProps, ColMenuModalState, initialState, ColMenuModalOwnProps, ColMenuModalDispatchProps, ColMenuModalStateProps } from "./colMenuModal.types";
 import * as ColMenuModalActions from './colMenuModal.actions'
 import { ThunkDispatch } from "redux-thunk";
@@ -38,7 +32,7 @@ class ColMenuModalComponent extends Component<ColMenuModalProps, ColMenuModalSta
                 className="cm-colmenu-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-vcenter">
+                    <Modal.Title className="cm-col-menu-modal-title">
                         {this.props.colModel && this.props.colModel.name}
                     </Modal.Title>
                 </Modal.Header>
@@ -55,13 +49,13 @@ class ColMenuModalComponent extends Component<ColMenuModalProps, ColMenuModalSta
 
 
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: ColMenuModalOwnProps): ColMenuModalDispatchProps => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ColMenuModalDispatchProps => {
     return {
         closeColMenuModel: () => dispatch(ColMenuModalActions.closeModal())
     };
 }
 
-const mapStateToProps = (state: AppState, props: ColMenuModalOwnProps): ColMenuModalStateProps => {
+const mapStateToProps = (state: AppState): ColMenuModalStateProps => {
     return {
         colModel: state.colMenuModal.colModel,
         show: state.colMenuModal.show
