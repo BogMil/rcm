@@ -1,4 +1,4 @@
-import { IReduxAction } from "../../../types/IReduxAction";
+import { IReduxAction } from "../../../../types/IReduxAction";
 
 export const WarningModalActionTypeNames = {
     CLOSE_MODAL: "CLOSE_MODAL",

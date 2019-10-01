@@ -12,12 +12,13 @@ import thunk from "redux-thunk";
 import * as TestData from '../../testData'
 import TableFooter from './TableFooter.component';
 import { ReactCrudMasterActionTypeNames } from '../reactCrudMaster/reactCrudMaster.types'
-import { CRUD_MODAL } from '../../actions/actionNamespaces';
+import { CRUD_MODAL, WARNING_MODAL } from '../../actions/actionNamespaces';
 import * as ReactCrudMasterActions from '../reactCrudMaster/reactCrudMaster.actions'
 import configureMockStore from 'redux-mock-store'
 import { shouldRenderNumberOfTimesWithCssClass } from '../../utils/testHelpers'
 import { CrudModalActionTypeNames } from '../crudModal/crudModal.types'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
+import { WarningModalActionTypeNames } from '../common/modals/warningModal/warningModal.types';
 
 
 let colModels = TestData.colModels();
@@ -110,6 +111,25 @@ describe('<TableFooter/>', () => {
                     }
                 );
             })
+
+            test('opens warning modal when there is no selected row', () => {
+
+                mockedStore.getState().reactCrudMaster.selectedRow = null;
+                renderComponentWidthStore(width, mockedStore);
+                openCrudMenuModal();
+
+                let x = document.body.querySelectorAll('.cm-edit-btn')[0];
+                fireEvent.click(x)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: WarningModalActionTypeNames.OPEN_MODAL,
+                        namespace: WARNING_MODAL,
+                        payload: { message: "Select row first" }
+                    }
+                );
+            })
         })
 
         function openCrudMenuModal() {
@@ -181,6 +201,23 @@ describe('<TableFooter/>', () => {
                         type: CrudModalActionTypeNames.OPEN_MODAL_TO_EDIT,
                         namespace: CRUD_MODAL,
                         payload: { rowData: data[0] }
+                    }
+                );
+            })
+
+            test('opens warning modal when there is no selected row', () => {
+
+                mockedStore.getState().reactCrudMaster.selectedRow = null;
+                renderComponentWidthStore(width, mockedStore);
+                let x = document.body.querySelectorAll('.cm-edit-btn')[0];
+                fireEvent.click(x)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: WarningModalActionTypeNames.OPEN_MODAL,
+                        namespace: WARNING_MODAL,
+                        payload: { message: "Select row first" }
                     }
                 );
             })

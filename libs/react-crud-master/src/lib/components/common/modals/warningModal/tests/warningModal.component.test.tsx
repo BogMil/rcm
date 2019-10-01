@@ -7,14 +7,14 @@ import {
 } from '@testing-library/react';
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
-import { rootReducer } from "../../../../rootReducer";
+import { rootReducer } from "../../../../../rootReducer";
 import thunk from "redux-thunk";
-import * as TestData from '../../../../testData'
+import * as TestData from '../../../../../testData'
 import WarningModal from '../warningModal.component';
 import configureMockStore from 'redux-mock-store'
-import { shouldRenderNumberOfTimesWithCssClass } from '../../../../utils/testHelpers'
+import { shouldRenderNumberOfTimesWithCssClass } from '../../../../../utils/testHelpers'
 import { WarningModalActionTypeNames, WarningModalActionType } from '../warningModal.types'
-import { WARNING_MODAL as namespace } from '../../../../actions/actionNamespaces';
+import { WARNING_MODAL as namespace } from '../../../../../actions/actionNamespaces';
 
 let mockedStore
 

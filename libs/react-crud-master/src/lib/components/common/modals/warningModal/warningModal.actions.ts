@@ -1,4 +1,4 @@
-import { WARNING_MODAL as namespace } from '../../../actions/actionNamespaces';
+import { WARNING_MODAL as namespace } from '../../../../actions/actionNamespaces';
 import { WarningModalActionType, WarningModalActionTypeNames } from './warningModal.types';
 
 export function closeModal(): WarningModalActionType {

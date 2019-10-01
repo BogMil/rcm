@@ -7,10 +7,11 @@ import {
 
 import { connect } from 'react-redux'
 import * as Redux from 'redux'
-import { AppState } from '../../../rootReducer'
+import { AppState } from '../../../../rootReducer'
 import * as WarningModalActions from '../warningModal/warningModal.actions'
 import { WarningModalOwnProps, WarningModalDispatchProps, WarningModalStateProps, WarningModalState, WarningModalProps, initialState } from "./warningModal.types";
 import './warningModal.css'
+import '../common.css'
 
 class WarningModalComponent extends Component<WarningModalProps, WarningModalState>{
     constructor(props: WarningModalProps) {

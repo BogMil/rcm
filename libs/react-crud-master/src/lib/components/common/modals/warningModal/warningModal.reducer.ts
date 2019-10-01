@@ -1,6 +1,6 @@
 import { WarningModalStateProps, initialWarningModalStateProps, WarningModalActionType, WarningModalActionTypeNames, OpenModalRetType } from './warningModal.types'
 import update from 'immutability-helper'
-import { WARNING_MODAL as NAMESPACE } from '../../../actions/actionNamespaces';
+import { WARNING_MODAL as NAMESPACE } from '../../../../actions/actionNamespaces';
 
 export function WarningModalReducer(
     state: WarningModalStateProps = initialWarningModalStateProps(),

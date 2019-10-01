@@ -7,7 +7,7 @@ import {
 import * as WarningModalActions from '../../warningModal/WarningModal.actions'
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { WARNING_MODAL as namespace } from '../../../../actions/actionNamespaces'
+import { WARNING_MODAL as namespace } from '../../../../../actions/actionNamespaces'
 import { WarningModalActionTypeNames, WarningModalActionType } from '../warningModal.types'
 
 afterEach(cleanup)

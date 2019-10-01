@@ -3,7 +3,7 @@ import { reactCrudMasterReducer } from './components/reactCrudMaster/reactCrudMa
 import { crudModalReducer } from './components/crudModal/crudModal.reducer'
 import { ColMenuModalReducer } from './components/colMenuModal/colMenuModal.reducer';
 import { ContextMenuModalReducer } from './components/contextMenuModal/contextMenuModal.reducer';
-import { WarningModalReducer } from './components/common/warningModal/warningModal.reducer';
+import { WarningModalReducer } from './components/common/modals/warningModal/warningModal.reducer';
 
 
 export const rootReducer = combineReducers({
