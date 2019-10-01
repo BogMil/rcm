@@ -29,6 +29,8 @@ class TableFooterComponent extends Component<TableFooterProps, TableFooterState>
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: TableFooterOwnProps): TableFooterDispatchProps => {
     return {
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
+        openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
+        openWarningModal: (message) => null
     };
 }
 

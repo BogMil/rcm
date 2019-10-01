@@ -43,6 +43,7 @@ afterEach(cleanup)
 
 describe('<CrudModal/>', () => {
 
+
     it('shoult render without problems', () => {
         renderComponent();
     })
@@ -54,11 +55,59 @@ describe('<CrudModal/>', () => {
         expect(x.length).toBe(0);
     })
 
-    describe('renders proper number of elements', () => {
+    describe('create mode', () => {
+        beforeEach(function () {
+            mockedStore.getState().crudModal.isInCreateMode = true;
+        });
+        describe('renders proper number of elements', () => {
 
-        it('shoult render one => cm-colmenu-modal', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-crud-modal', () => renderComponent()))
-        it('shoult render proper number of => cm-crud-modal-input-holder', () => shouldRenderNumberOfTimesWithCssClass(colModels.length, 'cm-crud-modal-input-holder', () => renderComponent()))
+            it('shoult render one => cm-colmenu-modal', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-crud-modal', () => renderComponent()))
+            it('shoult render proper number of => cm-crud-modal-input-holder', () => {
+                shouldRenderNumberOfTimesWithCssClass(colModels.length, 'cm-crud-modal-input-holder', () => renderComponent())
+            })
+        })
+
+        it('should dispatch proper action on input change', () => {
+
+            renderComponent()
+            let input = document.body.querySelectorAll('.cm-crud-modal-text-input')[0];
+            fireEvent.change(input, { target: { value: 'aa' } })
+            expect(mockedStore.dispatch).toBeCalledTimes(1);
+            expect(mockedStore.dispatch).toBeCalledWith({
+                type: CrudModalActionTypeNames.ON_ROW_DATA_CHANGE,
+                payload: { name: colModels[0].name, value: 'aa' },
+                namespace
+            });
+        })
     })
+
+    describe('edit mode', () => {
+        beforeEach(function () {
+            mockedStore.getState().crudModal.isInCreateMode = false;
+        });
+        describe('renders proper number of elements', () => {
+
+            it('shoult render one => cm-colmenu-modal', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-crud-modal', () => renderComponent()))
+            it('shoult render proper number of => cm-crud-modal-input-holder', () => {
+                shouldRenderNumberOfTimesWithCssClass(colModels.length, 'cm-crud-modal-input-holder', () => renderComponent())
+            })
+        })
+
+        it('should dispatch proper action on input change', () => {
+
+            renderComponent()
+            let input = document.body.querySelectorAll('.cm-crud-modal-text-input')[0];
+            fireEvent.change(input, { target: { value: 'aa' } })
+            expect(mockedStore.dispatch).toBeCalledTimes(1);
+            expect(mockedStore.dispatch).toBeCalledWith({
+                type: CrudModalActionTypeNames.ON_ROW_DATA_CHANGE,
+                payload: { name: colModels[0].name, value: 'aa' },
+                namespace
+            });
+        })
+    })
+
+
 
     it('should dispatch close action on click on close btn', () => {
         renderComponent()
@@ -71,41 +120,6 @@ describe('<CrudModal/>', () => {
             namespace
         });
     })
-
-    it('should dispatch proper action on input change', () => {
-        renderComponent()
-        let input = document.body.querySelectorAll('.cm-crud-modal-text-input')[0];
-        fireEvent.change(input, { target: { value: 'aa' } })
-        expect(mockedStore.dispatch).toBeCalledTimes(1);
-        expect(mockedStore.dispatch).toBeCalledWith({
-            type: CrudModalActionTypeNames.ON_ROW_DATA_CHANGE,
-            payload: { name: colModels[0].name, value: 'aa' },
-            namespace
-        });
-    })
-
-    // describe('renders proper text content', () => {
-
-    //     it('shoult render column name in title', () => {
-    //         renderComponent()
-    //         let x = document.querySelectorAll('.cm-col-menu-modal-title');
-    //         expect(x[0].textContent.indexOf(colModels[0].name)).toBeGreaterThanOrEqual(0)
-    //     })
-
-    //     it('shoult dispatch close action on click on close btn', () => {
-    //         mockedStore.dispatch = jest.fn();
-    //         renderComponent()
-    //         let closeButton = document.querySelectorAll('.close')[0];
-    //         fireEvent.click(closeButton)
-    //         expect(mockedStore.dispatch).toBeCalledTimes(1);
-    //         expect(mockedStore.dispatch).toBeCalledWith({
-    //             type: crudModalActionTypeNames.CLOSE_MODAL,
-    //             payload: null,
-    //             namespace: COL_MENU_MODAL
-    //         });
-    //     })
-    // })
-
 })
 
 const renderComponent = () => {

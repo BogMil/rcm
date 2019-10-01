@@ -1,0 +1,22 @@
+.cm-warning-modal .modal-content {
+  border-width: 0;
+}
+.cm-warning-modal-header {
+  background-color: '#ffae42';
+}
+
+.cm-common-modal {
+  border-radius: 0;
+  border: 0px;
+}
+
+.cm-common-modal-header {
+  padding: 5px 10px;
+  border-radius: 0;
+  border-width: 0;
+}
+
+.cm-common-modal-body {
+  border-radius: 0;
+  border: 0px;
+}

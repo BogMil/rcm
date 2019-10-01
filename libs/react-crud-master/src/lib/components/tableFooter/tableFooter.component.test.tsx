@@ -57,27 +57,27 @@ describe('<TableFooter/>', () => {
             let buttons = document.body.querySelectorAll('.' + className);
             expect(buttons.length).toBe(0)
 
-            let x = document.body.querySelectorAll('.cm-crud-menu-button');
-            fireEvent.click(x[0]);
+            openCrudMenuModal();
 
             buttons = document.body.querySelectorAll('.' + className);
             expect(buttons.length).toBe(1)
         }
 
         describe("caling proper actions", () => {
+            let mockedStore
+            beforeEach(() => {
+                mockedStore = configureMockStore()({
+                    reactCrudMaster: {
+                        selectedRow: data[0]
+                    }
+                });
+                mockedStore.dispatch = jest.fn();
+            })
+
             test('that click on add dispatch proper actions', () => {
 
-                let mockedStore = configureMockStore()({});
-                mockedStore.dispatch = jest.fn();
-
-                render(
-                    <Provider store={mockedStore} >
-                        <TableFooter tableWidth={width} />
-                    </Provider>
-                )
-
-                let menuHamburgerBtn = document.body.querySelectorAll('.cm-crud-menu-button');
-                fireEvent.click(menuHamburgerBtn[0]);
+                renderComponentWidthStore(width, mockedStore);
+                openCrudMenuModal();
 
                 let addBtn = document.body.querySelectorAll('.cm-add-btn')[0];
                 fireEvent.click(addBtn)
@@ -85,13 +85,37 @@ describe('<TableFooter/>', () => {
                 expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
                 expect(mockedStore.dispatch).toHaveBeenCalledWith(
                     {
-                        type: CrudModalActionTypeNames.OPEN_MODAL,
+                        type: CrudModalActionTypeNames.OPEN_MODAL_TO_CREATE,
                         namespace: CRUD_MODAL,
                         payload: null
                     }
                 );
             })
+
+
+            test('that click on edit dispatch proper actions', () => {
+
+                renderComponentWidthStore(width, mockedStore);
+                openCrudMenuModal();
+
+                let x = document.body.querySelectorAll('.cm-edit-btn')[0];
+                fireEvent.click(x)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: CrudModalActionTypeNames.OPEN_MODAL_TO_EDIT,
+                        namespace: CRUD_MODAL,
+                        payload: { rowData: data[0] }
+                    }
+                );
+            })
         })
+
+        function openCrudMenuModal() {
+            let menuHamburgerBtn = document.body.querySelectorAll('.cm-crud-menu-button');
+            fireEvent.click(menuHamburgerBtn[0]);
+        }
     });
 
     describe(' (above 620px)', () => {
@@ -118,16 +142,18 @@ describe('<TableFooter/>', () => {
         it('shoult render one =>  page number input', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-page-number-input', () => renderComponent(width)));
 
         describe("caling proper actions", () => {
+            let mockedStore
+            beforeEach(() => {
+                mockedStore = configureMockStore()({
+                    reactCrudMaster: {
+                        selectedRow: data[0]
+                    }
+                });
+                mockedStore.dispatch = jest.fn();
+            })
             test('that click on add dispatch proper actions', () => {
 
-                let mockedStore = configureMockStore()({});
-                mockedStore.dispatch = jest.fn();
-
-                render(
-                    <Provider store={mockedStore} >
-                        <TableFooter tableWidth={900} />
-                    </Provider>
-                )
+                renderComponentWidthStore(width, mockedStore);
 
                 let x = document.body.querySelectorAll('.cm-add-btn');
                 fireEvent.click(x[0])
@@ -135,9 +161,26 @@ describe('<TableFooter/>', () => {
                 expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
                 expect(mockedStore.dispatch).toHaveBeenCalledWith(
                     {
-                        type: CrudModalActionTypeNames.OPEN_MODAL,
+                        type: CrudModalActionTypeNames.OPEN_MODAL_TO_CREATE,
                         namespace: CRUD_MODAL,
                         payload: null
+                    }
+                );
+            })
+
+            test('that click on edit dispatch proper actions', () => {
+
+                renderComponentWidthStore(width, mockedStore);
+
+                let x = document.body.querySelectorAll('.cm-edit-btn');
+                fireEvent.click(x[0])
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: CrudModalActionTypeNames.OPEN_MODAL_TO_EDIT,
+                        namespace: CRUD_MODAL,
+                        payload: { rowData: data[0] }
                     }
                 );
             })
@@ -147,6 +190,14 @@ describe('<TableFooter/>', () => {
 })
 
 const renderComponent = (tableWidth: number) => {
+    return render(
+        <Provider store={store} >
+            <TableFooter tableWidth={tableWidth} />
+        </Provider>
+    )
+}
+
+const renderComponentWidthStore = (tableWidth: number, store: any) => {
     return render(
         <Provider store={store} >
             <TableFooter tableWidth={tableWidth} />

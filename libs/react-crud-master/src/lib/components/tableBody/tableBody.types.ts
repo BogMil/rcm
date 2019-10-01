@@ -13,15 +13,15 @@ export interface SetColModelsRetType extends IReduxAction {
   },
 }
 
-export type TableBodyActionType = SetColModelsRetType 
+export type TableBodyActionType = SetColModelsRetType
 
 export interface TableBodyState {
-  
+
 }
 
 export const initialState = () => {
   return {
-  
+
   } as TableBodyState
 }
 
@@ -35,7 +35,7 @@ export const initialTableBodyStateProps = () => {
 
 export interface TableBodyStateProps {
   data: any[];
-  width: number ;
+  width: number;
   sortColumn: any;
   selectedRow: any;
   startOffset: number | null;
@@ -47,12 +47,11 @@ export interface TableBodyStateProps {
 
   tableWidth: number;
   colModels: ColModel[];
-  contextTrigger:any;
-
+  contextTrigger: any;
 }
 
 export interface TableBodyDispatchProps {
-    selectRow:(row:any)=>void
+  selectRow: (row: any) => void
 }
 
 export type TableBodyProps = TableBodyOwnProps & TableBodyStateProps & TableBodyDispatchProps;

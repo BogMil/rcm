@@ -14,6 +14,7 @@ import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, T
 import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
+import * as WarningModalActions from '../common/warningModal/warningModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import './tableFooter.css'
 
@@ -23,6 +24,14 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.state = {};
     }
 
+    openCrudModalToEdit = () => {
+        if (!this.props.selectedRow) {
+            this.props.openWarningModal('Select row first');
+            return;
+        }
+
+        this.props.openCrudModalToEdit(this.props.selectedRow)
+    }
 
     render = () => {
         return (
@@ -31,7 +40,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                     <Button className="cm-add-btn cm-footer-button" size="sm" onClick={() => this.props.openCrudModalToCreate()}>
                         <i className={FontAwesomeClasses.add} />
                     </Button>
-                    < Button size="sm" className="cm-edit-btn cm-footer-button">
+                    < Button size="sm" className="cm-edit-btn cm-footer-button" onClick={() => this.openCrudModalToEdit()}>
                         <i className={FontAwesomeClasses.edit} />
                     </Button>
                     < Button size="sm" className="cm-del-btn cm-footer-button">
@@ -77,11 +86,14 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFooterDispatchProps => {
     return {
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
+        openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
+        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message))
     };
 }
 
-const mapStateToProps = (): TableFooterStateProps => {
+const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFooterStateProps => {
     return {
+        selectedRow: state.reactCrudMaster.selectedRow
     } as TableFooterStateProps;
 }
 

@@ -1,19 +1,3 @@
-import { ColModel } from "../../types/colModel";
-import { IReduxAction } from "../../types/IReduxAction";
-
-export const TableFooterActionTypeNames = {
-  GENERATE_COL_NAME_PROPERTIES_IN_ROW_DATA: "GENERATE_COL_NAME_PROPERTIES_IN_ROW_DATA"
-}
-
-export interface GenerateColNamePropertiesInRowDataRetType extends IReduxAction {
-  type: typeof TableFooterActionTypeNames.GENERATE_COL_NAME_PROPERTIES_IN_ROW_DATA
-  payload: {
-    colModels: ColModel[]
-  }
-}
-
-export type TableFooterActionType = GenerateColNamePropertiesInRowDataRetType
-
 export interface TableFooterState {
 
 }
@@ -34,10 +18,13 @@ export const initialTableFooterStateProps = () => {
 };
 
 export interface TableFooterStateProps {
+  selectedRow: any
 }
 
 export interface TableFooterDispatchProps {
   openCrudModalToCreate: () => void,
+  openCrudModalToEdit: (rowData: any) => void
+  openWarningModal: (message: string) => void
 }
 
 export type TableFooterProps = TableFooterOwnProps & TableFooterStateProps & TableFooterDispatchProps;

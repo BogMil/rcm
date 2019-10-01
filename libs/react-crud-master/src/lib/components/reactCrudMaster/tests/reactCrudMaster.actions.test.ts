@@ -54,7 +54,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('setData', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let data = TestData.data()
 
             let expectedResult = {
@@ -69,7 +69,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('resizeColumn', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let e = new MouseEvent('mousemove')
 
             let expectedResult = {
@@ -84,7 +84,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('setColumnToResize', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let colModel = TestData.colModels()[0];
             let startOffset = 0;
 
@@ -99,7 +99,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('resetTableoffsetWidth', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
 
             let expectedResult = {
                 type: ReactCrudMasterActionTypeNames.SET_INITIAL_TABLE_OFFSET_WIDTH,
@@ -112,7 +112,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('changeOrderDirection', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let colModel = TestData.colModels()[0];
             let e: any = 1;
 
@@ -127,7 +127,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('selectRow', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let row: any = null;
 
             let expectedResult = {
@@ -141,7 +141,7 @@ describe('ReactCrudMaster.actions', () => {
     })
 
     describe('setTableTitle', () => {
-        it('should return proper object', async () => {
+        it('should return proper object', () => {
             let tableTitle: any = "test";
 
             let expectedResult = {

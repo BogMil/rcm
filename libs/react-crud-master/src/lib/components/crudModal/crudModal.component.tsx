@@ -20,6 +20,10 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
         this.state = initialState();
     }
 
+    componentDidMount = () => {
+
+    }
+
     handleClose = () => {
         this.props.closeCrudModal();
     }
@@ -59,7 +63,8 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
                                     </Form.Group>
                                 </div>
                             );
-                        })}
+                        })
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.handleClose} >
@@ -89,7 +94,8 @@ const mapStateToProps = (state: AppState): CrudModalStateProps => {
     return {
         show: state.crudModal.show,
         colModels: state.reactCrudMaster.colModels,
-        rowData: state.crudModal.rowData
+        rowData: state.crudModal.rowData,
+        isInCreateMode: state.crudModal.isInCreateMode
     } as CrudModalStateProps;
 }
 

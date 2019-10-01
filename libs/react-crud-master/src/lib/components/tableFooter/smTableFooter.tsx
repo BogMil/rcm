@@ -21,7 +21,9 @@ import '../reactCrudMaster/reactCrudMaster.css'
 import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, TableFooterProps, TableFooterState } from "./tableFooter.types";
 import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
+
 import * as CurdModalActions from '../crudModal/crudModal.actions'
+import * as WarningModalActions from '../common/warningModal/warningModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 
 
@@ -31,6 +33,14 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.state = {};
     }
 
+    openCrudModalToEdit = () => {
+        if (!this.props.selectedRow) {
+            this.props.openWarningModal('Select row first');
+            return;
+        }
+
+        this.props.openCrudModalToEdit(this.props.selectedRow)
+    }
 
     render = () => {
         if (this.props.tableWidth < 620)
@@ -47,7 +57,7 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                                 <Dropdown.Item className="cm-add-btn" onClick={() => this.props.openCrudModalToCreate()}>
                                     <i className={FontAwesomeClasses.add} /><span className="cm-padding-left-10">Add</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item  >
+                                < Dropdown.Item className="cm-edit-btn" onClick={() => this.openCrudModalToEdit()}>
                                     <i className={FontAwesomeClasses.edit} /><span className="cm-padding-left-10">Edit</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item >
@@ -86,11 +96,14 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
 const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps: TableFooterOwnProps): TableFooterDispatchProps => {
     return {
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
+        openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
+        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message))
     };
 }
 
 const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFooterStateProps => {
     return {
+        selectedRow: state.reactCrudMaster.selectedRow
     } as TableFooterStateProps;
 }
 

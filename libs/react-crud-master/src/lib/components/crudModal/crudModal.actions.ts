@@ -15,8 +15,16 @@ export function closeModal(): CrudModalActionType {
 
 export function openModalToCreate(): CrudModalActionType {
     return {
-        type: CrudModalActionTypeNames.OPEN_MODAL,
+        type: CrudModalActionTypeNames.OPEN_MODAL_TO_CREATE,
         payload: null,
+        namespace
+    }
+}
+
+export function openModalToEdit(rowData): CrudModalActionType {
+    return {
+        type: CrudModalActionTypeNames.OPEN_MODAL_TO_EDIT,
+        payload: { rowData },
         namespace
     }
 }
