@@ -13,3 +13,7 @@
   border-radius: 0;
   border: 0px;
 }
+
+.cm-common-modal .modal-content {
+  border-width: 0;
+}

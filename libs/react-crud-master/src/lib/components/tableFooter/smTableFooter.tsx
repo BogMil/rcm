@@ -23,7 +23,8 @@ import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
 
 import * as CurdModalActions from '../crudModal/crudModal.actions'
-import * as WarningModalActions from '../common/warningModal/warningModal.actions'
+import * as WarningModalActions from '../common/modals/warningModal/warningModal.actions'
+import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 
 
@@ -97,7 +98,8 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps:
     return {
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
         openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
-        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message))
+        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message)),
+        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny))
     };
 }
 

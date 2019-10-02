@@ -14,9 +14,14 @@ import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, T
 import { AppState } from "../../rootReducer";
 import { connect } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
-import * as WarningModalActions from '../common/warningModal/warningModal.actions'
+import * as WarningModalActions from '../common/modals/warningModal/warningModal.actions'
+import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import './tableFooter.css'
+
+interface Window {
+    yes: Function;
+}
 
 class LgTableFooterComponent extends Component<TableFooterProps, TableFooterState>{
     constructor(props: TableFooterProps) {
@@ -33,6 +38,23 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.props.openCrudModalToEdit(this.props.selectedRow)
     }
 
+    are = () => {
+        if (!this.props.selectedRow) {
+            this.props.openWarningModal('Select row first');
+            return;
+        }
+
+        window['yes'] = this.testera;
+
+        this.props.openYesnoModal('title', 'areYouSure', this.testera);
+
+        // this.props.openCrudModalToEdit(this.props.selectedRow)
+    }
+
+    testera = () => {
+        this.props.openYesnoModal('title 2', 'areYouSure asd asd', () => console.log('asd'));
+    }
+
     render = () => {
         return (
             <Row className="cm-table-footer cm-table-footer-lg">
@@ -43,7 +65,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                     < Button size="sm" className="cm-edit-btn cm-footer-button" onClick={() => this.openCrudModalToEdit()}>
                         <i className={FontAwesomeClasses.edit} />
                     </Button>
-                    < Button size="sm" className="cm-del-btn cm-footer-button">
+                    < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => this.are()}>
                         <i className={FontAwesomeClasses.del} />
                     </Button>
                     < Button size="sm" className="cm-view-btn cm-footer-button">
@@ -87,7 +109,8 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFoo
     return {
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
         openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
-        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message))
+        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message)),
+        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny))
     };
 }
 

@@ -18,7 +18,9 @@ import CrudModal from '../crudModal/crudModal.component'
 import ColMenuModal from '../colMenuModal/colMenuModal.component'
 import ContextMenuModal from '../contextMenuModal/contextMenuModal.component'
 import * as TextSelection from '../../utils/textSelection'
-import WarningModal from '../common/warningModal/warningModal.component'
+import WarningModal from '../common/modals/warningModal/warningModal.component'
+import YesnoModal from '../common/modals/yesnoModal/yesnoModal.component'
+
 
 import { ThunkDispatch } from "redux-thunk";
 
@@ -89,6 +91,7 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
                 <ContextMenuModal />
 
                 <WarningModal/>
+                <YesnoModal/>
             </>
         );
     }
