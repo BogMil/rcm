@@ -12,11 +12,6 @@ import thunk from "redux-thunk";
 import * as CrudMasterConstants from '../reactCrudMaster.constants'
 import * as TestData from '../../../testData'
 
-import Enzyme, { mount } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() });
-
 let colModels = TestData.colModels();
 let data = TestData.data();
 let store;

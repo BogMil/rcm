@@ -11,20 +11,24 @@ import { rootReducer } from "../../rootReducer";
 import thunk from "redux-thunk";
 import * as TestData from '../../testData'
 import TableFooter from './TableFooter.component';
-import { ReactCrudMasterActionTypeNames } from '../reactCrudMaster/reactCrudMaster.types'
 import { CRUD_MODAL, WARNING_MODAL, YESNO_MODAL } from '../../actions/actionNamespaces';
-import * as ReactCrudMasterActions from '../reactCrudMaster/reactCrudMaster.actions'
 import configureMockStore from 'redux-mock-store'
 import { shouldRenderNumberOfTimesWithCssClass } from '../../utils/testHelpers'
 import { CrudModalActionTypeNames } from '../crudModal/crudModal.types'
-import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import { WarningModalActionTypeNames } from '../common/modals/warningModal/warningModal.types';
 import { YesnoModalActionTypeNames } from '../common/modals/yesnoModal/yesnoModal.types';
 
-
-let colModels = TestData.colModels();
 let data = TestData.data();
 let store;
+
+global['document'].createRange = () => ({
+    setStart: () => { },
+    setEnd: () => { },
+    commonAncestorContainer: {
+        nodeName: 'BODY',
+        ownerDocument: document,
+    },
+});
 
 beforeEach(() => {
     store = createStore(rootReducer, applyMiddleware(thunk));
@@ -36,9 +40,7 @@ describe('<TableFooter/>', () => {
 
     describe('on xs', () => {
         const width = 500;
-        it('shoult render without problems', () => {
-            renderComponent(width);
-        })
+        it('shoult render without problems', () => { renderComponent(width) });
         it('shoult render one => cm-table-footer', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-table-footer', () => renderComponent(width)));
         it('shoult render 0 => cm-table-footer-lg', () => shouldRenderNumberOfTimesWithCssClass(0, 'cm-table-footer-lg', () => renderComponent(width)));
         it('shoult render one => cm-table-footer-xs', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-table-footer-xs', () => renderComponent(width)));
@@ -155,7 +157,6 @@ describe('<TableFooter/>', () => {
             })
 
             function opensWarningModalWhenColumnIsNotSelectedOnClickOn(className, warningMessage) {
-                mockedStore.getState().reactCrudMaster.selectedRow = null;
                 renderComponentWidthStore(width, mockedStore);
                 openCrudMenuModal();
 
@@ -182,9 +183,7 @@ describe('<TableFooter/>', () => {
 
     describe(' (above 620px)', () => {
         const width = 800
-        it('shoult render without problems', () => {
-            renderComponent(width);
-        })
+        it('shoult render without problems', () => { renderComponent(width) })
         it('shoult render one => cm-table-footer', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-table-footer', () => renderComponent(width)));
         it('shoult render one => cm-table-footer-lg', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-table-footer-lg', () => renderComponent(width)));
         it('shoult render 0 => cm-table-footer-xs', () => shouldRenderNumberOfTimesWithCssClass(0, 'cm-table-footer-xs', () => renderComponent(width)));

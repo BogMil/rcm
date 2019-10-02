@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
 import * as WarningModalActions from '../common/modals/warningModal/warningModal.actions'
 import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
+import * as VModalActions from '../vModal/vModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import './tableFooter.css'
 
@@ -47,6 +48,15 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.props.openYesnoModal('title', 'areYouSure', () => console.log("deleted"));
     }
 
+    onClickOnView = () => {
+        if (!this.props.selectedRow) {
+            this.props.openWarningModal('Select row first');
+            return;
+        }
+
+        this.props.openVModal();
+    }
+
     render = () => {
         return (
             <Row className="cm-table-footer cm-table-footer-lg">
@@ -60,7 +70,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                     < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => this.onClickOnDelete()}>
                         <i className={FontAwesomeClasses.del} />
                     </Button>
-                    < Button size="sm" className="cm-view-btn cm-footer-button">
+                    < Button size="sm" className="cm-view-btn cm-footer-button" onClick={() => this.onClickOnView()}>
                         <i className={FontAwesomeClasses.view} />
                     </Button>
                     < Button size="sm" className="cm-search-btn cm-footer-button">
@@ -102,7 +112,8 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFoo
         openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
         openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
         openWarningModal: (message) => dispatch(WarningModalActions.openModal(message)),
-        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny))
+        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny)),
+        openVModal: () => dispatch(VModalActions.openModal())
     };
 }
 

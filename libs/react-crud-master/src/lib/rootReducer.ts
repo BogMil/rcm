@@ -5,6 +5,7 @@ import { ColMenuModalReducer } from './components/colMenuModal/colMenuModal.redu
 import { ContextMenuModalReducer } from './components/contextMenuModal/contextMenuModal.reducer';
 import { WarningModalReducer } from './components/common/modals/warningModal/warningModal.reducer';
 import { YesnoModalReducer } from './components/common/modals/yesnoModal/yesnoModal.reducer';
+import { vModalReducer } from './components/vModal/vModal.reducer';
 
 
 
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers({
     colMenuModal: ColMenuModalReducer,
     contextMenuModal: ContextMenuModalReducer,
     warningModal: WarningModalReducer,
-    yesnoModal: YesnoModalReducer
+    yesnoModal: YesnoModalReducer,
+    vModal: vModalReducer
 })
 export type AppState = ReturnType<typeof rootReducer>

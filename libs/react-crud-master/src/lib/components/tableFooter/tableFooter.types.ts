@@ -26,6 +26,7 @@ export interface TableFooterDispatchProps {
   openCrudModalToEdit: (rowData: any) => void
   openWarningModal: (message: string) => void
   openYesnoModal: (question: string, title: string, onConfirm: Function, onDeny?: Function) => void
+  openVModal: () => void
 }
 
 export type TableFooterProps = TableFooterOwnProps & TableFooterStateProps & TableFooterDispatchProps;

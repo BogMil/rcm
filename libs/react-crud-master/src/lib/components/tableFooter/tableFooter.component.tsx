@@ -31,7 +31,8 @@ const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>, ownProps:
         openCrudModalToCreate: () => null,
         openCrudModalToEdit: () => null,
         openWarningModal: () => null,
-        openYesnoModal: () => null
+        openYesnoModal: () => null,
+        openVModal: () => null
     };
 }
 

@@ -49,7 +49,6 @@ describe('ReactCrudMaster.actions', () => {
             expect(actions[0]).toEqual(ReactCrudMasterActions.privateSetColModels(colModels));
             expect(actions[1]).toEqual(CrudModalActions.generateColNamePropertiesInRowData(colModels));
             expect(actions.length).toBe(2);
-
         })
     })
 

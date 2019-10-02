@@ -15,6 +15,7 @@ import * as ReactCrudMasterActions from './reactCrudMaster.actions'
 import TableHeader from '../tableHeader/tableHeader.component'
 import TableBody from '../tableBody/tableBody.component'
 import CrudModal from '../crudModal/crudModal.component'
+import VModal from '../vModal/vModal.component'
 import ColMenuModal from '../colMenuModal/colMenuModal.component'
 import ContextMenuModal from '../contextMenuModal/contextMenuModal.component'
 import * as TextSelection from '../../utils/textSelection'
@@ -87,6 +88,8 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
                 </Card>
 
                 <CrudModal/>
+                <VModal/>
+
                 <ColMenuModal />
                 <ContextMenuModal />
 
