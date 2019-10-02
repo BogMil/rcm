@@ -29,7 +29,6 @@ class VModalComponent extends Component<VModalProps, VModalState>{
     }
 
     render() {
-        console.log(this.props.rowData)
         return (
             < Modal style={{ borderRadius: 0 }}
                 show={this.props.show}

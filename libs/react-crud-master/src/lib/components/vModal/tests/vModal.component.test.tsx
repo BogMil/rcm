@@ -17,7 +17,7 @@ import * as ReactCrudMasterActions from '../../reactCrudMaster/reactCrudMaster.a
 import configureMockStore from 'redux-mock-store'
 import { shouldRenderNumberOfTimesWithCssClass } from '../../../utils/testHelpers'
 import { VModalActionTypeNames, VModalActionType } from '../vModal.types'
-import { CRUD_MODAL as namespace } from '../../../actions/actionNamespaces';
+import { V_MODAL as namespace } from '../../../actions/actionNamespaces';
 
 
 
@@ -28,11 +28,11 @@ let mockedStore
 beforeEach(() => {
     mockedStore = configureMockStore()({
         reactCrudMaster: {
-            colModels
+            colModels,
+            selectedRow: data[0]
         },
         vModal: {
-            show: true,
-            rowData: data[0]
+            show: true
         }
     });
 
@@ -51,18 +51,15 @@ describe('<VModal/>', () => {
     it('shoult not render', () => {
         mockedStore.getState().vModal.show = false;
         renderComponent();
-        let x = document.body.querySelectorAll('.cm-crud-modal')
+        let x = document.body.querySelectorAll('.cm-v-modal')
         expect(x.length).toBe(0);
     })
 
-    beforeEach(function () {
-        mockedStore.getState().vModal.isInCreateMode = true;
-    });
     describe('renders proper number of elements', () => {
 
         it('shoult render one => cm-v-modal', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-v-modal', () => renderComponent()))
-        it('shoult render proper number of => cm-v-modal-cell-value-holder', () => {
-            shouldRenderNumberOfTimesWithCssClass(colModels.length, 'cm-v-modal-cell-value-holder', () => renderComponent())
+        it('shoult render proper number of => cm-v-modal-cell-holder', () => {
+            shouldRenderNumberOfTimesWithCssClass(colModels.length, 'cm-v-modal-cell-holder', () => renderComponent())
         })
     })
 
