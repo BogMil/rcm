@@ -38,21 +38,13 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.props.openCrudModalToEdit(this.props.selectedRow)
     }
 
-    are = () => {
+    onClickOnDelete = () => {
         if (!this.props.selectedRow) {
             this.props.openWarningModal('Select row first');
             return;
         }
 
-        window['yes'] = this.testera;
-
-        this.props.openYesnoModal('title', 'areYouSure', this.testera);
-
-        // this.props.openCrudModalToEdit(this.props.selectedRow)
-    }
-
-    testera = () => {
-        this.props.openYesnoModal('title 2', 'areYouSure asd asd', () => console.log('asd'));
+        this.props.openYesnoModal('title', 'areYouSure', () => console.log("deleted"));
     }
 
     render = () => {
@@ -65,7 +57,7 @@ class LgTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                     < Button size="sm" className="cm-edit-btn cm-footer-button" onClick={() => this.openCrudModalToEdit()}>
                         <i className={FontAwesomeClasses.edit} />
                     </Button>
-                    < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => this.are()}>
+                    < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => this.onClickOnDelete()}>
                         <i className={FontAwesomeClasses.del} />
                     </Button>
                     < Button size="sm" className="cm-view-btn cm-footer-button">

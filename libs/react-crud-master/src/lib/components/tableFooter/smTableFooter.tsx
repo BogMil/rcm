@@ -43,6 +43,15 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
         this.props.openCrudModalToEdit(this.props.selectedRow)
     }
 
+    onClickOnDelete = () => {
+        if (!this.props.selectedRow) {
+            this.props.openWarningModal('Select row first');
+            return;
+        }
+
+        this.props.openYesnoModal('title', 'areYouSure', () => console.log("deleted"));
+    }
+
     render = () => {
         if (this.props.tableWidth < 620)
             return (
@@ -61,7 +70,7 @@ class SmTableFooterComponent extends Component<TableFooterProps, TableFooterStat
                                 < Dropdown.Item className="cm-edit-btn" onClick={() => this.openCrudModalToEdit()}>
                                     <i className={FontAwesomeClasses.edit} /><span className="cm-padding-left-10">Edit</span>
                                 </Dropdown.Item>
-                                < Dropdown.Item >
+                                < Dropdown.Item className="cm-del-btn" onClick={() => this.onClickOnDelete()}>
                                     <i className={FontAwesomeClasses.del} /><span className="cm-padding-left-10">Delete</span>
                                 </Dropdown.Item>
                                 < Dropdown.Item >
@@ -110,5 +119,3 @@ const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFoot
 }
 
 export default connect<TableFooterStateProps, TableFooterDispatchProps, TableFooterOwnProps, AppState>(mapStateToProps, mapDispatchToProps)(SmTableFooterComponent);
-
-// export default Footer;

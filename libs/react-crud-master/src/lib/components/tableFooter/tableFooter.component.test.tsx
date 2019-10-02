@@ -12,13 +12,14 @@ import thunk from "redux-thunk";
 import * as TestData from '../../testData'
 import TableFooter from './TableFooter.component';
 import { ReactCrudMasterActionTypeNames } from '../reactCrudMaster/reactCrudMaster.types'
-import { CRUD_MODAL, WARNING_MODAL } from '../../actions/actionNamespaces';
+import { CRUD_MODAL, WARNING_MODAL, YESNO_MODAL } from '../../actions/actionNamespaces';
 import * as ReactCrudMasterActions from '../reactCrudMaster/reactCrudMaster.actions'
 import configureMockStore from 'redux-mock-store'
 import { shouldRenderNumberOfTimesWithCssClass } from '../../utils/testHelpers'
 import { CrudModalActionTypeNames } from '../crudModal/crudModal.types'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import { WarningModalActionTypeNames } from '../common/modals/warningModal/warningModal.types';
+import { YesnoModalActionTypeNames } from '../common/modals/yesnoModal/yesnoModal.types';
 
 
 let colModels = TestData.colModels();
@@ -64,7 +65,7 @@ describe('<TableFooter/>', () => {
             expect(buttons.length).toBe(1)
         }
 
-        describe("caling proper actions", () => {
+        describe("caling proper actions when there is selected row", () => {
             let mockedStore
             beforeEach(() => {
                 mockedStore = configureMockStore()({
@@ -112,13 +113,53 @@ describe('<TableFooter/>', () => {
                 );
             })
 
-            test('opens warning modal when there is no selected row', () => {
+            test('that click on delete dispatch proper actions', () => {
 
+                renderComponentWidthStore(width, mockedStore);
+                openCrudMenuModal();
+
+                let x = document.body.querySelectorAll('.cm-del-btn')[0];
+                fireEvent.click(x)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: YesnoModalActionTypeNames.OPEN_MODAL,
+                        namespace: YESNO_MODAL,
+                        payload: { question: 'areYouSure', title: 'title' }
+                    }
+                );
+            })
+
+
+        })
+
+        describe("caling proper actions when there is NO selected row", () => {
+
+            let mockedStore
+            beforeEach(() => {
+                mockedStore = configureMockStore()({
+                    reactCrudMaster: {
+                        selectedRow: null
+                    }
+                });
+                mockedStore.dispatch = jest.fn();
+            })
+
+            test('opens warning modal when there is no selected row on click on edit', () => {
+                opensWarningModalWhenColumnIsNotSelectedOnClickOn('cm-edit-btn', "Select row first")
+            })
+
+            test('opens warning modal when there is no selected row on click on delete', () => {
+                opensWarningModalWhenColumnIsNotSelectedOnClickOn('cm-del-btn', "Select row first")
+            })
+
+            function opensWarningModalWhenColumnIsNotSelectedOnClickOn(className, warningMessage) {
                 mockedStore.getState().reactCrudMaster.selectedRow = null;
                 renderComponentWidthStore(width, mockedStore);
                 openCrudMenuModal();
 
-                let x = document.body.querySelectorAll('.cm-edit-btn')[0];
+                let x = document.body.querySelectorAll('.' + className)[0];
                 fireEvent.click(x)
 
                 expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
@@ -126,11 +167,12 @@ describe('<TableFooter/>', () => {
                     {
                         type: WarningModalActionTypeNames.OPEN_MODAL,
                         namespace: WARNING_MODAL,
-                        payload: { message: "Select row first" }
+                        payload: { message: warningMessage }
                     }
                 );
-            })
-        })
+            }
+        });
+
 
         function openCrudMenuModal() {
             let menuHamburgerBtn = document.body.querySelectorAll('.cm-crud-menu-button');
@@ -161,7 +203,7 @@ describe('<TableFooter/>', () => {
         it('shoult render one =>  last page button', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-last-page-btn', () => renderComponent(width)));
         it('shoult render one =>  page number input', () => shouldRenderNumberOfTimesWithCssClass(1, 'cm-page-number-input', () => renderComponent(width)));
 
-        describe("caling proper actions", () => {
+        describe("caling proper actions when there is selected row", () => {
             let mockedStore
             beforeEach(() => {
                 mockedStore = configureMockStore()({
@@ -205,11 +247,48 @@ describe('<TableFooter/>', () => {
                 );
             })
 
-            test('opens warning modal when there is no selected row', () => {
+            test('that click on delete dispatch proper actions', () => {
 
+                renderComponentWidthStore(width, mockedStore);
+
+                let x = document.body.querySelectorAll('.cm-del-btn')[0];
+                fireEvent.click(x)
+
+                expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
+                expect(mockedStore.dispatch).toHaveBeenCalledWith(
+                    {
+                        type: YesnoModalActionTypeNames.OPEN_MODAL,
+                        namespace: YESNO_MODAL,
+                        payload: { question: 'areYouSure', title: 'title' }
+                    }
+                );
+            })
+        });
+
+        describe('caling proper actions when there is NO selected row', () => {
+            let mockedStore
+            beforeEach(() => {
+                mockedStore = configureMockStore()({
+                    reactCrudMaster: {
+                        selectedRow: null
+                    }
+                });
+                mockedStore.dispatch = jest.fn();
+            })
+
+            test('opens warning modal when there is no selected row on click on edit', () => {
+                opensWarningModalOnClickOn('cm-edit-btn', "Select row first");
+            })
+
+            test('opens warning modal when there is no selected row on click on delete', () => {
+                opensWarningModalOnClickOn('cm-del-btn', "Select row first");
+            })
+
+            function opensWarningModalOnClickOn(className, warningMessage) {
                 mockedStore.getState().reactCrudMaster.selectedRow = null;
                 renderComponentWidthStore(width, mockedStore);
-                let x = document.body.querySelectorAll('.cm-edit-btn')[0];
+
+                let x = document.body.querySelectorAll('.' + className)[0];
                 fireEvent.click(x)
 
                 expect(mockedStore.dispatch).toHaveBeenCalledTimes(1);
@@ -217,14 +296,14 @@ describe('<TableFooter/>', () => {
                     {
                         type: WarningModalActionTypeNames.OPEN_MODAL,
                         namespace: WARNING_MODAL,
-                        payload: { message: "Select row first" }
+                        payload: { message: warningMessage }
                     }
                 );
-            })
+            }
         })
     })
-
 })
+
 
 const renderComponent = (tableWidth: number) => {
     return render(
