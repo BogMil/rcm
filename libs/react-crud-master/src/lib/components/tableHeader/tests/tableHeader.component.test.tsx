@@ -73,7 +73,7 @@ describe('<TableHeader/>', () => {
             let x = document.body.querySelectorAll('.cm-column-header-label');
 
             for (var i = 0; i < colModels.length; i++) {
-                expect(x[i].textContent).toBe(colModels[i].label)
+                expect(x[i].textContent).toContain(colModels[i].label)
             }
         })
 
@@ -95,14 +95,14 @@ describe('<TableHeader/>', () => {
             let x = document.body.querySelectorAll('.cm-column-header-label');
             let label = x[0];
 
-            expect(label.textContent).toBe(colModels[0].label);
+            expect(label.textContent).toContain(colModels[0].label);
             fireEvent.click(label);
-            expect(label.textContent).toBe("asc " + colModels[0].label);
+            expect(label.textContent).toContain("asc " + colModels[0].label);
 
             fireEvent.click(label);
-            expect(label.textContent).toBe("desc " + colModels[0].label);
+            expect(label.textContent).toContain("desc " + colModels[0].label);
             fireEvent.click(label);
-            expect(label.textContent).toBe(colModels[0].label);
+            expect(label.textContent).toContain(colModels[0].label);
         })
 
         it('clicks on resizeBar should dispatch proper actions', () => {

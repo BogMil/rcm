@@ -13,7 +13,8 @@ export const ReactCrudMasterActionTypeNames = {
   CHANGE_ORDER_DIRECTION: 'CHANGE_ORDER_DIRECTION',
   SELECT_ROW: 'SELECT_ROW',
   SET_DATA: 'SET_DATA',
-  SET_TABLE_TITLE: 'SET_TABLE_TITLE'
+  SET_TABLE_TITLE: 'SET_TABLE_TITLE',
+  SWAP_COLUMN_POSITIONS: 'SWAP_COLUMN_POSITIONS'
 }
 
 export interface SetColModelsRetType extends IReduxAction {
@@ -73,8 +74,15 @@ export interface SetTableTitleRetType extends IReduxAction {
   },
 }
 
+export interface SwapColumnPositionsRetType extends IReduxAction {
+  type: typeof ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS
+  payload: {
+    columnPosition1: number, columnPosition2: number
+  },
+}
+
 export type ReactCrudMasterActionType = SetColModelsRetType | ResizeColumnRetType | SetColumnToResizeRetType | ResetTableoffsetWidthRetType | ChangeOrderDirectionRetType | SelectRowRetType |
-  SetDataRetType
+  SetDataRetType | SwapColumnPositionsRetType
 
 export interface ReactCrudMasterState {
   colModels: ColModel[];

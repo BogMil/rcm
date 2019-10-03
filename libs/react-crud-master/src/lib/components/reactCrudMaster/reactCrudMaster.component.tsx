@@ -38,7 +38,10 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
         this.props.resetTableoffsetWidth();
 
         if(this.props.tableTitle != null)
-            this.props.setTableTitle(this.props.tableTitle);        
+            this.props.setTableTitle(this.props.tableTitle);  
+        else
+            this.props.setTableTitle('Table title');   
+               
 
         this.onMouseUp();
         this.onMouseMove();

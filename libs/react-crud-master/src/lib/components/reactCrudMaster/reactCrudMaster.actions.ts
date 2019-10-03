@@ -129,3 +129,11 @@ export function setTableTitle(tableTitle: any): ReactCrudMasterActionType {
         payload: { tableTitle }
     }
 }
+
+export function swapColumnPositions(columnPosition1: number, columnPosition2: number): ReactCrudMasterActionType {
+    return {
+        type: ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS,
+        namespace,
+        payload: { columnPosition1, columnPosition2 }
+    }
+}

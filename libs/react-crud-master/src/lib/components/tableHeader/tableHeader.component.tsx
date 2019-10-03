@@ -1,4 +1,4 @@
-import React, { Component, FormEvent, ChangeEvent } from "react";
+import React, { Component, FormEvent, ChangeEvent, useState, useCallback } from "react";
 import {
     Table,
     Modal,
@@ -19,6 +19,9 @@ import * as ColMenuModelActions from '../colMenuModal/colMenuModal.actions'
 import { ThunkDispatch } from "redux-thunk";
 import './tableHeader.css'
 import * as TextSelection from '../../utils/textSelection'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import DraggableColumnHeader from './draggableColumnHeader';
 
 class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>{
     constructor(props: TableHeaderProps) {
@@ -45,37 +48,54 @@ class TableHeaderComponent extends Component<TableHeaderProps, TableHeaderState>
                                         style={{ width: column.width }}
                                         id={column.name}
                                     >
-                                        <div className="cm-column-header-content-holder" >
-                                            <div className="cm-column-header-label" onClick={() => this.onThClick(column)}>
-                                                {column.orderDirection != "" && `${column.orderDirection} `}{column.label}
-                                            </div>
-                                            < div className="cm-column-header-menu-holder">
-                                                <Button
-                                                    onClick={() => this.props.openColMenuModel(column)}
-                                                    size="sm"
-                                                    className="border-radius-0 cm-column-header-menu-btn"
-                                                    style={{ marginRight: 5, padding: '1px 4px' }}
+                                        <DndProvider backend={HTML5Backend}>
+                                            <DraggableColumnHeader column={column} moveCard={this.moveCard}
+                                                onThClick={() => this.onThClick(column)}
+                                                onClick={() => this.props.openColMenuModel(column)}
+                                                onMouseDown={(e) => this.setColumnToResize(e, column)}
+                                            >
+                                                {/* <div className="cm-column-header-content-holder" >
+                                                    <div className="cm-column-header-label" onClick={() => this.onThClick(column)}>
+                                                        {column.orderDirection != "" && `${column.orderDirection} `}{column.label}
+                                                    </div>
+                                                    < div className="cm-column-header-menu-holder">
+                                                        <Button
+                                                            onClick={() => this.props.openColMenuModel(column)}
+                                                            size="sm"
+                                                            className="border-radius-0 cm-column-header-menu-btn"
+                                                            style={{ marginRight: 5, marginLeft: 5, padding: '1px 4px' }}
+                                                        >
+                                                            <i style={{ padding: 0 }} className="fas fa-sliders-h"></i>
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                                <div className="cm-column-header-resize-bar"
+                                                    onDragStart={e => e.preventDefault()}
+                                                    onMouseDown={e => this.setColumnToResize(e, column)}
                                                 >
-                                                    <i style={{ padding: 0 }} className="fas fa-sliders-h"></i>
-                                                </Button>
-                                            </div>
-                                        </div>
-                                        <div className="cm-column-header-resize-bar"
-                                            onDragStart={e => e.preventDefault()}
-                                            onMouseDown={e => this.setColumnToResize(e, column)}
-                                        >
-                                            &nbsp;
-                                        </div>
+                                                    &nbsp;</div> */}
+                                            </DraggableColumnHeader>
+                                        </DndProvider>
+
                                     </th>
                                 );
                             })}
                         </tr>
                     </thead>
                 </Table>
-            </div>
+            </div >
 
         );
     }
+
+    moveCard = (dragIndex: number, hoverIndex: number) => {
+        const dragCard = this.props.colModels.filter(x => x.columnPosition == dragIndex)
+        this.props.swapColumnPositions(dragIndex, hoverIndex)
+        console.log('reorder')
+        console.log(dragIndex)
+        console.log(hoverIndex)
+    }
+
 
     onHorizontalScroll = () => {
         var tableHeaderHolder = document.getElementById(`cm-table-header-holder-${this.props.RCMID}`);
@@ -103,7 +123,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>, ownProps: Tabl
         setColumnToResize: (column: (ColModel | null) = null, startOffset: (number | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, startOffset)),
         resetTableoffsetWidth: () => dispatch(ReactCrudMasterActions.resetTableoffsetWidth()),
         changeOrderDirection: (column: ColModel) => dispatch(ReactCrudMasterActions.changeOrderDirection(column)),
-        openColMenuModel: (colModel: ColModel) => dispatch(ColMenuModelActions.openModal(colModel))
+        openColMenuModel: (colModel: ColModel) => dispatch(ColMenuModelActions.openModal(colModel)),
+        swapColumnPositions: (columnPosition1: number, columnPosition2: number) => dispatch(ReactCrudMasterActions.swapColumnPositions(columnPosition1, columnPosition2)),
     };
 }
 

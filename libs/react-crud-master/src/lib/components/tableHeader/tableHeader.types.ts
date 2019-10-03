@@ -13,15 +13,15 @@ export interface SetColModelsRetType extends IReduxAction {
   },
 }
 
-export type TableHeaderActionType = SetColModelsRetType 
+export type TableHeaderActionType = SetColModelsRetType
 
 export interface TableHeaderState {
-  
+
 }
 
 export const initialState = () => {
   return {
-  
+
   } as TableHeaderState
 }
 
@@ -35,7 +35,7 @@ export const initialTableHeaderStateProps = () => {
 
 export interface TableHeaderStateProps {
   data: any[];
-  width: number ;
+  width: number;
   sortColumn: any;
   selectedRow: any;
   startOffset: number | null;
@@ -53,10 +53,11 @@ export interface TableHeaderStateProps {
 export interface TableHeaderDispatchProps {
   setColModels: (colModels: ColModel[]) => void,
   resizeColumn: (e: MouseEvent) => void,
-  setColumnToResize:(column?:ColModel | null,e?:any | null)=>void,
-  resetTableoffsetWidth :()=>void,
-  changeOrderDirection:(column:ColModel)=>void,
-  openColMenuModel:(colModel:ColModel) =>void,
+  setColumnToResize: (column?: ColModel | null, e?: any | null) => void,
+  resetTableoffsetWidth: () => void,
+  changeOrderDirection: (column: ColModel) => void,
+  openColMenuModel: (colModel: ColModel) => void,
+  swapColumnPositions: (columnPosition1: number, columnPosition2: number) => void
 }
 
 export type TableHeaderProps = TableHeaderOwnProps & TableHeaderStateProps & TableHeaderDispatchProps;

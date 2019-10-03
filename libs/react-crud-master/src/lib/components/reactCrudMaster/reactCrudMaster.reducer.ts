@@ -10,6 +10,7 @@ import {
     SelectRowRetType,
     SetDataRetType,
     SetTableTitleRetType,
+    SwapColumnPositionsRetType,
 } from './reactCrudMaster.types'
 import update from 'immutability-helper'
 import { REACT_CRUD_MASTER } from '../../actions/actionNamespaces';
@@ -119,6 +120,23 @@ export function reactCrudMasterReducer(
         case ReactCrudMasterActionTypeNames.SET_TABLE_TITLE: {
             let typedAction = <SetTableTitleRetType>action;
             return Object.assign({}, { ...state }, { tableTitleProp: typedAction.payload.tableTitle })
+        }
+
+        case ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS: {
+            let typedAction = <SwapColumnPositionsRetType>action;
+            colModels = state.colModels;
+
+            let temp = colModels.find(x => x.columnPosition == typedAction.payload.columnPosition1)
+            colModels[typedAction.payload.columnPosition1] = colModels[typedAction.payload.columnPosition2]
+            colModels[typedAction.payload.columnPosition2] = temp
+
+            colModels = colModels.map((x, i) => {
+                x.columnPosition = i
+                return x
+            })
+            let stater = Object.assign({}, { ...state }, { colModels: colModels })
+            console.log(stater)
+            return stater
         }
         default:
             return state
