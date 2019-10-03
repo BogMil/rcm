@@ -147,7 +147,8 @@ export class App extends Component {
         name: "Id",
         label: "Id",
         width: 150,
-        minWidth: 150
+        minWidth: 150,
+        columnPosition: 100
       }),
 
       new ColModel({
@@ -165,13 +166,16 @@ export class App extends Component {
         name: "Username",
         label: "Username",
         width: 150,
-        minWidth: 150
+        minWidth: 150,
+        columnPosition: 200
+
       }),
       new ColModel({
         name: "Contact",
         label: "Contact",
         width: 150,
         // minWidth: 150
+        columnPosition: 1
       })
     ];
   }

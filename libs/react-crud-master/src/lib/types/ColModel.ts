@@ -57,7 +57,7 @@ export class ColModel {
     public label: string = "";
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
-    public columnPosition: number = 0;
+    public columnPosition: number = null;
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
         let wordsInColLabel = label.split(" ");

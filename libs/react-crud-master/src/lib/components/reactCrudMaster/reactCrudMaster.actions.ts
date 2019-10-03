@@ -37,7 +37,10 @@ export function orderColumns(colModels: ColModel[]): ColModel[] {
         return false
     })
 
-    colModelsWithColPosition.forEach((x, i) => x.columnPosition = i)
+    colModelsWithColPosition = colModelsWithColPosition.map((x, i) => {
+        x.columnPosition = i
+        return x;
+    })
 
     let colModelsWithNullColPosition = colModels.filter(x => {
         if (x.columnPosition == null)
@@ -46,7 +49,11 @@ export function orderColumns(colModels: ColModel[]): ColModel[] {
     })
 
     colModels = [...colModelsWithColPosition, ...colModelsWithNullColPosition]
-    return colModels
+    colModels = colModels.map((x, i) => {
+        x.columnPosition = i
+        return x;
+    })
+    return colModels;
 }
 
 function getUsefullColModelWith(colModel: ColModel): number {
