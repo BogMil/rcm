@@ -13,13 +13,15 @@ import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { REACT_CRUD_MASTER } from '../../../actions/actionNamespaces'
 import { ReactCrudMasterActionTypeNames, ReactCrudMasterActionType } from '../reactCrudMaster.types'
+import { AssertionError } from 'assert';
+import { orderColumns } from '../reactCrudMaster.actions';
 
 afterEach(cleanup)
 describe('ReactCrudMaster.actions', () => {
 
     describe('privateSetColModels', () => {
         it('privateSetColModels should return proper object', () => {
-            let colModels = TestData.colModels()
+            let colModels = orderColumns(TestData.colModels())
 
             let widthsOfColumns = colModels.map(colModel => colModel.width)
             let expectedTableWitdh = widthsOfColumns.reduce((prev, current) => prev += current)
@@ -37,7 +39,147 @@ describe('ReactCrudMaster.actions', () => {
 
             expect(actionResult).toMatchObject(expectedResult)
         })
+
+        describe('ordering column position properly', () => {
+            test('when all colModels have defined columnPosition', () => {
+                let colModels = [
+                    new ColModel({
+                        name: "Id",
+                        columnPosition: 5
+                    }),
+
+                    new ColModel({
+                        name: "FirstName",
+                        columnPosition: 3
+                    }),
+                    new ColModel({
+                        name: "LastName",
+                        columnPosition: 1
+                    }),
+                    new ColModel({
+                        name: "Username",
+                        columnPosition: 4
+                    }),
+                    new ColModel({
+                        name: "Contact",
+                        columnPosition: 2
+                    })
+                ]
+
+                let actionResult = ReactCrudMasterActions.privateSetColModels(colModels);
+                let actualResult = actionResult.payload.colModels.map(x => x.name);
+
+                let expectedResult = [colModels[2].name, colModels[4].name, colModels[1].name, colModels[3].name, colModels[0].name];
+                expect(actualResult).toStrictEqual(expectedResult);
+            });
+
+            test('when some colModels have defined columnPosition', () => {
+                let colModels = [
+                    new ColModel({
+                        name: "Id",
+                        columnPosition: null
+                    }),
+
+                    new ColModel({
+                        name: "FirstName",
+                        columnPosition: 3
+                    }),
+                    new ColModel({
+                        name: "LastName",
+                        columnPosition: 1
+                    }),
+                    new ColModel({
+                        name: "Username",
+                        columnPosition: null
+                    }),
+                    new ColModel({
+                        name: "Contact",
+                        columnPosition: 2
+                    })
+                ]
+
+                let actionResult = ReactCrudMasterActions.privateSetColModels(colModels);
+                let actualResult = actionResult.payload.colModels.map(x => x.name);
+
+                let expectedResult = [colModels[2].name, colModels[4].name, colModels[1].name, colModels[0].name, colModels[3].name];
+                expect(actualResult).toStrictEqual(expectedResult);
+            });
+
+            test('when colModels have defined columnPosition greater than posible', () => {
+                let colModels = [
+                    new ColModel({
+                        name: "Id",
+                        columnPosition: 8
+                    }),
+
+                    new ColModel({
+                        name: "FirstName",
+                        columnPosition: 7
+                    }),
+                    new ColModel({
+                        name: "LastName",
+                        columnPosition: 5
+                    }),
+                    new ColModel({
+                        name: "Username",
+                        columnPosition: 9
+                    }),
+                    new ColModel({
+                        name: "Contact",
+                        columnPosition: 6
+                    })
+                ]
+
+                let actionResult = ReactCrudMasterActions.privateSetColModels(colModels);
+                let actualNameOrder = actionResult.payload.colModels.map(x => x.name);
+                let actualColPosOrder = actionResult.payload.colModels.map(x => x.columnPosition);
+
+                let expectedNameOrder = [colModels[2].name, colModels[4].name, colModels[1].name, colModels[0].name, colModels[3].name];
+
+                expect(actualNameOrder).toStrictEqual(expectedNameOrder);
+
+                expect(actualColPosOrder).toStrictEqual([0, 1, 2, 3, 4]);
+            });
+
+            test('when some colModels have same columnPosition greater than posible', () => {
+                let colModels = [
+                    new ColModel({
+                        name: "Id",
+                        columnPosition: 1
+                    }),
+
+                    new ColModel({
+                        name: "FirstName",
+                        columnPosition: 3
+                    }),
+                    new ColModel({
+                        name: "LastName",
+                        columnPosition: 2
+                    }),
+                    new ColModel({
+                        name: "Username",
+                        columnPosition: 2
+                    }),
+                    new ColModel({
+                        name: "Contact",
+                        columnPosition: 3
+                    })
+                ]
+
+                let actionResult = ReactCrudMasterActions.privateSetColModels(colModels);
+                let actualNameOrder = actionResult.payload.colModels.map(x => x.name);
+                let actualColPosOrder = actionResult.payload.colModels.map(x => x.columnPosition);
+
+                let expectedNameOrder = [colModels[0].name, colModels[2].name, colModels[3].name, colModels[1].name, colModels[4].name];
+
+                expect(actualNameOrder).toStrictEqual(expectedNameOrder);
+
+                expect(actualColPosOrder).toStrictEqual([0, 1, 2, 3, 4]);
+            });
+        })
     })
+
+
 
     describe('setColModels', () => {
         it('should dispatch proper actions', async () => {

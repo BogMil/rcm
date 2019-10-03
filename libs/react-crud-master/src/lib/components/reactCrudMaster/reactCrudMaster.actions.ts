@@ -17,6 +17,8 @@ export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActio
         colModel.showColMenuModal = false;
     });
 
+    clonedColModels = orderColumns(clonedColModels);
+
     return {
         type: ReactCrudMasterActionTypeNames.SET_COL_MODELS,
         payload: {
@@ -25,6 +27,26 @@ export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActio
         },
         namespace
     }
+}
+
+export function orderColumns(colModels: ColModel[]): ColModel[] {
+    colModels = colModels.sort((a, b) => a.columnPosition > b.columnPosition ? 1 : -1)
+    let colModelsWithColPosition = colModels.filter(x => {
+        if (x.columnPosition != null)
+            return true;
+        return false
+    })
+
+    colModelsWithColPosition.forEach((x, i) => x.columnPosition = i)
+
+    let colModelsWithNullColPosition = colModels.filter(x => {
+        if (x.columnPosition == null)
+            return true;
+        return false
+    })
+
+    colModels = [...colModelsWithColPosition, ...colModelsWithNullColPosition]
+    return colModels
 }
 
 function getUsefullColModelWith(colModel: ColModel): number {
