@@ -1,3 +1,4 @@
+import { ColTypes, InputType } from '../columnTypes'
 export class ColModel {
 
     private static created: boolean = false;
@@ -21,22 +22,21 @@ export class ColModel {
 
         Object.assign(this, init);
 
+        if (init.label == undefined)
+            this.label = this.name
+
         if (init.minWidth == undefined)
             this.minWidth = this.calculateMinWithOfColumnByLabel(this.label)
 
-        if (init.width == null) {
+        if (init.width == undefined) {
             this.width = this.getWidthOfWord(this.label)
         }
 
-        if (init.label == null)
-            this.label = this.name
 
     }
 
     private _minWidth: number = 0;
-    get minWidth(): number {
-        return this._minWidth;
-    }
+    get minWidth(): number { return this._minWidth; }
     set minWidth(value: number) {
         if (value < 0)
             value = this.calculateMinWithOfColumnByLabel(this.label)
@@ -58,8 +58,12 @@ export class ColModel {
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
+    public colType: InputType = ColTypes.string();
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
+        if (label.indexOf(" ") < 0) {
+            return this.getWidthOfWord(label) + 40;
+        }
         let wordsInColLabel = label.split(" ");
         var longestWord = wordsInColLabel.reduce((a, b) => {
             let aLength = this.getWidthOfWord(a);

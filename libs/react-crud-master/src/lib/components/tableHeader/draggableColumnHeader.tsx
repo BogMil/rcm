@@ -102,7 +102,7 @@ const DraggableColumnHeader: React.FC<CardProps> = ({ column, moveCard, onThClic
                 <div className="cm-column-header-content-holder" ref={ref}>
                     <div className="cm-column-header-label" onClick={() => onThClick()}>
 
-                        {drag(<div onClick={e => console.log('e')} style={{ ...style, opacity, width: 20, height: 8, padding: 0, margin: 0, position: 'absolute', top: 0, left: column.width / 2 - 10, backgroundColor: 'green' }}></div>)}
+                        {drag(<div onClick={e => e.stopPropagation()} style={{ ...style, opacity, width: 20, height: 8, padding: 0, margin: 0, position: 'absolute', top: 0, left: column.width / 2 - 10, backgroundColor: 'green' }}></div>)}
                         <div>{column.orderDirection != "" && `${column.orderDirection} `}{column.label}</div>
                     </div>
                     < div className="cm-column-header-menu-holder">

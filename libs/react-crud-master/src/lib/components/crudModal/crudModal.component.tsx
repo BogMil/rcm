@@ -12,6 +12,8 @@ import * as Redux from 'redux'
 import { AppState } from '../../rootReducer'
 import * as CrudModalActions from '../crudModal/crudModal.actions'
 import { CrudModalOwnProps, CrudModalDispatchProps, CrudModalStateProps, CrudModalState, CrudModalProps, initialState } from "./crudModal.types";
+import { ColTypes, Bool } from '../../columnTypes'
+import { ColModel } from '../../types/colModel';
 
 
 class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
@@ -32,9 +34,69 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
         this.props.onRowDataChange(name, value);
     };
 
-    render() {
-        return (
+    decideInputType = (colType: string): string => {
+        switch (colType) {
+            case ColTypes.STRING:
+                return 'text';
 
+            case ColTypes.INTEGER: case ColTypes.DECIMAL:
+                return 'number';
+        }
+    }
+
+    renderInputControl = (column: ColModel) => {
+        switch (column.colType.inputType) {
+            case ColTypes.STRING: case ColTypes.INTEGER: case ColTypes.DECIMAL:
+                return (
+                    <>
+                        < Form.Control
+                            onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
+                            type={this.decideInputType(column.colType.inputType)}
+                            placeholder={column.name}
+                            className="cm-crud-modal-text-input"
+                            value={this.props.rowData[column.name]}
+                        />
+                    </>
+                );
+            case ColTypes.BOOL:
+                let colType = column.colType as Bool;
+                if (colType.presentationType == ColTypes.BoolPresentationTypes.SWITCH)
+                    return (
+                        <Form.Check
+                            custom
+                            type={'switch'}
+                            id={`custom-1`}
+                            label={`Check this custom`}
+                        />
+                    );
+                else
+                    return (
+                        <Form.Check
+                            custom
+                            type={'checkbox'}
+                            id={`custom-1`}
+                            label={`Check this custom`}
+                        />
+                    );
+
+
+            default:
+                return (
+                    <>
+
+                        < Form.Control
+                            onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
+                            placeholder={column.name}
+                            className="cm-crud-modal-text-input"
+                            value={this.props.rowData[column.name]}
+                        />
+                    </>
+                );
+        }
+    }
+
+    render = () => {
+        return (
             < Modal style={{ borderRadius: 0 }}
                 show={this.props.show}
                 onHide={this.handleClose}
@@ -50,16 +112,10 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
                             return (
                                 <div key={column.name} className="cm-crud-modal-input-holder">
                                     <Form.Group style={{ marginBottom: 5 }}>
-                                        <Form.Label style={{ marginBottom: 0 }} >
+                                        <Form.Label htmlFor={column.name} style={{ marginBottom: 0 }} >
                                             {column.name}
                                         </Form.Label>
-                                        < Form.Control
-                                            onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
-                                            type="text"
-                                            placeholder={column.name}
-                                            className="cm-crud-modal-text-input"
-                                            value={this.props.rowData[column.name]}
-                                        />
+                                        {this.renderInputControl(column)}
                                     </Form.Group>
                                 </div>
                             );
@@ -95,7 +151,8 @@ const mapStateToProps = (state: AppState): CrudModalStateProps => {
         show: state.crudModal.show,
         colModels: state.reactCrudMaster.colModels,
         rowData: state.crudModal.rowData,
-        isInCreateMode: state.crudModal.isInCreateMode
+        isInCreateMode: state.crudModal.isInCreateMode,
+        RCMID: state.reactCrudMaster.RCMID
     } as CrudModalStateProps;
 }
 

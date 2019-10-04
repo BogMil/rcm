@@ -32,3 +32,4 @@ export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
 export default ReactCrudMaster
 
 export { ColModel } from './types/ColModel'
+export { ColTypes } from './columnTypes'

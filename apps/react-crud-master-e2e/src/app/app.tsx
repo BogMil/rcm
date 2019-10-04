@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ReactCrudMaster, ColModel } from '@react-crud-master-workspace/react-crud-master';
+import { ReactCrudMaster, ColModel, ColTypes } from '@react-crud-master-workspace/react-crud-master';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -11,7 +11,10 @@ export class App extends Component {
    */
 
   data: any;
+  data2: any;
   colModels: ColModel[];
+  colModels2: ColModel[];
+
 
   constructor(props) {
     super(props);
@@ -148,7 +151,6 @@ export class App extends Component {
         label: "Id",
         width: 150,
         minWidth: 150,
-        columnPosition: 100
       }),
 
       new ColModel({
@@ -175,17 +177,101 @@ export class App extends Component {
         label: "Contact",
         width: 150,
         // minWidth: 150
-        columnPosition: 1
-      })
+      }),
     ];
+
+    this.colModels2 = [
+      new ColModel({
+        name: 'pkey',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'integer',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'decimal',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'string',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'bool',
+        width: 150,
+        colType: ColTypes.bool(ColTypes.BoolPresentationTypes.SWITCH),
+      }),
+      new ColModel({
+        name: 'datetime',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'fkey',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+      new ColModel({
+        name: 'select',
+        width: 150,
+        colType: ColTypes.string(),
+      }),
+    ]
+
+    this.data2 = [
+      {
+        pkey: 1,
+        integer: 1,
+        decimal: 1.2,
+        string: "someString",
+        bool: true,
+        datetime: "12345",
+        fkey: "mail@gmail.com",
+        select: "mail@gmail.com"
+      },
+
+      {
+        pkey: 2,
+        integer: 2,
+        decimal: 2.2,
+        string: "someString",
+        bool: true,
+        datetime: "12345",
+        fkey: "mail@gmail.com",
+        select: "mail@gmail.com"
+      },
+      {
+        pkey: 3,
+        integer: 3,
+        decimal: 1.0002,
+        string: "someString",
+        bool: true,
+        datetime: "12345",
+        fkey: "mail@gmail.com",
+        select: "mail@gmail.com"
+      },
+      {
+        pkey: 4,
+        integer: 14,
+        decimal: 14.2,
+        string: "someString",
+        bool: true,
+        datetime: "12345",
+        fkey: "mail@gmail.com",
+        select: "mail@gmail.com"
+      },
+    ]
   }
 
   render = () => {
     return (
       <>
-        <ReactCrudMaster data={this.data} colModels={this.colModels} />
-        <br />
-        {/* <ReactCrudMaster data={this.data} colModels={this.colModels} /> */}
+        <ReactCrudMaster data={this.data2} colModels={this.colModels2} />
       </>
     );
   }

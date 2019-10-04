@@ -75,6 +75,7 @@ export interface CrudModalStateProps {
   rowData: IRowData,
   emptyRowData: IRowData,
   isInCreateMode: boolean;
+  RCMID: number;
 
 }
 
