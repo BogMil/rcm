@@ -1,3 +1,8 @@
 .cm-crud-modal-header {
   border-radius: 0px;
 }
+
+.cm-crud-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}

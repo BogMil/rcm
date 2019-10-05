@@ -5,15 +5,17 @@ import {
     Form,
 } from "react-bootstrap";
 import '../contexMenu.css';
-import '../reactCrudMaster/reactCrudMaster.css';
+import './crudModal.css';
 
 import { connect } from 'react-redux'
 import * as Redux from 'redux'
 import { AppState } from '../../rootReducer'
 import * as CrudModalActions from '../crudModal/crudModal.actions'
 import { CrudModalOwnProps, CrudModalDispatchProps, CrudModalStateProps, CrudModalState, CrudModalProps, initialState } from "./crudModal.types";
-import { ColTypes, Bool } from '../../columnTypes'
+import { InputControlTypes } from '../../types/InputControlTypes'
 import { ColModel } from '../../types/colModel';
+import { Bool } from '../../types/inputControlTypes/Bool';
+import { InputControlTypeNames } from '../../constants/InputControlTypeNames';
 
 
 class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
@@ -36,63 +38,83 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
 
     decideInputType = (colType: string): string => {
         switch (colType) {
-            case ColTypes.STRING:
+            case InputControlTypeNames.STRING:
                 return 'text';
 
-            case ColTypes.INTEGER: case ColTypes.DECIMAL:
+            case InputControlTypeNames.INTEGER: case InputControlTypeNames.DECIMAL:
                 return 'number';
         }
     }
 
     renderInputControl = (column: ColModel) => {
-        switch (column.colType.inputType) {
-            case ColTypes.STRING: case ColTypes.INTEGER: case ColTypes.DECIMAL:
-                return (
-                    <>
-                        < Form.Control
-                            onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
-                            type={this.decideInputType(column.colType.inputType)}
-                            placeholder={column.name}
-                            className="cm-crud-modal-text-input"
-                            value={this.props.rowData[column.name]}
-                        />
-                    </>
-                );
-            case ColTypes.BOOL:
-                let colType = column.colType as Bool;
-                if (colType.presentationType == ColTypes.BoolPresentationTypes.SWITCH)
+        if (this.props.isInCreateMode) {
+            let type = typeof column.createMode.InputControl.inputType
+            console.log(type);
+
+            switch (type) {
+                case InputControlTypeNames.STRING: case InputControlTypeNames.INTEGER: case InputControlTypeNames.DECIMAL:
                     return (
-                        <Form.Check
-                            custom
-                            type={'switch'}
-                            id={`custom-1`}
-                            label={`Check this custom`}
-                        />
+                        <>
+                            < Form.Control
+                                onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
+                                type={this.decideInputType(column.createMode.InputControl.inputType)}
+                                placeholder={column.name}
+                                className="cm-crud-modal-text-input"
+                                value={this.props.rowData[column.name]}
+                            />
+                        </>
                     );
-                else
+                case InputControlTypeNames.BOOL:
+                    let Bool = column.createMode.InputControl as Bool;
+                    if (Bool.presentationType == InputControlTypes.BoolPresentationTypes.SWITCH)
+                        return (
+                            <Form.Check
+                                custom
+                                disabled={Bool.disabled}
+                                type={'switch'}
+                                id={`custom-1`}
+                                label={Bool.label}
+                                className="cm-crud-modal-text-input"
+                            />
+                        );
+                    else
+                        return (
+                            <Form.Check
+                                custom
+                                disabled={Bool.disabled}
+                                type={'checkbox'}
+                                id={`custom-1`}
+                                label={Bool.label}
+                                className="cm-crud-modal-text-input"
+                            />
+                        );
+
+
+                default:
                     return (
-                        <Form.Check
-                            custom
-                            type={'checkbox'}
-                            id={`custom-1`}
-                            label={`Check this custom`}
-                        />
+                        <>
+
+                            < Form.Control
+                                onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
+                                placeholder={column.name}
+                                className="cm-crud-modal-text-input"
+                                value={this.props.rowData[column.name]}
+                            />
+                        </>
                     );
-
-
-            default:
-                return (
-                    <>
-
-                        < Form.Control
-                            onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
-                            placeholder={column.name}
-                            className="cm-crud-modal-text-input"
-                            value={this.props.rowData[column.name]}
-                        />
-                    </>
-                );
+            }
         }
+        return (
+            <>
+
+                < Form.Control
+                    onChange={(e: any) => this.onRowDataChange(column.name, e.target.value)}
+                    placeholder={column.name}
+                    className="cm-crud-modal-text-input"
+                    value={this.props.rowData[column.name]}
+                />
+            </>
+        );
     }
 
     render = () => {
@@ -106,7 +128,7 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
                 <Modal.Header className="cm-crud-modal-header" closeButton >
                     <Modal.Title>Modal heading </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="cm-crud-modal-body">
                     {
                         this.props.colModels.map((column) => {
                             return (

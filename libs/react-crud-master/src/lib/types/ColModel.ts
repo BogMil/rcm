@@ -1,24 +1,15 @@
-import { ColTypes, InputType } from '../columnTypes'
+import { InputControlTypes } from './InputControlTypes'
+import { InputControlType } from './inputControlTypes/commonInterfaces'
 export class ColModel {
 
     private static created: boolean = false;
 
     public constructor(init?: Partial<ColModel>) {
-        if (!ColModel.created) {
-            let t = document.createElement('span');
-            t.id = "label-width-tester";
-            t.style.fontSize = '16px';
-            t.style.fontWeight = '700';
-            t.style.position = 'absolute';
-            t.style.top = '-999999px';
-
-            document.body.appendChild(t);
-            ColModel.created = true;
-        }
+        if (!ColModel.created)
+            this.createTextWidthMeasurementSpan()
 
         if (init == undefined)
             return;
-
 
         Object.assign(this, init);
 
@@ -58,7 +49,9 @@ export class ColModel {
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
-    public colType: InputType = ColTypes.string();
+    public createMode?: CreateMode = {
+        InputControl: InputControlTypes.string()
+    }
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
         if (label.indexOf(" ") < 0) {
@@ -79,4 +72,20 @@ export class ColModel {
         tempWordHolder.textContent = word;
         return tempWordHolder.offsetWidth;
     };
+
+    private createTextWidthMeasurementSpan() {
+        let t = document.createElement('span');
+        t.id = "label-width-tester";
+        t.style.fontSize = '16px';
+        t.style.fontWeight = '700';
+        t.style.position = 'absolute';
+        t.style.top = '-999999px';
+
+        document.body.appendChild(t);
+        ColModel.created = true;
+    }
+}
+
+interface CreateMode {
+    InputControl: InputControlType
 }

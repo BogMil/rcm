@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { ReactCrudMaster, ColModel, ColTypes } from '@react-crud-master-workspace/react-crud-master';
+import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master-workspace/react-crud-master';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -184,42 +184,63 @@ export class App extends Component {
       new ColModel({
         name: 'pkey',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'integer',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'decimal',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'string',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'bool',
         width: 150,
-        colType: ColTypes.bool(ColTypes.BoolPresentationTypes.SWITCH),
+        createMode: {
+          InputControl: InputControlTypes.Bool({
+            presentationType: InputControlTypes.BoolPresentationTypes.SWITCH,
+            disabled: false,
+            label: 'test Label'
+          }),
+        }
+
       }),
       new ColModel({
         name: 'datetime',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'fkey',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
       new ColModel({
         name: 'select',
         width: 150,
-        colType: ColTypes.string(),
+        createMode: {
+          InputControl: InputControlTypes.string(),
+        }
       }),
     ]
 
