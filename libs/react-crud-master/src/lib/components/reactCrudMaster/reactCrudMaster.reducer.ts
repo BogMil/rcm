@@ -63,7 +63,7 @@ export function reactCrudMasterReducer(
             let colModels = state.colModels.map(colModel => {
                 if (colModel.name == state.columnToResize!.name) {
                     if (state.startOffset! + pageX >= state.columnToResize!.minWidth) {
-                        colModel.width = state.startOffset! + pageX;
+                        colModel.width = state.startOffset! + pageX + 10;
                     }
                 }
                 return colModel;

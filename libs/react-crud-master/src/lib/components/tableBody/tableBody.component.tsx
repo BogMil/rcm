@@ -49,9 +49,11 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
             <div id={`cm-data-table-holder-${this.props.RCMID}`} className="cm-data-table-holder" onScroll={(e: any) => this.testScroll(e)}>
                 <Table className="cm-data-table" striped bordered hover size="sm"
                     style={{
-                        width: this.props.tableWidth,
+                        width: this.props.tableWidth + 1,
                         //20 moz
-                        //7 chrome
+                        //7 chrome,
+                        borderLeft: 0,
+                        borderRight: 0
                     }}>
                     <tbody className="cm-data-table-tbody">
                         {
