@@ -1,25 +1,24 @@
 import { CommonInputTypeConfigProps, InputControlType } from './commonInterfaces'
 import { InputControlTypeNames } from '../../constants/InputControlTypeNames'
+import { SelectBoolPresentationType, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../InputControlTypes'
 
-export interface BoolConfig extends CommonInputTypeConfigProps {
-    presentationType: string,
+export interface BoolOptions extends CommonInputTypeConfigProps {
+    presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType,
     disabled: boolean,
-    label: string
+    default: boolean
 }
-export class Bool implements InputControlType, BoolConfig {
+export class Bool implements InputControlType, BoolOptions {
     get inputType() { return InputControlTypeNames.BOOL }
-    public presentationType: string
+    public presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType
     public disabled: boolean
-    public label: string
+    public default: boolean
     public controlLabel: string
-
-    public tFunc = () => { console.log('asd') }
 
     /**
      * @constructor
      * @param  {String} presentationType - switch or checkbox
      */
-    constructor(boolConfig?: Partial<BoolConfig>) {
+    constructor(boolConfig?: Partial<BoolOptions>) {
         Object.assign(this, boolConfig);
     }
 }

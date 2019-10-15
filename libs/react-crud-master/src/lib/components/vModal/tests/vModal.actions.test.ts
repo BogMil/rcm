@@ -2,7 +2,7 @@ import {
     cleanup,
 } from '@testing-library/react';
 import * as VModalActions from '../../vModal/vModal.actions'
-import { CRUD_MODAL as namespace } from '../../../actions/actionNamespaces'
+import { V_MODAL as namespace } from '../../../actions/actionNamespaces'
 import { VModalActionTypeNames } from '../VModal.types'
 
 afterEach(cleanup)

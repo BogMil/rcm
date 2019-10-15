@@ -12,6 +12,7 @@ export class ColModel {
             return;
 
         Object.assign(this, init);
+        Object.assign({}, this.createMode, init.createMode);
 
         if (init.label == undefined)
             this.label = this.name
@@ -49,7 +50,7 @@ export class ColModel {
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
-    public createMode?: CreateMode = {
+    public createMode: CreateMode = {
         InputControl: InputControlTypes.string()
     }
 

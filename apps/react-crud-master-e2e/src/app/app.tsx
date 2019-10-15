@@ -214,11 +214,18 @@ export class App extends Component {
         width: 150,
         createMode: {
           InputControl: InputControlTypes.Bool({
-            presentationType: InputControlTypes.BoolPresentationTypes.SWITCH,
+            presentationType: InputControlTypes.BoolPresentationTypes.CHECKBOX({ label: 'testera' }),
             disabled: false,
-            label: 'test Label'
+            default: true
           }),
         }
+
+        // createMode: {
+        //   InputControl: InputControlTypes.Bool({
+        //     presentationType: InputControlTypes.BoolPresentationTypes.SELECT({ trueLabel: 'true label a', falseLabel: 'false lab', trueValue: 1, falseValue: 0, default: false }),
+        //     disabled: false,
+        //   }),
+        // }
 
       }),
       new ColModel({
