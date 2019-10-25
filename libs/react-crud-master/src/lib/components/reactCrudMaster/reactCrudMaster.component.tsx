@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
     Card, Row, Col
 } from "react-bootstrap";
@@ -7,11 +7,11 @@ import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu'
 import './reactCrudMaster.css';
 
 import TableFooter from "../tableFooter/tableFooter.component"
-import { connect } from 'react-redux'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { ReactCrudMasterProps, ReactCrudMasterState, initialState, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps, ReactCrudMasterOwnProps } from "./reactCrudMaster.types";
 import { ColModel, ColModelMethodsExtractor } from "../../types/colModel";
 import { AppState } from '../../rootReducer'
-import * as ReactCrudMasterActions from './reactCrudMaster.actions'
+import * as Actions from './reactCrudMaster.actions'
 import TableHeader from '../tableHeader/tableHeader.component'
 import TableBody from '../tableBody/tableBody.component'
 import CrudModal from '../crudModal/crudModal.component'
@@ -25,121 +25,84 @@ import axios from 'axios';
 
 import { ThunkDispatch } from "redux-thunk";
 
-class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrudMasterState>{
-    constructor(props: ReactCrudMasterProps) {
-        super(props);
-        this.state = initialState();
-    }
+export default function ReactCrudMasterComponent(props: ReactCrudMasterOwnProps) {
+    const dispatch = useDispatch();
+    const store = useSelector((state: AppState) => state.reactCrudMaster) as ReactCrudMasterStateProps;
 
-    componentDidMount = () => {
+    useEffect(() => {
+        dispatch(Actions.setColModels(props.colModelsProp))
 
-        this.props.setColModels(this.props.colModelsProp);
-        if(this.props.urlProp){
+        if (props.urlProp) {
             axios({
                 method: 'get',
-                url: this.props.urlProp
-            }).then((res)=>{
-                console.log(res);
-                this.props.setData(res.data.records);
+                url: props.urlProp
+            }).then((res) => {
+                dispatch(Actions.setData(res.data.records));
             });
-        }else if(this.props.dataProp){
-            this.props.setData(this.props.dataProp);
+        } else if (props.dataProp) {
+            dispatch(Actions.setData(props.dataProp));
         }
-        this.props.resetTableoffsetWidth();
 
-        if (this.props.tableTitle != null)
-            this.props.setTableTitle(this.props.tableTitle);
+        dispatch(Actions.resetTableoffsetWidth());
+
+        if (props.tableTitle != null)
+            dispatch(Actions.setTableTitle(props.tableTitle))
         else
-            this.props.setTableTitle('Table title');
+            dispatch(Actions.setTableTitle('Table title'));
+    }, []);
 
+    useEffect(() => {
+        document.getElementById(`CMID-${store.RCMID}`)!.addEventListener("mousemove", onMouseMove);
+        document.getElementById(`CMID-${store.RCMID}`)!.addEventListener("mouseup", onMouseUp);
+        return () => {
+            document.getElementById(`CMID-${store.RCMID}`)!.removeEventListener("mousemove", onMouseMove);
+            document.getElementById(`CMID-${store.RCMID}`)!.removeEventListener("mouseup", onMouseUp);
+        };
+    }, [store.columnToResize]);
 
-        this.onMouseUp();
-        this.onMouseMove();
+    function onMouseMove(e: MouseEvent) {
 
-        window.addEventListener("resize", this.props.resetTableoffsetWidth);
-    };
+        if (store.columnToResize != null) {
+            document.body.style.cursor = 'col-resize'
+            dispatch(Actions.resizeColumn(e));
+        }
+    }
+    function onMouseUp() {
+        if (store.columnToResize == null)
+            return;
 
-    componentWillUnmount = () => {
-        window.removeEventListener("resize", this.props.resetTableoffsetWidth);
-    };
-
-    onMouseMove = () => {
-        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mousemove", (e: MouseEvent) => {
-            if (this.props.columnToResize != null) {
-                document.body.style.cursor = 'col-resize'
-                this.props.resizeColumn(e);
-            }
-        });
+        dispatch(Actions.setColumnToResize(null, null))
+        TextSelection.enableTextSelectionOnPage();
+        document.body.style.cursor = ''
     }
 
-    onMouseUp = () => {
-        document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mouseup", () => {
-            if (this.props.columnToResize == null)
-                return;
+    let colModelsMethods = props.colModelsProp.map(colModel => {
+        return ColModelMethodsExtractor.extractFromColModel(colModel);
+    })
+    return (
+        <>
+            <Card className='react-crud-master' id={`CMID-${store.RCMID}`}>
+                <Card.Header className='cm-table-header' as="h5" >{store.tableTitleProp}</Card.Header>
+                <Card.Body className='cm-table-body'>
+                    <div id={`reactable-card-body-${store.RCMID}`} className="cm-table-header-and-table-body-holder">
+                        <TableHeader />
+                        <TableBody />
+                    </div>
 
-            this.props.setColumnToResize();
-            TextSelection.enableTextSelectionOnPage();
-            document.body.style.cursor = ''
-            this.forceUpdate()
-        });
-    }
+                    <div className='cm-table-footer-holder' >
+                        <TableFooter tableWidth={store.width} />
+                    </div>
+                </Card.Body>
+            </Card>
 
+            <CrudModal colModelsMethods={colModelsMethods} />
+            <VModal />
 
-    render() {
-        let colModelsMethods = this.props.colModelsProp.map(colModel => {
-            return ColModelMethodsExtractor.extractFromColModel(colModel);
-        })
-        return (
-            <>
-                <Card className='react-crud-master' id={`CMID-${this.props.RCMID}`}>
-                    <Card.Header className='cm-table-header' as="h5" >{this.props.tableTitleProp}</Card.Header>
-                    <Card.Body className='cm-table-body'>
-                        <div id={`reactable-card-body-${this.props.RCMID}`} className="cm-table-header-and-table-body-holder">
-                            <TableHeader />
-                            <TableBody />
-                        </div>
+            <ColMenuModal />
+            <ContextMenuModal />
 
-                        <div className='cm-table-footer-holder' >
-                            <TableFooter tableWidth={this.props.width} />
-                        </div>
-                    </Card.Body>
-                </Card>
-
-                <CrudModal colModelsMethods={colModelsMethods} />
-                <VModal />
-
-                <ColMenuModal />
-                <ContextMenuModal />
-
-                <WarningModal />
-                <YesnoModal />
-            </>
-        );}    
-    }
-        
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ReactCrudMasterDispatchProps => {
-    return {
-        setColModels: (colModels: ColModel[]) => dispatch(ReactCrudMasterActions.setColModels(colModels)),
-        setData: (data: any[]) => dispatch(ReactCrudMasterActions.setData(data)),
-        resizeColumn: (e: MouseEvent) => dispatch(ReactCrudMasterActions.resizeColumn(e)),
-        setColumnToResize: (column: (ColModel | null) = null, startOffset: (number | null) = null) => dispatch(ReactCrudMasterActions.setColumnToResize(column, startOffset)),
-        resetTableoffsetWidth: () => dispatch(ReactCrudMasterActions.resetTableoffsetWidth()),
-        setTableTitle: (tableTitle:string) => dispatch(ReactCrudMasterActions.setTableTitle(tableTitle)),
-    };
+            <WarningModal />
+            <YesnoModal />
+        </>
+    )
 }
-        
-const mapStateToProps = (state: AppState): ReactCrudMasterStateProps => {
-    return {
-        columnToResize: state.reactCrudMaster.columnToResize,
-        RCMID: state.reactCrudMaster.RCMID,
-        width: state.reactCrudMaster.width,
-        tableTitleProp:state.reactCrudMaster.tableTitleProp
-    } as ReactCrudMasterStateProps;
-}
-        
-export default connect<
-    ReactCrudMasterStateProps,
-    ReactCrudMasterDispatchProps,
-    ReactCrudMasterOwnProps,
-    AppState>
-    (mapStateToProps, mapDispatchToProps)(ReactCrudMasterComponent);
