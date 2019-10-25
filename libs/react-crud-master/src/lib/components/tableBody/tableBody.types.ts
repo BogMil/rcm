@@ -47,7 +47,7 @@ export interface TableBodyStateProps {
 
   tableWidth: number;
   colModels: ColModel[];
-  contextTrigger: any;
+  contextMenuTrigger: any;
 }
 
 export interface TableBodyDispatchProps {
