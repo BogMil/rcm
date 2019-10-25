@@ -1,6 +1,6 @@
 import { CommonInputTypeConfigProps, InputControlType } from './commonInterfaces'
 import { InputControlTypeNames } from '../../constants/InputControlTypeNames'
-import { SelectBoolPresentationType, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../InputControlTypes'
+import { SelectBoolPresentationType, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../inputControlTypesTest'
 
 export interface BoolOptions extends CommonInputTypeConfigProps {
     presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType,

@@ -118,8 +118,9 @@ export const initialState = () => {
 
 export interface ReactCrudMasterOwnProps {
   colModelsProp: ColModel[];
-  dataProp: any[];
+  dataProp?: any[];
   tableTitle?: string;
+  urlProp?: string;
 }
 
 export const initialReactCrudMasterStateProps = () => {

@@ -7,10 +7,10 @@ import {
 
 import { InputControlState, initialState, InputControlProps } from "./inputControl.types";
 import { InputControlTypeNames } from '../../../constants/InputControlTypeNames';
-import { ColModel } from '../../../types/ColModel';
-import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/InputControlTypes';
+import { ColModel } from '../../../types/colModel';
+import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/inputControlTypesTest';
 import { Bool } from '../../../types/inputControlTypes/Bool'
-import { SelectBoolPresentationType } from '../../../types/InputControlTypes'
+import { SelectBoolPresentationType } from '../../../types/inputControlTypesTest'
 
 
 
@@ -57,6 +57,8 @@ export default class InputControlComponent extends Component<InputControlProps, 
                         let selectOptions = Bool.presentationType as SelectBoolPresentationType;
                         return (
                             <Form.Control
+                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
+                                value={this.props.rowData[this.props.column.name]}
                                 defaultValue={selectOptions.default ? selectOptions.trueValue : selectOptions.falseValue}
                                 as="select">
                                 <option defaultChecked value={selectOptions.trueValue}>{selectOptions.trueLabel}</option>
@@ -71,6 +73,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
 
                         return (
                             <Form.Check
+                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
                                 custom
                                 disabled={Bool.disabled}
                                 type={'switch'}
@@ -78,6 +81,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
+                                value={this.props.rowData[this.props.column.name]}
                             />
                         );
                     }
@@ -86,6 +90,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
 
                         return (
                             <Form.Check
+                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
                                 custom
                                 disabled={Bool.disabled}
                                 type={'checkbox'}
@@ -93,7 +98,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
-
+                                value={this.props.rowData[this.props.column.name]}
                             />
                         );
                     }

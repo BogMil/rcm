@@ -1,4 +1,4 @@
-import { ColModel } from "../../types/colModel";
+import { ColModel, ColModelMethods } from "../../types/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
 
 export const CrudModalActionTypeNames = {
@@ -53,6 +53,7 @@ export const initialState = () => {
 
 export interface CrudModalOwnProps {
   // colModelsProp:ColModel[]
+  colModelsMethods: Array<ColModelMethods>
 }
 
 export const initialCrudModalStateProps = () => {

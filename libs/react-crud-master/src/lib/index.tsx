@@ -3,12 +3,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { rootReducer, AppState } from './rootReducer';
 import { connect, Provider } from 'react-redux';
 import ReactCrudMasterComponent from './components/reactCrudMaster/reactCrudMaster.component';
-import { ReactCrudMasterOwnProps } from './components/reactCrudMaster/reactCrudMaster.types';
-import { ColModel } from './types/ColModel'
+import { ColModel } from './types/colModel'
 import thunk from 'redux-thunk'
 
 interface ReactCrudMasterProps {
-    data: any, colModels: ColModel[]
+    data?: any,
+    url?: string,
+    colModels: ColModel[],
 }
 
 export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
@@ -23,7 +24,7 @@ export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
     render() {
         return (
             <Provider store={this.store} >
-                <ReactCrudMasterComponent dataProp={this.props.data} colModelsProp={this.props.colModels} />
+                <ReactCrudMasterComponent urlProp={this.props.url} dataProp={this.props.data} colModelsProp={this.props.colModels} />
             </Provider>
         )
     }
@@ -31,5 +32,5 @@ export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
 
 export default ReactCrudMaster
 
-export { ColModel } from './types/ColModel'
-export { InputControlTypes } from './types/InputControlTypes'
+export { ColModel } from './types/colModel'
+export { InputControlTypes } from './types/inputControlTypesTest'

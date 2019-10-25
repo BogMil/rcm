@@ -1,6 +1,6 @@
-import { InputControlTypes } from './InputControlTypes'
+import { InputControlTypes } from './inputControlTypesTest'
 import { InputControlType } from './inputControlTypes/commonInterfaces'
-export class ColModel {
+export class ColModel implements ColModelFieldProps {
 
     private static created: boolean = false;
 
@@ -8,11 +8,14 @@ export class ColModel {
         if (!ColModel.created)
             this.createTextWidthMeasurementSpan()
 
-        if (init == undefined)
-            return;
+        if (init == undefined) return;
 
-        Object.assign(this, init);
-        Object.assign({}, this.createMode, init.createMode);
+        this.createMode = Object.assign({}, this.createMode, init.createMode);
+        Object.keys(init).forEach(key => {
+            if (!(init[key] instanceof Object)) {
+                this[key] = init[key];
+            }
+        });
 
         if (init.label == undefined)
             this.label = this.name
@@ -23,7 +26,6 @@ export class ColModel {
         if (init.width == undefined) {
             this.width = this.getWidthOfWord(this.label)
         }
-
 
     }
 
@@ -36,9 +38,7 @@ export class ColModel {
     }
 
     private _width: number = 0;
-    get width(): number {
-        return this._width;
-    }
+    get width(): number { return this._width; }
     set width(value: number) {
         if (value <= 0)
             value = this.getWidthOfWord(this.label)
@@ -51,8 +51,10 @@ export class ColModel {
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
     public createMode: CreateMode = {
-        InputControl: InputControlTypes.string()
-    }
+        InputControl: InputControlTypes.string(),
+        beforeChange: () => { },
+        afterChange: () => { }
+    };
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
         if (label.indexOf(" ") < 0) {
@@ -87,6 +89,47 @@ export class ColModel {
     }
 }
 
-interface CreateMode {
+export interface ColModelFieldProps {
+    name: string;
+    label: string;
+    orderDirection: string;
+    showColMenuModal: boolean;
+    columnPosition: number;
+    minWidth: number;
+    width: number;
+    createMode: CreateMode;
+}
+
+export interface CreateMode extends CreateModeMethods, CreateModeProps { }
+export interface CreateModeMethods {
+    beforeChange?: () => void,
+    afterChange?: () => void,
+}
+export interface CreateModeProps {
     InputControl: InputControlType
+}
+
+
+
+export interface ColModelMethodsCreateMode {
+    createMode: CreateModeMethods
+}
+
+export class ColModelMethods implements ColModelMethodsCreateMode {
+
+    constructor(colModel: ColModel) {
+        this.name = colModel.name;
+        this.createModeInputControl = colModel.createMode.InputControl;
+        this.createMode = {
+            beforeChange: colModel.createMode.beforeChange,
+            afterChange: colModel.createMode.afterChange
+        }
+    }
+    name: string;
+    createModeInputControl: InputControlType;
+    createMode: CreateModeMethods;
+}
+
+export class ColModelMethodsExtractor {
+    public static extractFromColModel = (colModel: ColModel): ColModelMethods => new ColModelMethods(colModel);
 }

@@ -3,13 +3,13 @@ import {
     Card, Row, Col
 } from "react-bootstrap";
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu'
-import '../contexMenu.css';
+// import '../contexMenu.css';
 import './reactCrudMaster.css';
 
 import TableFooter from "../tableFooter/tableFooter.component"
 import { connect } from 'react-redux'
 import { ReactCrudMasterProps, ReactCrudMasterState, initialState, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps, ReactCrudMasterOwnProps } from "./reactCrudMaster.types";
-import { ColModel } from "../../types/colModel";
+import { ColModel, ColModelMethodsExtractor } from "../../types/colModel";
 import { AppState } from '../../rootReducer'
 import * as ReactCrudMasterActions from './reactCrudMaster.actions'
 import TableHeader from '../tableHeader/tableHeader.component'
@@ -21,7 +21,7 @@ import ContextMenuModal from '../contextMenuModal/contextMenuModal.component'
 import * as TextSelection from '../../utils/textSelection'
 import WarningModal from '../common/modals/warningModal/warningModal.component'
 import YesnoModal from '../common/modals/yesnoModal/yesnoModal.component'
-
+import axios from 'axios';
 
 import { ThunkDispatch } from "redux-thunk";
 
@@ -34,14 +34,24 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
     componentDidMount = () => {
 
         this.props.setColModels(this.props.colModelsProp);
-        this.props.setData(this.props.dataProp);
+        if(this.props.urlProp){
+            axios({
+                method: 'get',
+                url: this.props.urlProp
+            }).then((res)=>{
+                console.log(res);
+                this.props.setData(res.data.records);
+            });
+        }else if(this.props.dataProp){
+            this.props.setData(this.props.dataProp);
+        }
         this.props.resetTableoffsetWidth();
 
-        if(this.props.tableTitle != null)
-            this.props.setTableTitle(this.props.tableTitle);  
+        if (this.props.tableTitle != null)
+            this.props.setTableTitle(this.props.tableTitle);
         else
-            this.props.setTableTitle('Table title');   
-               
+            this.props.setTableTitle('Table title');
+
 
         this.onMouseUp();
         this.onMouseMove();
@@ -53,26 +63,32 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
         window.removeEventListener("resize", this.props.resetTableoffsetWidth);
     };
 
-    onMouseMove=()=>{
+    onMouseMove = () => {
         document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mousemove", (e: MouseEvent) => {
             if (this.props.columnToResize != null) {
+                document.body.style.cursor = 'col-resize'
                 this.props.resizeColumn(e);
             }
         });
     }
 
-    onMouseUp=()=>{
+    onMouseUp = () => {
         document.getElementById(`CMID-${this.props.RCMID}`)!.addEventListener("mouseup", () => {
             if (this.props.columnToResize == null)
                 return;
 
             this.props.setColumnToResize();
             TextSelection.enableTextSelectionOnPage();
+            document.body.style.cursor = ''
+            this.forceUpdate()
         });
     }
 
-    render() {
 
+    render() {
+        let colModelsMethods = this.props.colModelsProp.map(colModel => {
+            return ColModelMethodsExtractor.extractFromColModel(colModel);
+        })
         return (
             <>
                 <Card className='react-crud-master' id={`CMID-${this.props.RCMID}`}>
@@ -87,24 +103,20 @@ class ReactCrudMasterComponent extends Component<ReactCrudMasterProps, ReactCrud
                             <TableFooter tableWidth={this.props.width} />
                         </div>
                     </Card.Body>
-
                 </Card>
 
-                <CrudModal/>
-                <VModal/>
+                <CrudModal colModelsMethods={colModelsMethods} />
+                <VModal />
 
                 <ColMenuModal />
                 <ContextMenuModal />
 
-                <WarningModal/>
-                <YesnoModal/>
+                <WarningModal />
+                <YesnoModal />
             </>
-        );
+        );}    
     }
-
-
-}
-
+        
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ReactCrudMasterDispatchProps => {
     return {
         setColModels: (colModels: ColModel[]) => dispatch(ReactCrudMasterActions.setColModels(colModels)),
@@ -115,7 +127,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ReactCrudMast
         setTableTitle: (tableTitle:string) => dispatch(ReactCrudMasterActions.setTableTitle(tableTitle)),
     };
 }
-
+        
 const mapStateToProps = (state: AppState): ReactCrudMasterStateProps => {
     return {
         columnToResize: state.reactCrudMaster.columnToResize,
@@ -124,10 +136,10 @@ const mapStateToProps = (state: AppState): ReactCrudMasterStateProps => {
         tableTitleProp:state.reactCrudMaster.tableTitleProp
     } as ReactCrudMasterStateProps;
 }
-
+        
 export default connect<
     ReactCrudMasterStateProps,
     ReactCrudMasterDispatchProps,
     ReactCrudMasterOwnProps,
-    AppState
->(mapStateToProps, mapDispatchToProps)(ReactCrudMasterComponent);
+    AppState>
+    (mapStateToProps, mapDispatchToProps)(ReactCrudMasterComponent);

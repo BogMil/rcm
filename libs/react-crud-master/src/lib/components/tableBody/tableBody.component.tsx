@@ -9,6 +9,7 @@ import { AppState } from '../../rootReducer'
 import { TableBodyProps, TableBodyState, initialState, TableBodyOwnProps, TableBodyDispatchProps, TableBodyStateProps } from "./tableBody.types";
 import * as ReactableActions from '../reactCrudMaster/reactCrudMaster.actions'
 import { ThunkDispatch } from "redux-thunk";
+import { colModels } from '../../testData';
 
 class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
     constructor(props: TableBodyProps) {
@@ -44,6 +45,19 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
             }
     }
 
+    byString = (object, propertyName) => {
+        var parts = propertyName.split("."),
+            length = parts.length,
+            i,
+            property = object;
+
+        for (i = 0; i < length; i++) {
+            property = property[parts[i]];
+        }
+
+        return property;
+    }
+
     render() {
         return (
             <div id={`cm-data-table-holder-${this.props.RCMID}`} className="cm-data-table-holder" onScroll={(e: any) => this.testScroll(e)}>
@@ -56,7 +70,7 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
                         borderRight: 0
                     }}>
                     <tbody className="cm-data-table-tbody">
-                        {
+                        {this.props.data &&
                             this.props.data.map((dataRow, index) => {
                                 return (
                                     <tr
@@ -67,7 +81,7 @@ class TableBodyComponent extends Component<TableBodyProps, TableBodyState>{
                                     >
                                         {
                                             this.props.colModels.map((colModel, index) => {
-                                                return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {dataRow[colModel.name]} </td>;
+                                                return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {this.byString(dataRow, colModel.name)} </td>;
                                             })
                                         }
                                     </tr>

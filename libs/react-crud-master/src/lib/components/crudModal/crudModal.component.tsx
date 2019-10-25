@@ -12,11 +12,12 @@ import * as Redux from 'redux'
 import { AppState } from '../../rootReducer'
 import * as CrudModalActions from '../crudModal/crudModal.actions'
 import { CrudModalOwnProps, CrudModalDispatchProps, CrudModalStateProps, CrudModalState, CrudModalProps, initialState } from "./crudModal.types";
-import { InputControlTypes } from '../../types/InputControlTypes'
+import { InputControlTypes } from '../../types/inputControlTypesTest'
 import { ColModel } from '../../types/colModel';
 import { Bool } from '../../types/inputControlTypes/Bool';
 import { InputControlTypeNames } from '../../constants/InputControlTypeNames';
 import InputControl from './inputControl/inputControl.component'
+import { colModels } from '../../testData';
 
 class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
     constructor(props: CrudModalProps) {
@@ -34,7 +35,16 @@ class CrudModalComponent extends Component<CrudModalProps, CrudModalState>{
     }
 
     onRowDataChange = (name: string, value: any) => {
+        let colModelMethods = this.props.colModelsMethods.filter(x => x.name == name)[0];
+
+        colModelMethods.createMode.beforeChange();
+
+        if (colModelMethods.createModeInputControl.inputType == 'BOOL')
+            value = !this.props.rowData[name];
+
         this.props.onRowDataChange(name, value);
+
+        colModelMethods.createMode.afterChange();
     };
 
     render = () => {
