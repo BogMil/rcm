@@ -12,22 +12,13 @@ interface ReactCrudMasterProps {
     colModels: ColModel[],
 }
 
-export class ReactCrudMaster extends Component<ReactCrudMasterProps>{
-
-    constructor(props: ReactCrudMasterProps) {
-        super(props);
-    }
-
-    store = createStore(rootReducer, applyMiddleware(thunk));
-
-
-    render() {
-        return (
-            <Provider store={this.store} >
-                <ReactCrudMasterComponent urlProp={this.props.url} dataProp={this.props.data} colModelsProp={this.props.colModels} />
-            </Provider>
-        )
-    }
+export function ReactCrudMaster(props: ReactCrudMasterProps) {
+    let store = createStore(rootReducer, applyMiddleware(thunk));
+    return (
+        <Provider store={store} >
+            <ReactCrudMasterComponent urlProp={props.url} dataProp={props.data} colModelsProp={props.colModels} />
+        </Provider>
+    )
 }
 
 export default ReactCrudMaster
