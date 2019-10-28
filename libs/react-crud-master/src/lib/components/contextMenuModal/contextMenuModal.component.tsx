@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useRef, useEffect } from "react";
 import {
     Table,
 } from "react-bootstrap";
 import '../contexMenu.css';
 import '../reactCrudMaster/reactCrudMaster.css';
 
-import { connect } from 'react-redux'
+import { connect, useSelector, useDispatch } from 'react-redux'
 import { AppState } from '../../rootReducer'
 import { ContextMenuModalProps, ContextMenuModalState, initialState, ContextMenuModalOwnProps, ContextMenuModalDispatchProps, ContextMenuModalStateProps } from "./ContextMenuModal.types";
 import * as ContextMenuActions from './contextMenuModal.actions'
@@ -18,77 +18,65 @@ import * as WarningModalActions from '../common/modals/warningModal/warningModal
 import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
 import * as VModalActions from '../vModal/vModal.actions'
 
-class ContextMenuModalComponent extends Component<ContextMenuModalProps, ContextMenuModalState>{
+export default function ContextMenuModal() {
+    const dispatch = useDispatch();
+    const store = useSelector((state: AppState) => {
+        return {
+            RCMID: state.reactCrudMaster.RCMID,
+            selectedRow: state.reactCrudMaster.selectedRow
+        }
+    }) as ContextMenuModalStateProps;
 
-    openCrudModalToEdit = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
+    const openCrudModalToEdit = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
+            return;
+        }
+        dispatch(CurdModalActions.openModalToEdit(store.selectedRow));
+    }
+    const onClickOnDelete = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
+            return;
+        }
+        dispatch(YesnoModalActions.openModal('title', 'areYouSure', () => console.log("deleted")));
+    }
+
+    const onClickOnView = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
             return;
         }
 
-        this.props.openCrudModalToEdit(this.props.selectedRow)
+        dispatch(VModalActions.openModal());
     }
 
-    onClickOnDelete = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
-            return;
-        }
 
-        this.props.openYesnoModal('title', 'areYouSure', () => console.log("deleted"));
-    }
+    const contextMenuTriggerRef = useRef();
+    const setRef = ref => contextMenuTriggerRef.current = ref;
 
-    onClickOnView = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
-            return;
-        }
+    useEffect(() => {
+        dispatch(ContextMenuActions.setContextMenuTriggerRef(contextMenuTriggerRef.current));
+    }, [contextMenuTriggerRef]);
 
-        this.props.openVModal();
-    }
+    return (
+        <div className="cm-context-menu-modal">
+            <ContextMenuTrigger id={`context_menu_${store.RCMID}`} ref={c => setRef(c)}>
+                <span></span>
+            </ContextMenuTrigger>
 
-    render() {
-        return (
-            <div className="cm-context-menu-modal">
-                <ContextMenuTrigger id={`context_menu_${this.props.RCMID}`} ref={c => this.props.setContextMenuTriggerRef(c)}>
-                    <span></span>
-                </ContextMenuTrigger>
+            <ContextMenu id={`context_menu_${store.RCMID}`}>
 
-                <ContextMenu id={`context_menu_${this.props.RCMID}`}>
-
-                    <MenuItem onClick={() => this.openCrudModalToEdit()}>
-                        <i className={FontAwesomeClasses.edit} /><span style={{ paddingLeft: 10 }}>Edit</span>
-                    </MenuItem>
-                    <MenuItem onClick={() => this.onClickOnDelete()}>
-                        <i className={FontAwesomeClasses.del} /><span style={{ paddingLeft: 10 }}>Delete</span>
-                    </MenuItem>
-                    <MenuItem onClick={() => this.onClickOnView()}>
-                        <i className={FontAwesomeClasses.view} /> <span style={{ paddingLeft: 10 }}>View</span>
-                    </MenuItem>
-                </ContextMenu>
-            </div>
-        );
-    }
+                <MenuItem onClick={() => openCrudModalToEdit()}>
+                    <i className={FontAwesomeClasses.edit} /><span style={{ paddingLeft: 10 }}>Edit</span>
+                </MenuItem>
+                <MenuItem onClick={() => onClickOnDelete()}>
+                    <i className={FontAwesomeClasses.del} /><span style={{ paddingLeft: 10 }}>Delete</span>
+                </MenuItem>
+                <MenuItem onClick={() => onClickOnView()}>
+                    <i className={FontAwesomeClasses.view} /> <span style={{ paddingLeft: 10 }}>View</span>
+                </MenuItem>
+            </ContextMenu>
+        </div>
+    );
 }
-
-
-
-
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): ContextMenuModalDispatchProps => {
-    return {
-        setContextMenuTriggerRef: (c: any) => dispatch(ContextMenuActions.setContextMenuTriggerRef(c)),
-        openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
-        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message)),
-        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny)),
-        openVModal: () => dispatch(VModalActions.openModal())
-    };
-}
-
-const mapStateToProps = (state: AppState): ContextMenuModalStateProps => {
-    return {
-        RCMID: state.reactCrudMaster.RCMID,
-        selectedRow: state.reactCrudMaster.selectedRow
-    } as ContextMenuModalStateProps;
-}
-
-export default connect<ContextMenuModalStateProps, ContextMenuModalDispatchProps, ContextMenuModalOwnProps, AppState>(mapStateToProps, mapDispatchToProps)(ContextMenuModalComponent);

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
     Modal,
     Button,
@@ -6,83 +6,59 @@ import {
 } from "react-bootstrap";
 import '../contexMenu.css';
 
-import { connect } from 'react-redux'
-import * as Redux from 'redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../rootReducer'
 import * as VModalActions from '../vModal/vModal.actions'
-import { VModalOwnProps, VModalDispatchProps, VModalStateProps, VModalState, VModalProps, initialState } from "./vModal.types";
+import { VModalStateProps } from "./vModal.types";
 import './vmodal.css'
 
+export default function VModalComponent() {
+    const dispatch = useDispatch();
+    const store = useSelector((state: AppState) => {
+        return {
+            show: state.vModal.show,
+            colModels: state.reactCrudMaster.colModels,
+            rowData: state.reactCrudMaster.selectedRow,
+        }
+    }) as VModalStateProps;
 
-class VModalComponent extends Component<VModalProps, VModalState>{
-    constructor(props: VModalProps) {
-        super(props);
-        this.state = initialState();
+    const handleClose = () => {
+        dispatch(VModalActions.closeModal());
     }
 
-    componentDidMount = () => {
-
-    }
-
-    handleClose = () => {
-        this.props.closeVModal();
-    }
-
-    render() {
-        return (
-            < Modal style={{ borderRadius: 0 }}
-                show={this.props.show}
-                onHide={this.handleClose}
-                centered
-                className="cm-v-modal"
-            >
-                <Modal.Header className="cm-v-modal-header" closeButton >
-                    <Modal.Title>Modal heading </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {this.props.rowData &&
-                        this.props.colModels.map((column) => {
-                            return (
-                                <div key={column.name} className="cm-v-modal-cell-holder">
-                                    <Form.Group style={{ marginBottom: 5 }}>
-                                        <Form.Label style={{ marginBottom: 0 }} >
-                                            {column.name}
-                                        </Form.Label>
-                                        <div className="cm-v-modal-cell-value-holder">
-                                            {this.props.rowData[column.name]}
-                                        </div>
-                                    </Form.Group>
-                                </div>
-                            );
-                        })
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.handleClose} >
-                        Close
-                        </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-
-
+    return (
+        < Modal style={{ borderRadius: 0 }}
+            show={store.show}
+            onHide={handleClose}
+            centered
+            className="cm-v-modal"
+        >
+            <Modal.Header className="cm-v-modal-header" closeButton >
+                <Modal.Title>Modal heading </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {store.rowData &&
+                    store.colModels.map((column) => {
+                        return (
+                            <div key={column.name} className="cm-v-modal-cell-holder">
+                                <Form.Group style={{ marginBottom: 5 }}>
+                                    <Form.Label style={{ marginBottom: 0 }} >
+                                        {column.name}
+                                    </Form.Label>
+                                    <div className="cm-v-modal-cell-value-holder">
+                                        {store.rowData[column.name]}
+                                    </div>
+                                </Form.Group>
+                            </div>
+                        );
+                    })
+                }
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose} >
+                    Close
+                    </Button>
+            </Modal.Footer>
+        </Modal>
+    );
 }
-
-
-
-const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): VModalDispatchProps => {
-    return {
-        closeVModal: () => dispatch(VModalActions.closeModal()),
-    };
-}
-
-const mapStateToProps = (state: AppState): VModalStateProps => {
-    return {
-        show: state.vModal.show,
-        colModels: state.reactCrudMaster.colModels,
-        rowData: state.reactCrudMaster.selectedRow,
-    } as VModalStateProps;
-}
-
-export default connect<VModalStateProps, VModalDispatchProps, VModalOwnProps, AppState>(mapStateToProps, mapDispatchToProps)(VModalComponent);
