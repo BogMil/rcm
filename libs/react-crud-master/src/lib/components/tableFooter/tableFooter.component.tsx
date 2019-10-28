@@ -4,11 +4,12 @@ import '../reactCrudMaster/reactCrudMaster.css'
 
 import SmTableFooter from './smTableFooter'
 import LgTableFooter from './lgTableFooter';
+import { TableFooterOwnProps } from './tableFooter.types';
 
-export default function TableFooterComponent(props: { tableWidth: number }) {
+export default function TableFooterComponent(props: TableFooterOwnProps) {
 
     if (props.tableWidth < 620)
-        return <SmTableFooter tableWidth={props.tableWidth} />;
+        return <SmTableFooter />;
 
-    return <LgTableFooter tableWidth={props.tableWidth} />
+    return <LgTableFooter />
 }

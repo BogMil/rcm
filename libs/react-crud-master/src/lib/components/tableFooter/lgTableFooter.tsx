@@ -12,7 +12,7 @@ import '../reactCrudMaster/reactCrudMaster.css'
 
 import { TableFooterOwnProps, TableFooterStateProps, TableFooterDispatchProps, TableFooterProps, TableFooterState } from "./tableFooter.types";
 import { AppState } from "../../rootReducer";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import * as CurdModalActions from '../crudModal/crudModal.actions'
 import * as WarningModalActions from '../common/modals/warningModal/warningModal.actions'
 import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
@@ -20,109 +20,78 @@ import * as VModalActions from '../vModal/vModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import './tableFooter.css'
 
-interface Window {
-    yes: Function;
-}
+export default function LgTableFooterComponent() {
+    const dispatch = useDispatch();
+    const store = useSelector((state: AppState) => { return { ...state.reactCrudMaster } }) as TableFooterStateProps;
 
-class LgTableFooterComponent extends Component<TableFooterProps, TableFooterState>{
-    constructor(props: TableFooterProps) {
-        super(props);
-        this.state = {};
+    const openCrudModalToEdit = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
+            return;
+        }
+        dispatch(dispatch(CurdModalActions.openModalToEdit(store.selectedRow)));
     }
 
-    openCrudModalToEdit = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
+    const onClickOnDelete = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
             return;
         }
 
-        this.props.openCrudModalToEdit(this.props.selectedRow)
+        dispatch(YesnoModalActions.openModal('title', 'areYouSure', () => console.log("deleted")));
     }
 
-    onClickOnDelete = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
+    const onClickOnView = () => {
+        if (!store.selectedRow) {
+            dispatch(WarningModalActions.openModal('Select row first'));
             return;
         }
 
-        this.props.openYesnoModal('title', 'areYouSure', () => console.log("deleted"));
+        dispatch(VModalActions.openModal());
     }
 
-    onClickOnView = () => {
-        if (!this.props.selectedRow) {
-            this.props.openWarningModal('Select row first');
-            return;
-        }
-
-        this.props.openVModal();
-    }
-
-    render = () => {
-        return (
-            <Row className="cm-table-footer cm-table-footer-lg">
-                <Col xs={4} style={{ textAlign: "left" }}>
-                    <Button className="cm-add-btn cm-footer-button" size="sm" onClick={() => this.props.openCrudModalToCreate()}>
-                        <i className={FontAwesomeClasses.add} />
+    return (
+        <Row className="cm-table-footer cm-table-footer-lg">
+            <Col xs={4} style={{ textAlign: "left" }}>
+                <Button className="cm-add-btn cm-footer-button" size="sm" onClick={() => dispatch(CurdModalActions.openModalToCreate())}>
+                    <i className={FontAwesomeClasses.add} />
+                </Button>
+                < Button size="sm" className="cm-edit-btn cm-footer-button" onClick={() => openCrudModalToEdit()}>
+                    <i className={FontAwesomeClasses.edit} />
+                </Button>
+                < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => onClickOnDelete()}>
+                    <i className={FontAwesomeClasses.del} />
+                </Button>
+                < Button size="sm" className="cm-view-btn cm-footer-button" onClick={() => onClickOnView()}>
+                    <i className={FontAwesomeClasses.view} />
+                </Button>
+                < Button size="sm" className="cm-search-btn cm-footer-button">
+                    <i className={FontAwesomeClasses.search} />
+                </Button>
+            </Col>
+            < Col xs={4} >
+                <InputGroup className="cm-pagination-holder" >
+                    < Button size="sm" className="cm-footer-button cm-first-page-btn">
+                        <i className={FontAwesomeClasses.firstPage} />
                     </Button>
-                    < Button size="sm" className="cm-edit-btn cm-footer-button" onClick={() => this.openCrudModalToEdit()}>
-                        <i className={FontAwesomeClasses.edit} />
+                    < Button size="sm" className="cm-footer-button cm-previous-page-btn">
+                        <i className={FontAwesomeClasses.previousPage} />
                     </Button>
-                    < Button size="sm" className="cm-del-btn cm-footer-button" onClick={() => this.onClickOnDelete()}>
-                        <i className={FontAwesomeClasses.del} />
+                    <div className="cm-page-number-input-holder">
+                        <Form.Control className="cm-page-number-input" defaultValue="" />
+                    </div>
+                    < Button size="sm" className="cm-footer-button cm-next-page-btn">
+                        <i className={FontAwesomeClasses.nextPage} />
                     </Button>
-                    < Button size="sm" className="cm-view-btn cm-footer-button" onClick={() => this.onClickOnView()}>
-                        <i className={FontAwesomeClasses.view} />
+                    < Button size="sm" className="cm-footer-button cm-last-page-btn">
+                        <i className={FontAwesomeClasses.lastPage} />
                     </Button>
-                    < Button size="sm" className="cm-search-btn cm-footer-button">
-                        <i className={FontAwesomeClasses.search} />
-                    </Button>
-                </Col>
-                < Col xs={4} >
-                    <InputGroup className="cm-pagination-holder" >
-                        < Button size="sm" className="cm-footer-button cm-first-page-btn">
-                            <i className={FontAwesomeClasses.firstPage} />
-                        </Button>
-                        < Button size="sm" className="cm-footer-button cm-previous-page-btn">
-                            <i className={FontAwesomeClasses.previousPage} />
-                        </Button>
-                        <div className="cm-page-number-input-holder">
-                            <Form.Control className="cm-page-number-input" defaultValue="" />
-                        </div>
-                        < Button size="sm" className="cm-footer-button cm-next-page-btn">
-                            <i className={FontAwesomeClasses.nextPage} />
-                        </Button>
-                        < Button size="sm" className="cm-footer-button cm-last-page-btn">
-                            <i className={FontAwesomeClasses.lastPage} />
-                        </Button>
-                    </InputGroup>
-                </Col>
-                < Col xs={4} style={{ textAlign: "right" }}>
-                    <Button>{"<"} </Button>
-                    < Button > {">"} </Button>
-                </Col>
-            </Row>
-        );
-    };
-
-
+                </InputGroup>
+            </Col>
+            < Col xs={4} style={{ textAlign: "right" }}>
+                <Button>{"<"} </Button>
+                < Button > {">"} </Button>
+            </Col>
+        </Row>
+    );
 }
-
-const mapDispatchToProps = (dispatch: Redux.Dispatch<Redux.AnyAction>): TableFooterDispatchProps => {
-    return {
-        openCrudModalToCreate: () => dispatch(CurdModalActions.openModalToCreate()),
-        openCrudModalToEdit: (rowData) => dispatch(CurdModalActions.openModalToEdit(rowData)),
-        openWarningModal: (message) => dispatch(WarningModalActions.openModal(message)),
-        openYesnoModal: (question, title, onConfirm, onDeny) => dispatch(YesnoModalActions.openModal(question, title, onConfirm, onDeny)),
-        openVModal: () => dispatch(VModalActions.openModal())
-    };
-}
-
-const mapStateToProps = (state: AppState, props: TableFooterOwnProps): TableFooterStateProps => {
-    return {
-        selectedRow: state.reactCrudMaster.selectedRow
-    } as TableFooterStateProps;
-}
-
-export default connect<TableFooterStateProps, TableFooterDispatchProps, TableFooterOwnProps, AppState>(mapStateToProps, mapDispatchToProps)(LgTableFooterComponent);
-
-// export default Footer;
