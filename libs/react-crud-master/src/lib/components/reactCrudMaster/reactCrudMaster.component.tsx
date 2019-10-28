@@ -49,11 +49,18 @@ export default function ReactCrudMasterComponent(props: ReactCrudMasterOwnProps)
             dispatch(Actions.setTableTitle(props.tableTitle))
         else
             dispatch(Actions.setTableTitle('Table title'));
+
+        window.addEventListener("resize", () => dispatch(Actions.resetTableoffsetWidth()));
+
+        return () => {
+            window.removeEventListener("resize", () => dispatch(Actions.resetTableoffsetWidth()));
+        }
     }, []);
 
     useEffect(() => {
         document.getElementById(`CMID-${store.RCMID}`)!.addEventListener("mousemove", onMouseMove);
         document.getElementById(`CMID-${store.RCMID}`)!.addEventListener("mouseup", onMouseUp);
+        window.addEventListener("resize", () => dispatch(Actions.resetTableoffsetWidth()));
         return () => {
             document.getElementById(`CMID-${store.RCMID}`)!.removeEventListener("mousemove", onMouseMove);
             document.getElementById(`CMID-${store.RCMID}`)!.removeEventListener("mouseup", onMouseUp);
