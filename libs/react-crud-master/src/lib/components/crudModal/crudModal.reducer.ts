@@ -36,6 +36,11 @@ export function crudModalReducer(
 
         case CrudModalActionTypeNames.OPEN_MODAL_TO_EDIT: {
             let typedAction = <OpenModalToEditRetType>action;
+            let rowData = typedAction.payload.rowData
+            for (var propertyName in rowData) {
+                if (rowData[propertyName] == null)
+                    rowData[propertyName] = ""
+            }
 
             return Object.assign({}, { ...state }, { show: true, isInCreateMode: false, rowData: typedAction.payload.rowData });
         }
@@ -45,8 +50,10 @@ export function crudModalReducer(
             let rowData: IRowData = {};
 
             typedAction.payload.colModels.map((colModel: ColModel) => {
-                rowData[colModel.name] = "";
+                if (colModel.name.indexOf('.') < 0)
+                    rowData[colModel.name] = "";
             });
+            console.log(rowData);
             return Object.assign({}, { ...state }, { rowData, emptyRowData: rowData });
         }
 

@@ -10,6 +10,7 @@ import { TableBodyProps, TableBodyState, initialState, TableBodyOwnProps, TableB
 import * as ReactableActions from '../reactCrudMaster/reactCrudMaster.actions'
 import { ThunkDispatch } from "redux-thunk";
 import { colModels } from '../../testData';
+import { getPropertyValueByString } from '../../utils/objectHelper';
 
 export default function TableBodyComponent() {
     const dispatch = useDispatch();
@@ -44,19 +45,6 @@ export default function TableBodyComponent() {
             }
     }
 
-    const byString = (object, propertyName) => {
-        var parts = propertyName.split("."),
-            length = parts.length,
-            i,
-            property = object;
-
-        for (i = 0; i < length; i++) {
-            property = property[parts[i]];
-        }
-
-        return property;
-    }
-
     return (
         <div id={`cm-data-table-holder-${store.RCMID}`} className="cm-data-table-holder" onScroll={(e: any) => testScroll(e)}>
             <Table className="cm-data-table" striped bordered hover size="sm"
@@ -77,7 +65,7 @@ export default function TableBodyComponent() {
                                 >
                                     {
                                         store.colModels.map((colModel, index) => {
-                                            return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {byString(dataRow, colModel.name)} </td>;
+                                            return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
                                         })
                                     }
                                 </tr>

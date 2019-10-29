@@ -11,8 +11,7 @@ import { ColModel } from '../../../types/colModel';
 import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/inputControlTypesTest';
 import { Bool } from '../../../types/inputControlTypes/Bool'
 import { SelectBoolPresentationType } from '../../../types/inputControlTypesTest'
-
-
+import { getPropertyValueByString } from '../../../utils/objectHelper';
 
 export default class InputControlComponent extends Component<InputControlProps, InputControlState>{
     constructor(props: InputControlProps) {
@@ -46,7 +45,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 type={this.decideInputType(this.props.column.createMode.InputControl.inputType)}
                                 placeholder={this.props.column.name}
                                 className="cm-crud-modal-text-input"
-                                value={this.props.rowData[this.props.column.name]}
+                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                             />
                         </>
                     );
@@ -58,7 +57,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                         return (
                             <Form.Control
                                 onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                                value={this.props.rowData[this.props.column.name]}
+                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                                 defaultValue={selectOptions.default ? selectOptions.trueValue : selectOptions.falseValue}
                                 as="select">
                                 <option defaultChecked value={selectOptions.trueValue}>{selectOptions.trueLabel}</option>
@@ -81,7 +80,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
-                                value={this.props.rowData[this.props.column.name]}
+                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                             />
                         );
                     }
@@ -98,7 +97,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
-                                value={this.props.rowData[this.props.column.name]}
+                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                             />
                         );
                     }
@@ -112,7 +111,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
                                 placeholder={this.props.column.name}
                                 className="cm-crud-modal-text-input"
-                                value={this.props.rowData[this.props.column.name]}
+                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                             />
                         </>
                     );
@@ -125,7 +124,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                     onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
                     placeholder={this.props.column.name}
                     className="cm-crud-modal-text-input"
-                    value={this.props.rowData[this.props.column.name]}
+                    value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
                 />
             </>
         );

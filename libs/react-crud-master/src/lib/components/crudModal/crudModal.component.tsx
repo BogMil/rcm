@@ -52,15 +52,16 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
             <Modal.Body className="cm-crud-modal-body">
                 {
                     store.colModels.map((column, i) => {
-                        return (
-                            <InputControl
-                                key={i}
-                                column={column}
-                                isInCreateMode={store.isInCreateMode}
-                                rowData={store.rowData}
-                                onRowDataChange={onRowDataChange}
-                            />
-                        )
+                        if (column.name.indexOf('.') < 0)
+                            return (
+                                <InputControl
+                                    key={i}
+                                    column={column}
+                                    isInCreateMode={store.isInCreateMode}
+                                    rowData={store.rowData}
+                                    onRowDataChange={onRowDataChange}
+                                />
+                            )
                     })
                 }
             </Modal.Body>
