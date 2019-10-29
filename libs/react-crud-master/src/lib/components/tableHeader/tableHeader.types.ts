@@ -34,20 +34,9 @@ export const initialTableHeaderStateProps = () => {
 };
 
 export interface TableHeaderStateProps {
-  data: any[];
-  width: number;
-  sortColumn: any;
-  selectedRow: any;
-  startOffset: number | null;
-  columnToResize: ColModel | null;
-  show: boolean | null;
   RCMID: number | null;
-  modalState: any;
-  emptyModalState: any;
-
   tableWidth: number;
-  colModels: ColModel[];
-
+  colModels: ColModel[]
 }
 
 export interface TableHeaderDispatchProps {

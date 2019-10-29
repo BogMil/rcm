@@ -7,15 +7,19 @@ export class UserConfig implements UserConfigFieldProps {
 
         if (init == undefined) return;
 
-        this.dataOptions = Object.assign({}, this.dataOptions, init.dataOptions);
+        Object.assign(this, init);
     }
-    public dataOptions: DataOptions;
-    public colModels: ColModel[];
+    public rows?: any;
+    public url?: any;
+    public colModels: ColModel[] = null;
+    tableTitle?: string = "tilovina"
 }
 
 export interface UserConfigFieldProps {
-    dataOptions: DataOptions;
+    rows?: any[];
+    url?: any;
     colModels: ColModel[],
+    tableTitle?: string
 }
 
 export interface CreateMode extends CreateModeMethods, CreateModeProps { }

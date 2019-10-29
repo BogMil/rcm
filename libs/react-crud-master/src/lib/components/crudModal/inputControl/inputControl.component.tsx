@@ -9,7 +9,7 @@ import { InputControlState, initialState, InputControlProps } from "./inputContr
 import { InputControlTypeNames } from '../../../constants/InputControlTypeNames';
 import { ColModel } from '../../../types/colModel';
 import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/inputControlTypesTest';
-import { Bool } from '../../../types/inputControlTypes/Bool'
+import { Bool } from '../../../types/inputControlTypes/bool'
 import { SelectBoolPresentationType } from '../../../types/inputControlTypesTest'
 import { getPropertyValueByString } from '../../../utils/objectHelper';
 

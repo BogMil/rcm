@@ -8,7 +8,7 @@ import './reactCrudMaster.css';
 
 import TableFooter from "../tableFooter/tableFooter.component"
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { ReactCrudMasterProps, ReactCrudMasterState, initialState, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps, ReactCrudMasterOwnProps } from "./reactCrudMaster.types";
+import { ReactCrudMasterProps, ReactCrudMasterState, initialState, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps } from "./reactCrudMaster.types";
 import { ColModel, ColModelMethodsExtractor } from "../../types/colModel";
 import { AppState } from '../../rootReducer'
 import * as Actions from './reactCrudMaster.actions'
@@ -24,29 +24,30 @@ import YesnoModal from '../common/modals/yesnoModal/yesnoModal.component'
 import axios from 'axios';
 
 import { ThunkDispatch } from "redux-thunk";
+import { UserConfig } from '../../types/userConfig';
 
-export default function ReactCrudMasterComponent(props: ReactCrudMasterOwnProps) {
+export default function ReactCrudMasterComponent(config: UserConfig) {
     const dispatch = useDispatch();
     const store = useSelector((state: AppState) => state.reactCrudMaster) as ReactCrudMasterStateProps;
 
     useEffect(() => {
-        dispatch(Actions.setColModels(props.colModelsProp))
+        dispatch(Actions.setColModels(config.colModels))
 
-        if (props.urlProp) {
+        if (config.url) {
             axios({
                 method: 'get',
-                url: props.urlProp
+                url: config.url
             }).then((res) => {
                 dispatch(Actions.setData(res.data.records));
             });
-        } else if (props.dataProp) {
-            dispatch(Actions.setData(props.dataProp));
+        } else if (config.rows) {
+            dispatch(Actions.setData(config.rows));
         }
 
         dispatch(Actions.resetTableoffsetWidth());
 
-        if (props.tableTitle != null)
-            dispatch(Actions.setTableTitle(props.tableTitle))
+        if (config.tableTitle != null)
+            dispatch(Actions.setTableTitle(config.tableTitle))
         else
             dispatch(Actions.setTableTitle('Table title'));
 
@@ -83,13 +84,13 @@ export default function ReactCrudMasterComponent(props: ReactCrudMasterOwnProps)
         document.body.style.cursor = ''
     }
 
-    let colModelsMethods = props.colModelsProp.map(colModel => {
+    let colModelsMethods = config.colModels.map(colModel => {
         return ColModelMethodsExtractor.extractFromColModel(colModel);
     })
     return (
         <>
             <Card className='react-crud-master' id={`CMID-${store.RCMID}`}>
-                <Card.Header className='cm-table-header' as="h5" >{store.tableTitleProp}</Card.Header>
+                <Card.Header className='cm-table-header' as="h5" >{store.tableTitle}</Card.Header>
                 <Card.Body className='cm-table-body'>
                     <div id={`reactable-card-body-${store.RCMID}`} className="cm-table-header-and-table-body-holder">
                         <TableHeader />
@@ -97,7 +98,7 @@ export default function ReactCrudMasterComponent(props: ReactCrudMasterOwnProps)
                     </div>
 
                     <div className='cm-table-footer-holder' >
-                        <TableFooter tableWidth={store.width} />
+                        <TableFooter tableWidth={store.componentWidth} />
                     </div>
                 </Card.Body>
             </Card>

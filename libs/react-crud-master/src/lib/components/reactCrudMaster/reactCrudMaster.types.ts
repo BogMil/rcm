@@ -4,6 +4,7 @@ import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { setTableTitle } from "./reactCrudMaster.actions";
 import * as ReactCrudMasterConstants from './reactCrudMaster.constants'
+import { UserConfig } from '../../types/userConfig';
 
 export const ReactCrudMasterActionTypeNames = {
   SET_COL_MODELS: "SET_COL_MODELS",
@@ -116,18 +117,18 @@ export const initialState = () => {
   } as ReactCrudMasterState
 }
 
-export interface ReactCrudMasterOwnProps {
-  colModelsProp: ColModel[];
-  dataProp?: any[];
-  tableTitle?: string;
-  urlProp?: string;
-}
 
 export const initialReactCrudMasterStateProps = () => {
   return {
     colModels: [],
-    data: [],
-    width: 0,
+    // data: [],
+    data: {
+      currentPageNumber: null,
+      rows: [],
+      totalNumberOfPages: null,
+      totalNumberOfRecords: null
+    },
+    componentWidth: 0,
     sortColumn: null,
     selectedRow: null,
     startOffset: null,
@@ -137,14 +138,20 @@ export const initialReactCrudMasterStateProps = () => {
     modalState: null,
     emptyModalState: null,
     tableWidth: 0,
-    tableTitleProp: ReactCrudMasterConstants.DEFAULT_TABLE_TITLE
+    tableTitle: ReactCrudMasterConstants.DEFAULT_TABLE_TITLE
   } as ReactCrudMasterStateProps
 };
 
 export interface ReactCrudMasterStateProps {
   colModels: ColModel[];
-  data: any[];
-  width: number;
+  url: string;
+  data: {
+    rows: any[],
+    currentPageNumber: number,
+    totalNumberOfPages: number,
+    totalNumberOfRecords: number,
+  }
+  componentWidth: number;
   sortColumn: any;
   selectedRow: any;
   startOffset: number | null;
@@ -154,7 +161,7 @@ export interface ReactCrudMasterStateProps {
   modalState: any;
   emptyModalState: any;
   tableWidth: number;
-  tableTitleProp: string;
+  tableTitle: string;
 }
 
 export interface ReactCrudMasterDispatchProps {
@@ -166,5 +173,5 @@ export interface ReactCrudMasterDispatchProps {
   setTableTitle: (tableTitle: string) => void
 }
 
-export type ReactCrudMasterProps = ReactCrudMasterOwnProps & ReactCrudMasterStateProps & ReactCrudMasterDispatchProps;
+export type ReactCrudMasterProps = ReactCrudMasterStateProps & ReactCrudMasterDispatchProps;
 

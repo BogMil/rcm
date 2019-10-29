@@ -1,20 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import {
     Table,
 } from "react-bootstrap";
 import './tableBody.css'
 
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../rootReducer'
-import { TableBodyProps, TableBodyState, initialState, TableBodyOwnProps, TableBodyDispatchProps, TableBodyStateProps } from "./tableBody.types";
+import { TableBodyStateProps } from "./tableBody.types";
 import * as ReactableActions from '../reactCrudMaster/reactCrudMaster.actions'
-import { ThunkDispatch } from "redux-thunk";
-import { colModels } from '../../testData';
 import { getPropertyValueByString } from '../../utils/objectHelper';
 
 export default function TableBodyComponent() {
     const dispatch = useDispatch();
-    const store = useSelector((state: AppState) => { return { ...state.reactCrudMaster, contextMenuTrigger: state.contextMenuModal.contextMenuTrigger } }) as TableBodyStateProps;
+    const store = useSelector((state: AppState) => {
+        return {
+            ...state.reactCrudMaster,
+            rows: state.reactCrudMaster.data.rows,
+            selectedRow: state.reactCrudMaster.selectedRow,
+            RCMID: state.reactCrudMaster.RCMID,
+            tableWidth: state.reactCrudMaster.tableWidth,
+            colModels: state.reactCrudMaster.colModels,
+            contextMenuTrigger: state.contextMenuModal.contextMenuTrigger
+        }
+    }) as TableBodyStateProps;
 
     const onClickOnRow = (row: any) => {
         dispatch(ReactableActions.selectRow(row));
@@ -54,8 +62,8 @@ export default function TableBodyComponent() {
                     borderRight: 0
                 }}>
                 <tbody className="cm-data-table-tbody">
-                    {store.data &&
-                        store.data.map((dataRow, index) => {
+                    {store.rows &&
+                        store.rows.map((dataRow, index) => {
                             return (
                                 <tr
                                     key={index}

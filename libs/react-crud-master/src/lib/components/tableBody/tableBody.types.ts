@@ -34,17 +34,9 @@ export const initialTableBodyStateProps = () => {
 };
 
 export interface TableBodyStateProps {
-  data: any[];
-  width: number;
-  sortColumn: any;
+  rows: any[];
   selectedRow: any;
-  startOffset: number | null;
-  columnToResize: ColModel | null;
-  show: boolean | null;
   RCMID: number | null;
-  modalState: any;
-  emptyModalState: any;
-
   tableWidth: number;
   colModels: ColModel[];
   contextMenuTrigger: any;

@@ -5,18 +5,13 @@ import { connect, Provider } from 'react-redux';
 import ReactCrudMasterComponent from './components/reactCrudMaster/reactCrudMaster.component';
 import { ColModel } from './types/colModel'
 import thunk from 'redux-thunk'
+import { UserConfig } from './types/userConfig';
 
-interface ReactCrudMasterProps {
-    data?: any,
-    url?: string,
-    colModels: ColModel[],
-}
-
-export function ReactCrudMaster(props: ReactCrudMasterProps) {
+export function ReactCrudMaster(config: UserConfig) {
     let store = createStore(rootReducer, applyMiddleware(thunk));
     return (
         <Provider store={store} >
-            <ReactCrudMasterComponent urlProp={props.url} dataProp={props.data} colModelsProp={props.colModels} />
+            <ReactCrudMasterComponent {...config} />
         </Provider>
     )
 }

@@ -1,4 +1,4 @@
-import { BoolOptions, Bool } from './inputControlTypes/Bool'
+import { BoolOptions, Bool } from './inputControlTypes/bool'
 import { CommonInputTypeConfigProps, InputControlType } from './inputControlTypes/commonInterfaces'
 import { InputControlTypeNames } from '../constants/InputControlTypeNames'
 

@@ -52,7 +52,7 @@ export function reactCrudMasterReducer(
 
             return Object.assign({}, { ...state },
                 {
-                    data: typedAction.payload.data
+                    data: Object.assign({}, state.data, { rows: typedAction.payload.data })
                 });
         }
 
@@ -74,7 +74,6 @@ export function reactCrudMasterReducer(
                 tableWidth += colModel.width;
             });
             let newState = update(state, { colModels: { $set: colModels }, tableWidth: { $set: tableWidth } });
-
             return newState;
 
         case ReactCrudMasterActionTypeNames.SET_COLUMN_TO_RESIZE: {
@@ -88,7 +87,7 @@ export function reactCrudMasterReducer(
 
         case ReactCrudMasterActionTypeNames.SET_INITIAL_TABLE_OFFSET_WIDTH: {
             let tableBody = document.getElementById(`CMID-${state.RCMID}`)!;
-            return Object.assign({}, { ...state }, { width: tableBody.offsetWidth })
+            return Object.assign({}, { ...state }, { componentWidth: tableBody.offsetWidth })
         }
 
         case ReactCrudMasterActionTypeNames.SELECT_ROW: {
@@ -119,7 +118,7 @@ export function reactCrudMasterReducer(
 
         case ReactCrudMasterActionTypeNames.SET_TABLE_TITLE: {
             let typedAction = <SetTableTitleRetType>action;
-            return Object.assign({}, { ...state }, { tableTitleProp: typedAction.payload.tableTitle })
+            return Object.assign({}, { ...state }, { tableTitle: typedAction.payload.tableTitle })
         }
 
         case ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS: {

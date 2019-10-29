@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master-workspace/react-crud-master';
+import { UserConfig } from 'libs/react-crud-master/src/lib/types/userConfig';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -331,11 +332,23 @@ export class App extends Component {
     ]
   }
 
+
+
   render = () => {
+    let config1: UserConfig = new UserConfig({
+      colModels: this.colModels2,
+      rows: this.data2
+    });
+
+    let config2: UserConfig = new UserConfig({
+      colModels: this.colModels3,
+      url: "https://localhost:44368/api/school"
+    });
+
     return (
       <>
-        <ReactCrudMaster data={this.data2} colModels={this.colModels2} />
-        <ReactCrudMaster url="https://localhost:44368/api/school" colModels={this.colModels3} />
+        <ReactCrudMaster {...config1} />
+        <ReactCrudMaster {...config2} />
       </>
     );
   }
