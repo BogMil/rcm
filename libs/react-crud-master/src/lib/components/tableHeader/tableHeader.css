@@ -56,3 +56,25 @@
   margin-left: 1;
   height: 100%;
 }
+
+.columnFilterInputControl select::-ms-expand {
+  display: none;
+}
+.columnFilterInputControl select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* @-moz-document url-prefix() {
+  .ui-select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }
+  .ui-select select {
+    width: 110%;
+    background-position: right 30px center !important;
+    border: none !important;
+  }
+} */

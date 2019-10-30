@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { rootReducer, AppState } from './rootReducer';
 import { connect, Provider } from 'react-redux';
 import ReactCrudMasterComponent from './components/reactCrudMaster/reactCrudMaster.component';
-import { ColModel } from './types/colModel'
+import { ColModel } from './types/colModel/colModel'
 import thunk from 'redux-thunk'
 import { UserConfig } from './types/userConfig';
 
@@ -18,5 +18,5 @@ export function ReactCrudMaster(config: UserConfig) {
 
 export default ReactCrudMaster
 
-export { ColModel } from './types/colModel'
+export { ColModel } from './types/colModel/colModel'
 export { InputControlTypes } from './types/inputControlTypesTest'

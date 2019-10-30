@@ -1,4 +1,4 @@
-import { ColModel, ColModelMethods } from "../../types/colModel";
+import { ColModel, ColModelMethods } from "../../types/colModel/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
 
 export const CrudModalActionTypeNames = {

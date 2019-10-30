@@ -1,6 +1,6 @@
 import { InputControlTypes } from './inputControlTypesTest'
 import { InputControlType } from './inputControlTypes/commonInterfaces'
-import { ColModel } from './colModel';
+import { ColModel } from './colModel/colModel';
 export class UserConfig implements UserConfigFieldProps {
 
     public constructor(init?: Partial<UserConfig>) {

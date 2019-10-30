@@ -1,5 +1,5 @@
 import { IRowData } from '../crudModal.types';
-import { ColModel } from '../../../types/colModel';
+import { ColModel } from '../../../types/colModel/colModel';
 
 export interface InputControlState {
 

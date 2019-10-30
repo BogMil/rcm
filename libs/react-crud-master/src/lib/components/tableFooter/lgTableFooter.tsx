@@ -57,18 +57,16 @@ export default function LgTableFooterComponent() {
 
     const onClickOnNextPage = () => {
         dispatch(ReactCrudMasterActions.goToNextPage());
-        // var url = new UrlCreator(url).attachPager(1, 2).url;
-        // axios({
-        //     method: 'get',
-        //     url: url,
-        // }).then((res) => {
-        //     let data = new Data;
-        //     data.rows = res.data.records;
-        //     data.currentPageNumber = res.data.currentPageNumber;
-        //     data.totalNumberOfPages = res.data.totalNumberOfPages;
-        //     data.totalNumberOfRecords = res.data.totalNumberOfRecords;
-        //     dispatch(ReactCrudMasterActions.setData(data));
-        // });
+    }
+
+    const onClickOnPreviousPage = () => {
+        dispatch(ReactCrudMasterActions.goToPreviousPage());
+    }
+    const onClickOnLastPage = () => {
+        dispatch(ReactCrudMasterActions.goToLastPage());
+    }
+    const onClickOnFirstPage = () => {
+        dispatch(ReactCrudMasterActions.goToFirstPage());
     }
     return (
         <Row className="cm-table-footer cm-table-footer-lg">
@@ -91,19 +89,19 @@ export default function LgTableFooterComponent() {
             </Col>
             < Col xs={4} >
                 <InputGroup className="cm-pagination-holder" >
-                    < Button size="sm" className="cm-footer-button cm-first-page-btn">
+                    < Button size="sm" className="cm-footer-button cm-first-page-btn" onClick={() => onClickOnFirstPage()} disabled={store.data.currentPageNumber == 1}>
                         <i className={FontAwesomeClasses.firstPage} />
                     </Button>
-                    < Button size="sm" className="cm-footer-button cm-previous-page-btn">
+                    < Button size="sm" className="cm-footer-button cm-previous-page-btn" onClick={() => onClickOnPreviousPage()} disabled={store.data.currentPageNumber == 1}>
                         <i className={FontAwesomeClasses.previousPage} />
                     </Button>
                     <div className="cm-page-number-input-holder">
-                        <Form.Control className="cm-page-number-input" defaultValue="" />
+                        <Form.Control className="cm-page-number-input" value={store.data.currentPageNumber ? store.data.currentPageNumber.toString() : ''} onChange={() => console.log("onChangeNotImplemented")} />
                     </div>
                     < Button size="sm" className="cm-footer-button cm-next-page-btn" onClick={() => onClickOnNextPage()} disabled={store.data.currentPageNumber == store.data.totalNumberOfPages}>
                         <i className={FontAwesomeClasses.nextPage} />
                     </Button>
-                    < Button size="sm" className="cm-footer-button cm-last-page-btn">
+                    < Button size="sm" className="cm-footer-button cm-last-page-btn" onClick={() => onClickOnLastPage()} disabled={store.data.currentPageNumber == store.data.totalNumberOfPages}>
                         <i className={FontAwesomeClasses.lastPage} />
                     </Button>
                 </InputGroup>

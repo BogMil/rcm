@@ -9,7 +9,7 @@ import './reactCrudMaster.css';
 import TableFooter from "../tableFooter/tableFooter.component"
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { ReactCrudMasterProps, Data, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps } from "./reactCrudMaster.types";
-import { ColModel, ColModelMethodsExtractor } from "../../types/colModel";
+import { ColModel, ColModelMethodsExtractor } from "../../types/colModel/colModel";
 import { AppState } from '../../rootReducer'
 import * as Actions from './reactCrudMaster.actions'
 import TableHeader from '../tableHeader/tableHeader.component'
@@ -35,7 +35,7 @@ export default function ReactCrudMasterComponent(config: UserConfig) {
         dispatch(Actions.setColModels(config.colModels))
         dispatch(Actions.setSimpleProps(config))
         if (config.url) {
-            var url = new UrlCreator({ url: config.url, currentPageNumber: 1 }).attachPager(1, 2).url;
+            var url = new UrlCreator({ baseUrl: config.url, currentPageNumber: 1, numOfRowsPerPage: config.numOfRowsPerPage }).url;
             axios({
                 method: 'get',
                 url: url,

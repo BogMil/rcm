@@ -7,7 +7,7 @@ import {
 
 import { InputControlState, initialState, InputControlProps } from "./inputControl.types";
 import { InputControlTypeNames } from '../../../constants/InputControlTypeNames';
-import { ColModel } from '../../../types/colModel';
+import { ColModel } from '../../../types/colModel/colModel';
 import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/inputControlTypesTest';
 import { Bool } from '../../../types/inputControlTypes/bool'
 import { SelectBoolPresentationType } from '../../../types/inputControlTypesTest'

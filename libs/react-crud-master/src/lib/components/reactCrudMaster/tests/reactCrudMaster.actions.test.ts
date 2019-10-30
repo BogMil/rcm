@@ -4,7 +4,7 @@ import {
     cleanup,
     waitForElement,
 } from '@testing-library/react';
-import { ColModel } from '../../../types/colModel';
+import { ColModel } from '../../../types/colModel/colModel';
 import * as ReactCrudMasterActions from '../reactCrudMaster.actions'
 import * as CrudModalActions from '../../crudModal/crudModal.actions'
 import { SetColModelsRetType } from '../reactCrudMaster.types';

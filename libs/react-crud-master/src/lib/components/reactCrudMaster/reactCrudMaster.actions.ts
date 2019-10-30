@@ -1,5 +1,5 @@
 import { ReactCrudMasterActionTypeNames, ReactCrudMasterActionType, Data } from './reactCrudMaster.types'
-import { ColModel } from '../../types/colModel';
+import { ColModel } from '../../types/colModel/colModel';
 import { REACT_CRUD_MASTER } from '../../actions/actionNamespaces';
 import cloneDeep from 'lodash/cloneDeep';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
@@ -153,19 +153,48 @@ export function swapColumnPositions(columnPosition1: number, columnPosition2: nu
 
 export function goToNextPage() {
     return (dispatch, getState) => {
-        let store = getState() as AppState;
-
-        var url = UrlCreatorFactory.createFromStore(store);
-        axios({
-            method: 'get',
-            url: url.url,
-        }).then((res) => {
-            let data = new Data;
-            data.rows = res.data.records;
-            data.currentPageNumber = res.data.currentPageNumber;
-            data.totalNumberOfPages = res.data.totalNumberOfPages;
-            data.totalNumberOfRecords = res.data.totalNumberOfRecords;
-            dispatch(setData(data));
-        });
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        fetchData(urlCreator.nextPage().url, dispatch)
     }
+}
+
+export function goToPreviousPage() {
+    return (dispatch, getState) => {
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        fetchData(urlCreator.previousPage().url, dispatch)
+    }
+}
+
+export function goToFirstPage() {
+    return (dispatch, getState) => {
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        fetchData(urlCreator.nthPage(1).url, dispatch)
+    }
+}
+
+export function goToLastPage() {
+    return (dispatch, getState) => {
+        let store = getState() as AppState;
+        var urlCreator = UrlCreatorFactory.createFromStore(store);
+        fetchData(urlCreator.nthPage(store.reactCrudMaster.data.totalNumberOfPages).url, dispatch)
+    }
+}
+
+function fetchData(url, dispatch) {
+    axios({
+        method: 'get',
+        url,
+    }).then((res) => {
+        let data = getDataFromRes(res);
+        dispatch(setData(data));
+    });
+}
+
+function getDataFromRes(res: any) {
+    let data = new Data;
+    data.rows = res.data.records;
+    data.currentPageNumber = res.data.currentPageNumber;
+    data.totalNumberOfPages = res.data.totalNumberOfPages;
+    data.totalNumberOfRecords = res.data.totalNumberOfRecords;
+    return data;
 }

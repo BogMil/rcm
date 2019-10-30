@@ -1,4 +1,4 @@
-import { ColModel } from '../../types/colModel';
+import { ColModel } from '../../types/colModel/colModel';
 import { V_MODAL as namespace } from '../../actions/actionNamespaces';
 import cloneDeep from 'lodash/cloneDeep';
 import { VModalActionType, VModalActionTypeNames } from './vModal.types';

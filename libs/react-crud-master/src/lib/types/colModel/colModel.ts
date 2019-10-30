@@ -1,5 +1,7 @@
-import { InputControlTypes } from './inputControlTypesTest'
-import { InputControlType } from './inputControlTypes/commonInterfaces'
+import { InputControlTypes } from '../inputControlTypesTest'
+import { InputControlType } from '../inputControlTypes/commonInterfaces'
+import { IColumnType } from '../columnTypes/commonInterfaces';
+import { String } from '../columnTypes/string';
 export class ColModel implements ColModelFieldProps {
 
     private static created: boolean = false;
@@ -50,6 +52,8 @@ export class ColModel implements ColModelFieldProps {
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
+    public columnType: IColumnType = new String();
+
     public createMode: CreateMode = {
         InputControl: InputControlTypes.string(),
         beforeChange: () => { },

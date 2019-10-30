@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useDrag, useDrop, DropTargetMonitor, DragSource, DropTarget } from 'react-dnd'
 import { XYCoord } from 'dnd-core'
 import { Button } from 'react-bootstrap'
-import { ColModel } from '../../types/colModel'
+import { ColModel } from '../../types/colModel/colModel'
 
 const style = {
     // border: '1px dashed gray',

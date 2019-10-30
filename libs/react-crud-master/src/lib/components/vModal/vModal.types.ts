@@ -1,4 +1,4 @@
-import { ColModel } from "../../types/colModel";
+import { ColModel } from "../../types/colModel/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
 
 export const VModalActionTypeNames = {

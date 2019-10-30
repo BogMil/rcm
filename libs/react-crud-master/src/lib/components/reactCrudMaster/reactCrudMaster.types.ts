@@ -1,4 +1,4 @@
-import { ColModel } from "../../types/colModel";
+import { ColModel } from "../../types/colModel/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -142,6 +142,8 @@ export class Data {
   currentPageNumber: number = null;
   totalNumberOfPages: number = null;
   totalNumberOfRecords: number = null;
+  numOfRowsPerPage?: number = 10;
+  listOfNumOfRowsPerPage?: number[] = [10, 20, 50, 100];
 }
 export type ReactCrudMasterProps = ReactCrudMasterStateProps & ReactCrudMasterDispatchProps;
 

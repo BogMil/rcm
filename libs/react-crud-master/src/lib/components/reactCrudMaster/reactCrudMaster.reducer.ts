@@ -52,7 +52,12 @@ export function reactCrudMasterReducer(
             let typedAction = <SetDataRetType>action
             return Object.assign({}, { ...state },
                 {
-                    data: Object.assign({}, state.data, { ...typedAction.payload.data })
+                    data: Object.assign({}, { ...state.data }, {
+                        currentPageNumber: typedAction.payload.data.currentPageNumber,
+                        rows: typedAction.payload.data.rows,
+                        totalNumberOfPages: typedAction.payload.data.totalNumberOfPages,
+                        totalNumberOfRecords: typedAction.payload.data.totalNumberOfRecords
+                    })
                 });
         }
 
@@ -126,7 +131,17 @@ export function reactCrudMasterReducer(
         }
         case ReactCrudMasterActionTypeNames.SET_SIMPLE_PROPS: {
             let typedAction = <SetSimplePropsRetType>action;
-            return Object.assign({}, { ...state }, { url: typedAction.payload.config.url, tableTitle: typedAction.payload.config.tableTitle })
+
+            let newData = Object.assign({}, { ...state.data }, {
+                numOfRowsPerPage: typedAction.payload.config.numOfRowsPerPage,
+                listOfNumOfRowsPerPage: typedAction.payload.config.listOfNumOfRowsPerPage
+            })
+            let newStore = Object.assign({}, { ...state }, {
+                url: typedAction.payload.config.url,
+                tableTitle: typedAction.payload.config.tableTitle,
+                data: newData
+            })
+            return newStore;
         }
 
         case ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS: {

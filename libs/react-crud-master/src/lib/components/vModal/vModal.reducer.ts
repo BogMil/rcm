@@ -1,6 +1,6 @@
 import { VModalStateProps, initialVModalStateProps, VModalActionType, VModalActionTypeNames } from './vModal.types'
 import update from 'immutability-helper'
-import { ColModel } from '../../types/colModel';
+import { ColModel } from '../../types/colModel/colModel';
 import { V_MODAL as NAMESPACE } from '../../actions/actionNamespaces';
 export const initialState = {
     colModels: [],

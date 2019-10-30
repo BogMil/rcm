@@ -3,6 +3,8 @@ import {
     Table,
     Modal,
     Button,
+    Form,
+    FormControl,
 } from "react-bootstrap";
 import '../contexMenu.css';
 import '../reactCrudMaster/reactCrudMaster.css';
@@ -10,7 +12,7 @@ import '../reactCrudMaster/reactCrudMaster.css';
 import { Provider, connect, useDispatch, useSelector } from 'react-redux'
 import { createStore } from 'redux'
 import * as Redux from 'redux'
-import { ColModel } from "../../types/colModel";
+import { ColModel } from "../../types/colModel/colModel";
 import { rootReducer, AppState } from '../../rootReducer'
 import { any } from "prop-types";
 import { TableHeaderProps, TableHeaderState, initialState, TableHeaderOwnProps, TableHeaderDispatchProps, TableHeaderStateProps } from "./tableHeader.types";
@@ -90,6 +92,33 @@ export default function TableHeaderComponent() {
                                                 &nbsp;</div> */}
                                         </DraggableColumnHeader>
                                     </DndProvider>
+
+                                </th>
+                            );
+                        })}
+                    </tr>
+                    <tr>
+                        {store.colModels.map((column) => {
+                            return (
+                                <th className="cm-header-table-colum-header"
+                                    key={column.name}
+                                    style={{ width: column.width }}
+                                    id={column.name}
+                                >
+                                    <div className="columnFilterInputControl" style={{ display: 'flex' }}>
+                                        <div>
+                                            <Form.Control style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25, width: 25, fontSize: 11 }} as="select">
+                                                <option title="asdasdsd">eq</option>
+                                                <option>lq</option>
+                                                <option>32</option>
+                                                <option>42</option>
+                                                <option>52</option>
+                                            </Form.Control>
+                                        </div>
+                                        <div style={{ width: '100%' }}>
+                                            <FormControl style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25 }}></FormControl>
+                                        </div>
+                                    </div>
 
                                 </th>
                             );
