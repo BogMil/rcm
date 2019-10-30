@@ -9,17 +9,21 @@ export class UserConfig implements UserConfigFieldProps {
 
         Object.assign(this, init);
     }
-    public rows?: any;
-    public url?: any;
-    public colModels: ColModel[] = null;
+    rows?: any;
+    numOfRowsPerPage?: number = 2;
+    listOfNumOfRowsPerPage?: number[] = [5, 10, 20, 30]
+    url?: any;
+    colModels: ColModel[] = null;
     tableTitle?: string = "tilovina"
 }
 
 export interface UserConfigFieldProps {
     rows?: any[];
     url?: any;
-    colModels: ColModel[],
-    tableTitle?: string
+    numOfRowsPerPage?: number;
+    listOfNumOfRowsPerPage?: number[];
+    colModels: ColModel[];
+    tableTitle?: string;
 }
 
 export interface CreateMode extends CreateModeMethods, CreateModeProps { }
@@ -38,7 +42,7 @@ export class UserConfigMethods implements UserConfigMethodsCreateMode {
 export class UserConfigMethodsExtractor {
 }
 ///////////////
-export interface DataOptions {
-    rows?: any;
-    url?: any;
-}
+// export interface DataOptions {
+//     rows?: any;
+//     url?: any;
+// }

@@ -1,3 +1,5 @@
+import { Data } from '../reactCrudMaster/reactCrudMaster.types';
+
 export interface TableFooterState {
 
 }
@@ -18,7 +20,9 @@ export const initialTableFooterStateProps = () => {
 };
 
 export interface TableFooterStateProps {
-  selectedRow: any
+  selectedRow: any,
+  data: Data,
+  url: string
 }
 
 export interface TableFooterDispatchProps {

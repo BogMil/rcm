@@ -53,7 +53,6 @@ export function crudModalReducer(
                 if (colModel.name.indexOf('.') < 0)
                     rowData[colModel.name] = "";
             });
-            console.log(rowData);
             return Object.assign({}, { ...state }, { rowData, emptyRowData: rowData });
         }
 

@@ -2,7 +2,6 @@ import { ColModel } from "../../types/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { setTableTitle } from "./reactCrudMaster.actions";
 import * as ReactCrudMasterConstants from './reactCrudMaster.constants'
 import { UserConfig } from '../../types/userConfig';
 
@@ -14,9 +13,17 @@ export const ReactCrudMasterActionTypeNames = {
   CHANGE_ORDER_DIRECTION: 'CHANGE_ORDER_DIRECTION',
   SELECT_ROW: 'SELECT_ROW',
   SET_DATA: 'SET_DATA',
-  SET_TABLE_TITLE: 'SET_TABLE_TITLE',
-  SWAP_COLUMN_POSITIONS: 'SWAP_COLUMN_POSITIONS'
+  SET_LOCAL_DATA: 'SET_LOCAL_DATA',
+  SWAP_COLUMN_POSITIONS: 'SWAP_COLUMN_POSITIONS',
+  SET_SIMPLE_PROPS: 'SET_SIMPLE_PROPS'
 }
+export interface SetSimplePropsRetType extends IReduxAction {
+  type: typeof ReactCrudMasterActionTypeNames.SET_SIMPLE_PROPS
+  payload: {
+    config: UserConfig
+  },
+}
+
 
 export interface SetColModelsRetType extends IReduxAction {
   type: typeof ReactCrudMasterActionTypeNames.SET_COL_MODELS
@@ -29,9 +36,17 @@ export interface SetColModelsRetType extends IReduxAction {
 export interface SetDataRetType extends IReduxAction {
   type: typeof ReactCrudMasterActionTypeNames.SET_DATA
   payload: {
+    data: Data,
+  },
+}
+
+export interface SetLocalDataRetType extends IReduxAction {
+  type: typeof ReactCrudMasterActionTypeNames.SET_DATA
+  payload: {
     data: any[],
   },
 }
+
 
 
 export interface ResizeColumnRetType extends IReduxAction {
@@ -68,13 +83,6 @@ export interface SelectRowRetType extends IReduxAction {
   },
 }
 
-export interface SetTableTitleRetType extends IReduxAction {
-  type: typeof ReactCrudMasterActionTypeNames.SET_TABLE_TITLE
-  payload: {
-    tableTitle: string
-  },
-}
-
 export interface SwapColumnPositionsRetType extends IReduxAction {
   type: typeof ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS
   payload: {
@@ -83,51 +91,13 @@ export interface SwapColumnPositionsRetType extends IReduxAction {
 }
 
 export type ReactCrudMasterActionType = SetColModelsRetType | ResizeColumnRetType | SetColumnToResizeRetType | ResetTableoffsetWidthRetType | ChangeOrderDirectionRetType | SelectRowRetType |
-  SetDataRetType | SwapColumnPositionsRetType
-
-export interface ReactCrudMasterState {
-  colModels: ColModel[];
-  data: any[];
-  width: number;
-  sortColumn: any;
-  selectedRow: any;
-  startOffset: number;
-  columnToResize: ColModel | null;
-  show: boolean;
-  RCMID: number;
-  modalState: any;
-  emptyModalState: any;
-  tableWidth: number;
-}
-
-export const initialState = () => {
-  return {
-    colModels: [],
-    data: [],
-    width: 0,
-    sortColumn: null,
-    selectedRow: null,
-    startOffset: 0,
-    columnToResize: null,
-    show: false,
-    RCMID: Date.now(),
-    modalState: null,
-    tableWidth: 0,
-    emptyModalState: null,
-  } as ReactCrudMasterState
-}
-
+  SetDataRetType | SwapColumnPositionsRetType | SetSimplePropsRetType
 
 export const initialReactCrudMasterStateProps = () => {
   return {
     colModels: [],
     // data: [],
-    data: {
-      currentPageNumber: null,
-      rows: [],
-      totalNumberOfPages: null,
-      totalNumberOfRecords: null
-    },
+    data: new Data(),
     componentWidth: 0,
     sortColumn: null,
     selectedRow: null,
@@ -145,12 +115,7 @@ export const initialReactCrudMasterStateProps = () => {
 export interface ReactCrudMasterStateProps {
   colModels: ColModel[];
   url: string;
-  data: {
-    rows: any[],
-    currentPageNumber: number,
-    totalNumberOfPages: number,
-    totalNumberOfRecords: number,
-  }
+  data: Data;
   componentWidth: number;
   sortColumn: any;
   selectedRow: any;
@@ -172,6 +137,11 @@ export interface ReactCrudMasterDispatchProps {
   resetTableoffsetWidth: () => void,
   setTableTitle: (tableTitle: string) => void
 }
-
+export class Data {
+  rows: any[] = [];
+  currentPageNumber: number = null;
+  totalNumberOfPages: number = null;
+  totalNumberOfRecords: number = null;
+}
 export type ReactCrudMasterProps = ReactCrudMasterStateProps & ReactCrudMasterDispatchProps;
 

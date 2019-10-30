@@ -1,10 +1,14 @@
-import { ReactCrudMasterActionTypeNames, ReactCrudMasterActionType } from './reactCrudMaster.types'
+import { ReactCrudMasterActionTypeNames, ReactCrudMasterActionType, Data } from './reactCrudMaster.types'
 import { ColModel } from '../../types/colModel';
 import { REACT_CRUD_MASTER } from '../../actions/actionNamespaces';
 import cloneDeep from 'lodash/cloneDeep';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import * as CrudModalActions from '../crudModal/crudModal.actions'
+import { AppState } from '../../rootReducer';
+import { UrlCreatorFactory } from '../../types/url';
+import axios from 'axios'
+import { UserConfig } from '../../types/userConfig';
 
 const namespace = REACT_CRUD_MASTER;
 
@@ -69,10 +73,19 @@ export const setColModels = (colModels: ColModel[]): ThunkAction<Promise<void>, 
     }
 }
 
-export function setData(data: any[]): ReactCrudMasterActionType {
+export function setData(data: Data): ReactCrudMasterActionType {
     let clonedData = cloneDeep(data);
     return {
         type: ReactCrudMasterActionTypeNames.SET_DATA,
+        payload: { data: clonedData },
+        namespace,
+    }
+}
+
+export function setLocalData(data: any[]): ReactCrudMasterActionType {
+    let clonedData = cloneDeep(data);
+    return {
+        type: ReactCrudMasterActionTypeNames.SET_LOCAL_DATA,
         payload: { data: clonedData },
         namespace,
     }
@@ -122,11 +135,11 @@ export function selectRow(row: any): ReactCrudMasterActionType {
     }
 }
 
-export function setTableTitle(tableTitle: any): ReactCrudMasterActionType {
+export function setSimpleProps(config: UserConfig): ReactCrudMasterActionType {
     return {
-        type: ReactCrudMasterActionTypeNames.SET_TABLE_TITLE,
+        type: ReactCrudMasterActionTypeNames.SET_SIMPLE_PROPS,
         namespace,
-        payload: { tableTitle }
+        payload: { config }
     }
 }
 
@@ -135,5 +148,24 @@ export function swapColumnPositions(columnPosition1: number, columnPosition2: nu
         type: ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS,
         namespace,
         payload: { columnPosition1, columnPosition2 }
+    }
+}
+
+export function goToNextPage() {
+    return (dispatch, getState) => {
+        let store = getState() as AppState;
+
+        var url = UrlCreatorFactory.createFromStore(store);
+        axios({
+            method: 'get',
+            url: url.url,
+        }).then((res) => {
+            let data = new Data;
+            data.rows = res.data.records;
+            data.currentPageNumber = res.data.currentPageNumber;
+            data.totalNumberOfPages = res.data.totalNumberOfPages;
+            data.totalNumberOfRecords = res.data.totalNumberOfRecords;
+            dispatch(setData(data));
+        });
     }
 }

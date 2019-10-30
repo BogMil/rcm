@@ -9,8 +9,9 @@ import {
     ChangeOrderDirectionRetType,
     SelectRowRetType,
     SetDataRetType,
-    SetTableTitleRetType,
     SwapColumnPositionsRetType,
+    SetLocalDataRetType,
+    SetSimplePropsRetType
 } from './reactCrudMaster.types'
 import update from 'immutability-helper'
 import { REACT_CRUD_MASTER } from '../../actions/actionNamespaces';
@@ -49,6 +50,14 @@ export function reactCrudMasterReducer(
 
         case ReactCrudMasterActionTypeNames.SET_DATA: {
             let typedAction = <SetDataRetType>action
+            return Object.assign({}, { ...state },
+                {
+                    data: Object.assign({}, state.data, { ...typedAction.payload.data })
+                });
+        }
+
+        case ReactCrudMasterActionTypeNames.SET_LOCAL_DATA: {
+            let typedAction = <SetLocalDataRetType>action
 
             return Object.assign({}, { ...state },
                 {
@@ -115,10 +124,9 @@ export function reactCrudMasterReducer(
 
             return Object.assign({}, { ...state }, { colModels: colModels })
         }
-
-        case ReactCrudMasterActionTypeNames.SET_TABLE_TITLE: {
-            let typedAction = <SetTableTitleRetType>action;
-            return Object.assign({}, { ...state }, { tableTitle: typedAction.payload.tableTitle })
+        case ReactCrudMasterActionTypeNames.SET_SIMPLE_PROPS: {
+            let typedAction = <SetSimplePropsRetType>action;
+            return Object.assign({}, { ...state }, { url: typedAction.payload.config.url, tableTitle: typedAction.payload.config.tableTitle })
         }
 
         case ReactCrudMasterActionTypeNames.SWAP_COLUMN_POSITIONS: {

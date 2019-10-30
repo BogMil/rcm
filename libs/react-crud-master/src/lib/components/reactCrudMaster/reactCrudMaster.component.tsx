@@ -8,7 +8,7 @@ import './reactCrudMaster.css';
 
 import TableFooter from "../tableFooter/tableFooter.component"
 import { connect, useDispatch, useSelector } from 'react-redux'
-import { ReactCrudMasterProps, ReactCrudMasterState, initialState, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps } from "./reactCrudMaster.types";
+import { ReactCrudMasterProps, Data, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps } from "./reactCrudMaster.types";
 import { ColModel, ColModelMethodsExtractor } from "../../types/colModel";
 import { AppState } from '../../rootReducer'
 import * as Actions from './reactCrudMaster.actions'
@@ -25,6 +25,7 @@ import axios from 'axios';
 
 import { ThunkDispatch } from "redux-thunk";
 import { UserConfig } from '../../types/userConfig';
+import { UrlCreator } from '../../types/url';
 
 export default function ReactCrudMasterComponent(config: UserConfig) {
     const dispatch = useDispatch();
@@ -32,24 +33,25 @@ export default function ReactCrudMasterComponent(config: UserConfig) {
 
     useEffect(() => {
         dispatch(Actions.setColModels(config.colModels))
-
+        dispatch(Actions.setSimpleProps(config))
         if (config.url) {
+            var url = new UrlCreator({ url: config.url, currentPageNumber: 1 }).attachPager(1, 2).url;
             axios({
                 method: 'get',
-                url: config.url
+                url: url,
             }).then((res) => {
-                dispatch(Actions.setData(res.data.records));
+                let data = new Data;
+                data.rows = res.data.records;
+                data.currentPageNumber = res.data.currentPageNumber;
+                data.totalNumberOfPages = res.data.totalNumberOfPages;
+                data.totalNumberOfRecords = res.data.totalNumberOfRecords;
+                dispatch(Actions.setData(data));
             });
         } else if (config.rows) {
-            dispatch(Actions.setData(config.rows));
+            dispatch(Actions.setLocalData(config.rows));
         }
 
         dispatch(Actions.resetTableoffsetWidth());
-
-        if (config.tableTitle != null)
-            dispatch(Actions.setTableTitle(config.tableTitle))
-        else
-            dispatch(Actions.setTableTitle('Table title'));
 
         window.addEventListener("resize", () => dispatch(Actions.resetTableoffsetWidth()));
 
