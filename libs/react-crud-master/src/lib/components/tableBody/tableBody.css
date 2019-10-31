@@ -43,4 +43,5 @@
   word-wrap: break-word;
   white-space: normal;
   word-break: break-all;
+  padding: 3px !important;
 }

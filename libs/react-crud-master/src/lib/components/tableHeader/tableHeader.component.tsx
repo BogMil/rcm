@@ -50,11 +50,14 @@ export default function TableHeaderComponent() {
     const onThClick = (column: ColModel) => {
         dispatch(ReactCrudMasterActions.changeOrderDirection(column));
     };
-
     return (
         <div className='cm-table-header-holder' id={`cm-table-header-holder-${store.RCMID}`} onScroll={onHorizontalScroll}>
             <Table className="cm-header-table" striped bordered hover size="sm"
-                style={{ width: store.tableWidth }}
+                style={{
+                    width: store.tableWidth,
+                    borderLeft: 0,
+                    borderRight: 0
+                }}
             >
                 <thead className='cm-header-table-thead'>
                     <tr>
@@ -101,7 +104,7 @@ export default function TableHeaderComponent() {
                     </tr>
                     <tr>
                         {store.colModels.map((column) => {
-                            if (column.columnType.name != ColumnTypeNames.FOREIGN_KEY)
+                            if (column.columnType.show)
                                 return (
                                     <th className="cm-header-table-colum-header"
                                         key={column.name}

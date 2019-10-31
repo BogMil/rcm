@@ -1,10 +1,15 @@
 .cm-table-header-holder {
   overflow-x: hidden;
-  border-right: 5px solid rgba(0, 0, 0, 0.05);
+  display: block;
+  /* border-right: 5px solid rgba(0, 0, 0, 0.05); */
 }
 
 .cm-header-table-thead {
   align-items: center;
+  display: block;
+  /* overflow-y: auto; */
+
+  /* max-height: 400px; */
 }
 
 .cm-header-table {
@@ -51,8 +56,6 @@
   position: absolute;
   cursor: col-resize;
   display: inline;
-  /* width: 4px; */
-  /* float: right; */
   margin-left: 1;
   height: 100%;
 }
@@ -78,3 +81,7 @@
     border: none !important;
   }
 } */
+th,
+tr {
+  padding: 3px !important;
+}

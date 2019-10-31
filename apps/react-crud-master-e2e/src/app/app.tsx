@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master-workspace/react-crud-master';
 import { UserConfig } from 'libs/react-crud-master/src/lib/types/userConfig';
 import { ForeignKey } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKey';
+import { PrimaryKey } from 'libs/react-crud-master/src/lib/types/columnTypes/primaryKey';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -139,7 +140,8 @@ export class App extends Component {
         width: 150,
         createMode: {
           InputControl: InputControlTypes.string(),
-        }
+        },
+        columnType: new PrimaryKey()
       }),
       new ColModel({
         name: 'name',
@@ -162,7 +164,7 @@ export class App extends Component {
           InputControl: InputControlTypes.string(),
         },
         columnType: new ForeignKey({
-          // show: false,
+          show: true,
           valueColumnName: 'city.name',
           options: [
             [1, "Kovin"],
@@ -174,7 +176,7 @@ export class App extends Component {
       new ColModel({
         name: 'city.name',
         label: 'city',
-        width: 150,
+        width: 160,
         createMode: {
           InputControl: InputControlTypes.string(),
         }
@@ -197,7 +199,9 @@ export class App extends Component {
 
     return (
       <>
-        <ReactCrudMaster {...config1} />
+        <div>
+          <ReactCrudMaster {...config1} />
+        </div>
         <ReactCrudMaster {...config2} />
       </>
     );

@@ -58,7 +58,7 @@ export default function TableBodyComponent() {
         <div id={`cm-data-table-holder-${store.RCMID}`} className="cm-data-table-holder" onScroll={(e: any) => testScroll(e)}>
             <Table className="cm-data-table" striped bordered hover size="sm"
                 style={{
-                    width: store.tableWidth + 1,
+                    width: store.tableWidth,
                     borderLeft: 0,
                     borderRight: 0
                 }}>
