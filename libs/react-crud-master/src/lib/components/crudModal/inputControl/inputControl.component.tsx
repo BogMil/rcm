@@ -4,8 +4,8 @@ import {
     Button,
     Form,
 } from "react-bootstrap";
-
-import { InputControlState, initialState, InputControlProps } from "./inputControl.types";
+import { useSelect } from 'react-redux'
+import { InputControlState, initialState, InputControlProps, InputControlOwnProps } from "./inputControl.types";
 import { InputControlTypeNames } from '../../../constants/InputControlTypeNames';
 import { ColModel } from '../../../types/colModel/colModel';
 import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentationType } from '../../../types/inputControlTypesTest';
@@ -15,16 +15,9 @@ import { getPropertyValueByString } from '../../../utils/objectHelper';
 import { ColumnTypeNames } from '../../../constants/columnTypeNames';
 import { ForeignKey } from '../../../types/columnTypes/foreignKey';
 
-export default class InputControlComponent extends Component<InputControlProps, InputControlState>{
-    constructor(props: InputControlProps) {
-        super(props);
-        this.state = initialState();
-    }
+export default function InputControlComponent2(props: InputControlOwnProps) {
 
-    componentDidMount = () => {
-
-    }
-    decideInputType = (colType: string): string => {
+    const decideInputType = (colType: string): string => {
         switch (colType) {
             case InputControlTypeNames.STRING:
                 return 'text';
@@ -34,22 +27,22 @@ export default class InputControlComponent extends Component<InputControlProps, 
         }
     }
 
-    renderInputControl = () => {
-        if (this.props.isInCreateMode) {
-            let type = this.props.column.createMode.InputControl.inputType
+    const renderInputControl = () => {
+        if (props.isInCreateMode) {
+            let type = props.column.createMode.InputControl.inputType
 
-            if (this.props.column.columnType.name == ColumnTypeNames.FOREIGN_KEY) {
+            if (props.column.columnType.name == ColumnTypeNames.FOREIGN_KEY) {
                 return (
                     <>
                         < Form.Control
                             as="select"
-                            onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                            // type={this.decideInputType(this.props.column.createMode.InputControl.inputType)}
-                            // placeholder={this.props.column.name}
+                            onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
+                            // type={this.decideInputType(props.column.createMode.InputControl.inputType)}
+                            // placeholder={props.column.name}
                             className="cm-crud-modal-text-input"
-                            value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                            value={getPropertyValueByString(props.rowData, props.column.name)}
                         >
-                            {(this.props.column.columnType as ForeignKey).options.map(o => <option key={o[0]} value={o[0]}>{o[1]}</option>)}
+                            {(props.column.columnType as ForeignKey).options.map(o => <option key={o[0]} value={o[0]}>{o[1]}</option>)}
 
                         </Form.Control>
                     </>
@@ -61,23 +54,23 @@ export default class InputControlComponent extends Component<InputControlProps, 
                     return (
                         <>
                             < Form.Control
-                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                                type={this.decideInputType(this.props.column.createMode.InputControl.inputType)}
-                                placeholder={this.props.column.name}
+                                onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
+                                type={this.decideInputType(props.column.createMode.InputControl.inputType)}
+                                placeholder={props.column.name}
                                 className="cm-crud-modal-text-input"
-                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                                value={getPropertyValueByString(props.rowData, props.column.name)}
                             />
                         </>
                     );
                 case InputControlTypeNames.BOOL:
-                    let Bool = this.props.column.createMode.InputControl as Bool;
+                    let Bool = props.column.createMode.InputControl as Bool;
 
                     if (Bool.presentationType instanceof SelectBoolPresentationType) {
                         let selectOptions = Bool.presentationType as SelectBoolPresentationType;
                         return (
                             <Form.Control
-                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                                onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
+                                value={getPropertyValueByString(props.rowData, props.column.name)}
                                 defaultValue={selectOptions.default ? selectOptions.trueValue : selectOptions.falseValue}
                                 as="select">
                                 <option defaultChecked value={selectOptions.trueValue}>{selectOptions.trueLabel}</option>
@@ -92,7 +85,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
 
                         return (
                             <Form.Check
-                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
+                                onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
                                 custom
                                 disabled={Bool.disabled}
                                 type={'switch'}
@@ -100,7 +93,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
-                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                                value={getPropertyValueByString(props.rowData, props.column.name)}
                             />
                         );
                     }
@@ -109,7 +102,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
 
                         return (
                             <Form.Check
-                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
+                                onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
                                 custom
                                 disabled={Bool.disabled}
                                 type={'checkbox'}
@@ -117,7 +110,7 @@ export default class InputControlComponent extends Component<InputControlProps, 
                                 label={options.label}
                                 className="cm-crud-modal-text-input"
                                 defaultChecked={Bool.default}
-                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                                value={getPropertyValueByString(props.rowData, props.column.name)}
                             />
                         );
                     }
@@ -128,10 +121,10 @@ export default class InputControlComponent extends Component<InputControlProps, 
                         <>
 
                             < Form.Control
-                                onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                                placeholder={this.props.column.name}
+                                onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
+                                placeholder={props.column.name}
                                 className="cm-crud-modal-text-input"
-                                value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                                value={getPropertyValueByString(props.rowData, props.column.name)}
                             />
                         </>
                     );
@@ -141,27 +134,25 @@ export default class InputControlComponent extends Component<InputControlProps, 
             <>
 
                 < Form.Control
-                    onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
-                    placeholder={this.props.column.name}
+                    onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
+                    placeholder={props.column.name}
                     className="cm-crud-modal-text-input"
-                    value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                    value={getPropertyValueByString(props.rowData, props.column.name)}
                 />
             </>
         );
     }
 
-    render = () => {
-        return (
-            <div key={this.props.column.name} className="cm-crud-modal-input-holder">
-                <Form.Group style={{ marginBottom: 5 }}>
-                    <Form.Label htmlFor={this.props.column.name} style={{ marginBottom: 0 }} >
-                        {this.props.column.name}
-                    </Form.Label>
-                    {this.renderInputControl()}
-                </Form.Group>
-            </div>
-        );
-    }
+    let label = props.column.name
 
-
+    return (
+        <div key={props.column.name} className="cm-crud-modal-input-holder">
+            <Form.Group style={{ marginBottom: 5 }}>
+                <Form.Label htmlFor={props.column.name} style={{ marginBottom: 0 }} >
+                    {label}
+                </Form.Label>
+                {this.renderInputControl()}
+            </Form.Group>
+        </div>
+    );
 }

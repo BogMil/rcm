@@ -162,7 +162,7 @@ export class App extends Component {
           InputControl: InputControlTypes.string(),
         },
         columnType: new ForeignKey({
-          show: true,
+          // show: false,
           valueColumnName: 'city.name',
           options: [
             [1, "Kovin"],
@@ -173,6 +173,7 @@ export class App extends Component {
       }),
       new ColModel({
         name: 'city.name',
+        label: 'city',
         width: 150,
         createMode: {
           InputControl: InputControlTypes.string(),
