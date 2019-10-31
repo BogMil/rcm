@@ -9,6 +9,7 @@ import { AppState } from '../../rootReducer'
 import { TableBodyStateProps } from "./tableBody.types";
 import * as ReactableActions from '../reactCrudMaster/reactCrudMaster.actions'
 import { getPropertyValueByString } from '../../utils/objectHelper';
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
 
 export default function TableBodyComponent() {
     const dispatch = useDispatch();
@@ -73,7 +74,8 @@ export default function TableBodyComponent() {
                                 >
                                     {
                                         store.colModels.map((colModel, index) => {
-                                            return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
+                                            if (colModel.columnType.show)
+                                                return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
                                         })
                                     }
                                 </tr>

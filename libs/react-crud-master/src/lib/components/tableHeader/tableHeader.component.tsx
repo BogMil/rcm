@@ -24,6 +24,7 @@ import * as TextSelection from '../../utils/textSelection'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import DraggableColumnHeader from './draggableColumnHeader';
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
 
 export default function TableHeaderComponent() {
     const dispatch = useDispatch();
@@ -58,19 +59,20 @@ export default function TableHeaderComponent() {
                 <thead className='cm-header-table-thead'>
                     <tr>
                         {store.colModels.map((column) => {
-                            return (
-                                <th className="cm-header-table-colum-header"
-                                    key={column.name}
-                                    style={{ width: column.width }}
-                                    id={column.name}
-                                >
-                                    <DndProvider backend={HTML5Backend}>
-                                        <DraggableColumnHeader column={column} moveCard={moveCard}
-                                            onThClick={() => onThClick(column)}
-                                            onClick={() => dispatch(ColMenuModelActions.openModal(column))}
-                                            onMouseDown={(e) => setColumnToResize(e, column)}
-                                        >
-                                            {/* <div className="cm-column-header-content-holder" >
+                            if (column.columnType.show)
+                                return (
+                                    <th className="cm-header-table-colum-header"
+                                        key={column.name}
+                                        style={{ width: column.width }}
+                                        id={column.name}
+                                    >
+                                        <DndProvider backend={HTML5Backend}>
+                                            <DraggableColumnHeader column={column} moveCard={moveCard}
+                                                onThClick={() => onThClick(column)}
+                                                onClick={() => dispatch(ColMenuModelActions.openModal(column))}
+                                                onMouseDown={(e) => setColumnToResize(e, column)}
+                                            >
+                                                {/* <div className="cm-column-header-content-holder" >
                                                 <div className="cm-column-header-label" onClick={() => this.onThClick(column)}>
                                                     {column.orderDirection != "" && `${column.orderDirection} `}{column.label}
                                                 </div>
@@ -90,38 +92,39 @@ export default function TableHeaderComponent() {
                                                 onMouseDown={e => this.setColumnToResize(e, column)}
                                             >
                                                 &nbsp;</div> */}
-                                        </DraggableColumnHeader>
-                                    </DndProvider>
+                                            </DraggableColumnHeader>
+                                        </DndProvider>
 
-                                </th>
-                            );
+                                    </th>
+                                );
                         })}
                     </tr>
                     <tr>
                         {store.colModels.map((column) => {
-                            return (
-                                <th className="cm-header-table-colum-header"
-                                    key={column.name}
-                                    style={{ width: column.width }}
-                                    id={column.name}
-                                >
-                                    <div className="columnFilterInputControl" style={{ display: 'flex' }}>
-                                        <div>
-                                            <Form.Control style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25, width: 25, fontSize: 11 }} as="select">
-                                                <option title="asdasdsd">eq</option>
-                                                <option>lq</option>
-                                                <option>32</option>
-                                                <option>42</option>
-                                                <option>52</option>
-                                            </Form.Control>
+                            if (column.columnType.name != ColumnTypeNames.FOREIGN_KEY)
+                                return (
+                                    <th className="cm-header-table-colum-header"
+                                        key={column.name}
+                                        style={{ width: column.width }}
+                                        id={column.name}
+                                    >
+                                        <div className="columnFilterInputControl" style={{ display: 'flex' }}>
+                                            <div>
+                                                <Form.Control style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25, width: 25, fontSize: 11 }} as="select">
+                                                    <option title="asdasdsd">eq</option>
+                                                    <option>lq</option>
+                                                    <option>32</option>
+                                                    <option>42</option>
+                                                    <option>52</option>
+                                                </Form.Control>
+                                            </div>
+                                            <div style={{ width: '100%' }}>
+                                                <FormControl style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25 }}></FormControl>
+                                            </div>
                                         </div>
-                                        <div style={{ width: '100%' }}>
-                                            <FormControl style={{ borderRadius: 0, padding: 0, paddingLeft: 2, height: 25 }}></FormControl>
-                                        </div>
-                                    </div>
 
-                                </th>
-                            );
+                                    </th>
+                                );
                         })}
                     </tr>
                 </thead>

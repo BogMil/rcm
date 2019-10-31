@@ -12,6 +12,8 @@ import { InputControlTypes, SwitchBoolPresentationType, CheckboxBoolPresentation
 import { Bool } from '../../../types/inputControlTypes/bool'
 import { SelectBoolPresentationType } from '../../../types/inputControlTypesTest'
 import { getPropertyValueByString } from '../../../utils/objectHelper';
+import { ColumnTypeNames } from '../../../constants/columnTypeNames';
+import { ForeignKey } from '../../../types/columnTypes/foreignKey';
 
 export default class InputControlComponent extends Component<InputControlProps, InputControlState>{
     constructor(props: InputControlProps) {
@@ -35,6 +37,24 @@ export default class InputControlComponent extends Component<InputControlProps, 
     renderInputControl = () => {
         if (this.props.isInCreateMode) {
             let type = this.props.column.createMode.InputControl.inputType
+
+            if (this.props.column.columnType.name == ColumnTypeNames.FOREIGN_KEY) {
+                return (
+                    <>
+                        < Form.Control
+                            as="select"
+                            onChange={(e: any) => this.props.onRowDataChange(this.props.column.name, e.target.value)}
+                            // type={this.decideInputType(this.props.column.createMode.InputControl.inputType)}
+                            // placeholder={this.props.column.name}
+                            className="cm-crud-modal-text-input"
+                            value={getPropertyValueByString(this.props.rowData, this.props.column.name)}
+                        >
+                            {(this.props.column.columnType as ForeignKey).options.map(o => <option key={o[0]} value={o[0]}>{o[1]}</option>)}
+
+                        </Form.Control>
+                    </>
+                );
+            }
 
             switch (type) {
                 case InputControlTypeNames.STRING: case InputControlTypeNames.INTEGER: case InputControlTypeNames.DECIMAL:

@@ -13,6 +13,9 @@ export class ColModel implements ColModelFieldProps {
         if (init == undefined) return;
 
         this.createMode = Object.assign({}, this.createMode, init.createMode);
+        if (init.columnType != undefined)
+            this.columnType = init.columnType
+
         Object.keys(init).forEach(key => {
             if (!(init[key] instanceof Object)) {
                 this[key] = init[key];

@@ -15,6 +15,7 @@ import {
 } from './reactCrudMaster.types'
 import update from 'immutability-helper'
 import { REACT_CRUD_MASTER } from '../../actions/actionNamespaces';
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
 export const initialState = {
     colModels: [],
     data: [],
@@ -85,7 +86,8 @@ export function reactCrudMasterReducer(
 
             let tableWidth = 0;
             colModels.forEach(colModel => {
-                tableWidth += colModel.width;
+                if (colModel.columnType.show)
+                    tableWidth += colModel.width;
             });
             let newState = update(state, { colModels: { $set: colModels }, tableWidth: { $set: tableWidth } });
             return newState;

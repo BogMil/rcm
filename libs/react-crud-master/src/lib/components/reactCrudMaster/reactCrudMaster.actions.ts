@@ -9,6 +9,8 @@ import { AppState } from '../../rootReducer';
 import { UrlCreatorFactory } from '../../types/url';
 import axios from 'axios'
 import { UserConfig } from '../../types/userConfig';
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
+import { ForeignKey } from '../../types/columnTypes/foreignKey';
 
 const namespace = REACT_CRUD_MASTER;
 
@@ -17,8 +19,10 @@ export function privateSetColModels(colModels: ColModel[]): ReactCrudMasterActio
 
     let tableWidth: number = 0;
     clonedColModels.forEach((colModel: ColModel) => {
-        tableWidth += getUsefullColModelWith(colModel);
-        colModel.showColMenuModal = false;
+        if (colModel.columnType.show) {
+            tableWidth += getUsefullColModelWith(colModel);
+            colModel.showColMenuModal = false;
+        }
     });
 
     clonedColModels = orderColumns(clonedColModels);
