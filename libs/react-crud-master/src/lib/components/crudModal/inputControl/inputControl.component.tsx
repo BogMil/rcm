@@ -55,7 +55,7 @@ export default function InputControlComponent2(props: InputControlOwnProps) {
                         <>
                             < Form.Control
                                 onChange={(e: any) => props.onRowDataChange(props.column.name, e.target.value)}
-                                type={this.decideInputType(props.column.createMode.InputControl.inputType)}
+                                type={decideInputType(props.column.createMode.InputControl.inputType)}
                                 placeholder={props.column.name}
                                 className="cm-crud-modal-text-input"
                                 value={getPropertyValueByString(props.rowData, props.column.name)}
@@ -151,7 +151,7 @@ export default function InputControlComponent2(props: InputControlOwnProps) {
                 <Form.Label htmlFor={props.column.name} style={{ marginBottom: 0 }} >
                     {label}
                 </Form.Label>
-                {this.renderInputControl()}
+                {renderInputControl()}
             </Form.Group>
         </div>
     );

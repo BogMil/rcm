@@ -57,8 +57,8 @@ export class App extends Component {
         width: 150,
         createMode: {
           InputControl: InputControlTypes.Bool({
-            presentationType: InputControlTypes.BoolPresentationTypes.SWITCH({ label: 'testera' }),
-            // presentationType: InputControlTypes.BoolPresentationTypes.SELECT({ trueLabel: 'true label a', falseLabel: 'false lab', trueValue: 1, falseValue: 0, default: false }),
+            // presentationType: InputControlTypes.BoolPresentationTypes.SWITCH({ label: 'testera' }),
+            presentationType: InputControlTypes.BoolPresentationTypes.SELECT({ trueLabel: 'true label a', falseLabel: 'false lab', trueValue: 1, falseValue: 0, default: false }),
             disabled: false,
             default: true
           }),
@@ -164,7 +164,7 @@ export class App extends Component {
           InputControl: InputControlTypes.string(),
         },
         columnType: new ForeignKey({
-          show: true,
+          // show: true,
           valueColumnName: 'city.name',
           options: [
             [1, "Kovin"],
