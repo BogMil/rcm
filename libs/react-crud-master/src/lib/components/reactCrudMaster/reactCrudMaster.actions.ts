@@ -10,7 +10,7 @@ import { UrlCreatorFactory } from '../../types/url';
 import axios from 'axios'
 import { UserConfig } from '../../types/userConfig';
 import { ColumnTypeNames } from '../../constants/columnTypeNames';
-import { ForeignKey } from '../../types/columnTypes/foreignKey';
+import { ForeignKey } from '../../types/columnTypes/foreignKeyColumnType';
 
 const namespace = REACT_CRUD_MASTER;
 

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master-workspace/react-crud-master';
 import { UserConfig } from 'libs/react-crud-master/src/lib/types/userConfig';
-import { ForeignKey } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKey';
-import { PrimaryKey } from 'libs/react-crud-master/src/lib/types/columnTypes/primaryKey';
+import { ForeignKey } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKeyColumnType';
+import { PrimaryKey } from 'libs/react-crud-master/src/lib/types/columnTypes/primaryKeyColumnType';
+import { StringColumnType } from 'libs/react-crud-master/src/lib/types/columnTypes/stringColumnType';
+import { StringInputControlType } from 'libs/react-crud-master/src/lib/types/inputControlTypes/stringInputControlType';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -27,29 +29,29 @@ export class App extends Component {
       new ColModel({
         name: 'pkey',
         width: 150,
-        createMode: {
-          InputControl: InputControlTypes.string(),
-        }
+        // createMode: {
+        //   // InputControl: InputControlTypes.String({ presentationType: StringInputControlType.presentaionTypes.TEXTBOX() }),
+        // }
       }),
       new ColModel({
         name: 'integer',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
       new ColModel({
         name: 'decimal',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
       new ColModel({
         name: 'string',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
       new ColModel({
@@ -71,21 +73,21 @@ export class App extends Component {
         name: 'datetime',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
       new ColModel({
         name: 'fkey',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
       new ColModel({
         name: 'select',
         width: 150,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
     ]
@@ -138,39 +140,28 @@ export class App extends Component {
       new ColModel({
         name: 'id',
         width: 150,
-        createMode: {
-          InputControl: InputControlTypes.string(),
-        },
         columnType: new PrimaryKey()
       }),
       new ColModel({
         name: 'name',
         width: 400,
-        createMode: {
-          InputControl: InputControlTypes.string(),
-        }
       }),
       new ColModel({
         name: 'mail',
         width: 300,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String({
+            presentationType: StringInputControlType.presentaionTypes.TEXTAREA()
+          })
         }
       }),
       new ColModel({
         name: 'cityId',
         width: 150,
-        createMode: {
-          InputControl: InputControlTypes.string(),
-        },
         columnType: new ForeignKey({
           // show: true,
           valueColumnName: 'city.name',
-          options: [
-            [1, "Kovin"],
-            [3, "Pancevo"],
-            [2, "Beograd"],
-          ]
+          optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name}'
         })
       }),
       new ColModel({
@@ -178,7 +169,7 @@ export class App extends Component {
         label: 'city',
         width: 160,
         createMode: {
-          InputControl: InputControlTypes.string(),
+          InputControl: InputControlTypes.String(),
         }
       }),
     ]

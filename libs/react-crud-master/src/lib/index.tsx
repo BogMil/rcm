@@ -19,4 +19,4 @@ export function ReactCrudMaster(config: UserConfig) {
 export default ReactCrudMaster
 
 export { ColModel } from './types/colModel/colModel'
-export { InputControlTypes } from './types/inputControlTypesTest'
+export { InputControlTypes } from './types/inputControlTypes/inputControlTypesTest'

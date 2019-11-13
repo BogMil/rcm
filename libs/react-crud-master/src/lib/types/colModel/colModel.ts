@@ -1,7 +1,7 @@
-import { InputControlTypes } from '../inputControlTypesTest'
+import { InputControlTypes } from '../inputControlTypes/inputControlTypesTest'
 import { InputControlType } from '../inputControlTypes/commonInterfaces'
 import { IColumnType } from '../columnTypes/commonInterfaces';
-import { String } from '../columnTypes/string';
+import { StringColumnType } from '../columnTypes/stringColumnType';
 export class ColModel implements ColModelFieldProps {
 
     private static created: boolean = false;
@@ -12,7 +12,9 @@ export class ColModel implements ColModelFieldProps {
 
         if (init == undefined) return;
 
-        this.createMode = Object.assign({}, this.createMode, init.createMode);
+        if (init.createMode != null)
+            this.createMode = Object.assign({}, this.createMode, init.createMode);
+
         if (init.columnType != undefined)
             this.columnType = init.columnType
 
@@ -55,13 +57,14 @@ export class ColModel implements ColModelFieldProps {
     public orderDirection: string = "";
     public showColMenuModal: boolean = false;
     public columnPosition: number = null;
-    public columnType: IColumnType = new String();
+    public columnType: IColumnType = new StringColumnType();
 
-    public createMode: CreateMode = {
-        InputControl: InputControlTypes.string(),
-        beforeChange: () => { },
-        afterChange: () => { }
-    };
+    public createMode: CreateMode
+    // = {
+    //     InputControl: InputControlTypes.string(),
+    //     beforeChange: () => { },
+    //     afterChange: () => { }
+    // };
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
         if (label.indexOf(" ") < 0) {
@@ -126,11 +129,12 @@ export class ColModelMethods implements ColModelMethodsCreateMode {
 
     constructor(colModel: ColModel) {
         this.name = colModel.name;
-        this.createModeInputControl = colModel.createMode.InputControl;
-        this.createMode = {
+        this.createModeInputControl = colModel.createMode != null ? colModel.createMode.InputControl : null;
+        this.createMode = colModel.createMode != null ? {
             beforeChange: colModel.createMode.beforeChange,
             afterChange: colModel.createMode.afterChange
-        }
+        } :
+            null
     }
     name: string;
     createModeInputControl: InputControlType;

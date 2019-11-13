@@ -8,4 +8,6 @@ export const InputControlTypeNames = {
     FILE: 'FILE',
     DATETIME: 'DATETIME',
     FKEY: 'FKEY',
+    SELECT: 'SELECT',
+    NONE: 'NONE'
 }
