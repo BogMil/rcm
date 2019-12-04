@@ -41,6 +41,7 @@ export function generateColNamePropertiesInRowData(colModels: ColModel[]): Gener
 }
 
 export function onRowDataChange(name: string, value: any): CrudModalActionType {
+    console.log(`nam:${name}, value:${value}`);
     return {
         type: CrudModalActionTypeNames.ON_ROW_DATA_CHANGE,
         payload: {

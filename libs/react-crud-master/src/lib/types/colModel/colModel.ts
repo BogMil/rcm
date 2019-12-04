@@ -2,6 +2,9 @@ import { InputControlTypes } from '../inputControlTypes/inputControlTypesTest'
 import { InputControlType } from '../inputControlTypes/commonInterfaces'
 import { IColumnType } from '../columnTypes/commonInterfaces';
 import { StringColumnType } from '../columnTypes/stringColumnType';
+import { TextBox } from '../inputControlTypes/stringInputControlType';
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
+import { ForeignKey } from '../columnTypes/foreignKeyColumnType';
 export class ColModel implements ColModelFieldProps {
 
     private static created: boolean = false;
@@ -12,11 +15,14 @@ export class ColModel implements ColModelFieldProps {
 
         if (init == undefined) return;
 
-        if (init.createMode != null)
-            this.createMode = Object.assign({}, this.createMode, init.createMode);
-
         if (init.columnType != undefined)
             this.columnType = init.columnType
+
+        if (init.InputControl == undefined)
+            this.InputControl = this.getCorespondingInputControl(this.columnType);
+        else
+            this.InputControl = init.InputControl
+
 
         Object.keys(init).forEach(key => {
             if (!(init[key] instanceof Object)) {
@@ -59,12 +65,7 @@ export class ColModel implements ColModelFieldProps {
     public columnPosition: number = null;
     public columnType: IColumnType = new StringColumnType();
 
-    public createMode: CreateMode
-    // = {
-    //     InputControl: InputControlTypes.string(),
-    //     beforeChange: () => { },
-    //     afterChange: () => { }
-    // };
+    public InputControl: InputControlType;
 
     public calculateMinWithOfColumnByLabel = (label: string): number => {
         if (label.indexOf(" ") < 0) {
@@ -97,6 +98,27 @@ export class ColModel implements ColModelFieldProps {
         document.body.appendChild(t);
         ColModel.created = true;
     }
+
+    private getCorespondingInputControl(colType: IColumnType): InputControlType {
+        switch (colType.name) {
+            case ColumnTypeNames.FOREIGN_KEY:
+                return InputControlTypes.Select({ optionsUrl: (colType as ForeignKey).optionsUrl });
+
+            case ColumnTypeNames.STRING:
+                return InputControlTypes.String();
+
+            case ColumnTypeNames.PRIMARY_KEY:
+                return InputControlTypes.None();
+
+            case ColumnTypeNames.DECIMAL:
+                return InputControlTypes.Decimal();
+
+            case ColumnTypeNames.BOOL:
+                return InputControlTypes.Bool();
+            case ColumnTypeNames.INTEGER:
+                return InputControlTypes.Integer();
+        }
+    }
 }
 
 export interface ColModelFieldProps {
@@ -107,7 +129,7 @@ export interface ColModelFieldProps {
     columnPosition: number;
     minWidth: number;
     width: number;
-    createMode: CreateMode;
+    InputControl: InputControlType;
 }
 
 export interface CreateMode extends CreateModeMethods, CreateModeProps { }
@@ -128,13 +150,13 @@ export interface ColModelMethodsCreateMode {
 export class ColModelMethods implements ColModelMethodsCreateMode {
 
     constructor(colModel: ColModel) {
-        this.name = colModel.name;
-        this.createModeInputControl = colModel.createMode != null ? colModel.createMode.InputControl : null;
-        this.createMode = colModel.createMode != null ? {
-            beforeChange: colModel.createMode.beforeChange,
-            afterChange: colModel.createMode.afterChange
-        } :
-            null
+        // this.name = colModel.name;
+        // this.createModeInputControl = colModel.createMode != null ? colModel.createMode.InputControl : null;
+        // this.createMode = colModel.createMode != null ? {
+        //     beforeChange: colModel.createMode.beforeChange,
+        //     afterChange: colModel.createMode.afterChange
+        // } :
+        //     null
     }
     name: string;
     createModeInputControl: InputControlType;

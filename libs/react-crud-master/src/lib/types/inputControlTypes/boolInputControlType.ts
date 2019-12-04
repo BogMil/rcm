@@ -8,7 +8,7 @@ export interface BoolOptions extends CommonInputTypeConfigProps {
 }
 export class Bool implements InputControlType, BoolOptions {
     get inputType() { return InputControlTypeNames.BOOL }
-    public presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType
+    public presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType = new CheckboxBoolPresentationType()
     public disabled: boolean
     public default: boolean
     public controlLabel: string
@@ -29,7 +29,7 @@ export class CheckboxSwitchBoolPresentationType implements CheckSwitchBoolPresen
     constructor(options?: Partial<CheckSwitchBoolPresentationTypeOptions>) {
         Object.assign(this, options)
     }
-    label: string = 'bool label'
+    label: string = ''
 }
 
 export interface CheckboxBoolPresentationTypeOptions extends CheckSwitchBoolPresentationTypeOptions { }

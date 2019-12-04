@@ -1,0 +1,12 @@
+.cm-input-control {
+  border-radius: 0;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+  border-radius: 0 !important;
+}
+
+.cm-input-control::placeholder {
+  color: #909090;
+}

@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 
 import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master-workspace/react-crud-master';
 import { UserConfig } from 'libs/react-crud-master/src/lib/types/userConfig';
-import { ForeignKey } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKeyColumnType';
+import { ForeignKey, ForeignKeyDependency } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKeyColumnType';
 import { PrimaryKey } from 'libs/react-crud-master/src/lib/types/columnTypes/primaryKeyColumnType';
+import { Bool } from 'libs/react-crud-master/src/lib/types/columnTypes/boolColumnType';
+import Decimal from 'libs/react-crud-master/src/lib/types/columnTypes/decimalColumnType';
 import { StringColumnType } from 'libs/react-crud-master/src/lib/types/columnTypes/stringColumnType';
-import { StringInputControlType } from 'libs/react-crud-master/src/lib/types/inputControlTypes/stringInputControlType';
+import { StringInputControlType, TextArea } from 'libs/react-crud-master/src/lib/types/inputControlTypes/stringInputControlType';
+import { ColumnTypeNames } from 'libs/react-crud-master/src/lib/constants/columnTypeNames';
+import IntegerColumnType from 'libs/react-crud-master/src/lib/types/columnTypes/integerColumnType';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -25,153 +29,45 @@ export class App extends Component {
   constructor(props) {
     super(props);
 
-    this.colModels2 = [
-      new ColModel({
-        name: 'pkey',
-        width: 150,
-        // createMode: {
-        //   // InputControl: InputControlTypes.String({ presentationType: StringInputControlType.presentaionTypes.TEXTBOX() }),
-        // }
-      }),
-      new ColModel({
-        name: 'integer',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-      new ColModel({
-        name: 'decimal',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-      new ColModel({
-        name: 'string',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-      new ColModel({
-        name: 'bool',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.Bool({
-            // presentationType: InputControlTypes.BoolPresentationTypes.SWITCH({ label: 'testera' }),
-            presentationType: InputControlTypes.BoolPresentationTypes.SELECT({ trueLabel: 'true label a', falseLabel: 'false lab', trueValue: 1, falseValue: 0, default: false }),
-            disabled: false,
-            default: true
-          }),
-          beforeChange: () => console.log('aaaaaaaaaaaaaaaa'),
-          afterChange: () => console.log('afterChange')
-        }
 
-      }),
-      new ColModel({
-        name: 'datetime',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-      new ColModel({
-        name: 'fkey',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-      new ColModel({
-        name: 'select',
-        width: 150,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
-      }),
-    ]
-
-    this.data2 = [
-      {
-        pkey: 1,
-        integer: 1,
-        decimal: 1.2,
-        string: "someString",
-        bool: true,
-        datetime: "12345",
-        fkey: "mail@gmail.com",
-        select: "mail@gmail.com"
-      },
-
-      {
-        pkey: 2,
-        integer: 2,
-        decimal: 2.2,
-        string: "someString",
-        bool: true,
-        datetime: "12345",
-        fkey: "mail@gmail.com",
-        select: "mail@gmail.com"
-      },
-      {
-        pkey: 3,
-        integer: 3,
-        decimal: 1.0002,
-        string: "someString",
-        bool: true,
-        datetime: "12345",
-        fkey: "mail@gmail.com",
-        select: "mail@gmail.com"
-      },
-      {
-        pkey: 4,
-        integer: 14,
-        decimal: 14.2,
-        string: "someString",
-        bool: true,
-        datetime: "12345",
-        fkey: "mail@gmail.com",
-        select: "mail@gmail.com"
-      },
-    ]
 
     this.colModels3 = [
-      new ColModel({
-        name: 'id',
-        width: 150,
-        columnType: new PrimaryKey()
-      }),
-      new ColModel({
-        name: 'name',
-        width: 400,
-      }),
+      new ColModel({ name: 'id', width: 150, columnType: new PrimaryKey(), columnPosition: 1 }),
+      new ColModel({ name: 'name', width: 400, InputControl: InputControlTypes.String(), columnPosition: 2 }),
       new ColModel({
         name: 'mail',
         width: 300,
-        createMode: {
-          InputControl: InputControlTypes.String({
-            presentationType: StringInputControlType.presentaionTypes.TEXTAREA()
-          })
-        }
+        InputControl: InputControlTypes.String({ presentationType: new TextArea({ rows: 3 }) }),
+        columnPosition: 3
       }),
       new ColModel({
-        name: 'cityId',
+        name: 'dtoCityId',
         width: 150,
         columnType: new ForeignKey({
-          // show: true,
           valueColumnName: 'city.name',
-          optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name}'
+          optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name}',
+          dependencies: [
+            new ForeignKeyDependency({
+              optionsUrl: 'https://localhost:44368/api/City/OptionsForForeignKey?fkName=regionId&template={name}',
+              dependency: new ForeignKeyDependency({ optionsUrl: 'region' })
+            })
+          ]
         })
       }),
       new ColModel({
         name: 'city.name',
         label: 'city',
         width: 160,
-        createMode: {
-          InputControl: InputControlTypes.String(),
-        }
+        InputControl: InputControlTypes.String(),
+        columnPosition: 4
       }),
+      new ColModel({ name: 'nekiInt', width: 150, columnType: new IntegerColumnType() }),
+      new ColModel({ name: 'nekiLong', width: 150, columnType: new IntegerColumnType() }),
+      new ColModel({ name: 'nekiDecimal', width: 150, columnType: new Decimal() }),
+      new ColModel({ name: 'nekiFloat', width: 150, columnType: new Decimal() }),
+      new ColModel({ name: 'nekiDouble', width: 150, columnType: new Decimal() }),
+      new ColModel({ name: 'nekiBool', width: 150, columnType: new Bool(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH() }) }),
+
     ]
   }
 
@@ -189,12 +85,7 @@ export class App extends Component {
     });
 
     return (
-      <>
-        <div>
-          <ReactCrudMaster {...config1} />
-        </div>
-        <ReactCrudMaster {...config2} />
-      </>
+      <ReactCrudMaster {...config2} />
     );
   }
 

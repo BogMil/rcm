@@ -28,15 +28,15 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
 
     const onRowDataChange = (name: string, value: any) => {
         let colModelMethods = props.colModelsMethods.filter(x => x.name == name)[0];
+        let x = store.colModels.filter(s => s.name == name)[0];
+        // colModelMethods.createMode.beforeChange();
 
-        colModelMethods.createMode.beforeChange();
-
-        if (colModelMethods.createModeInputControl.inputType == 'BOOL')
+        if (x.InputControl.inputType == 'BOOL')
             value = !store.rowData[name];
 
         dispatch(CrudModalActions.onRowDataChange(name, value))
 
-        colModelMethods.createMode.afterChange();
+        // colModelMethods.createMode.afterChange();
     };
 
     return (
@@ -46,8 +46,11 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
             centered
             className="cm-crud-modal"
         >
-            <Modal.Header className="cm-crud-modal-header" closeButton >
-                <Modal.Title>Modal heading </Modal.Title>
+            <Modal.Header className="cm-crud-modal-header" >
+                <Modal.Title as="h5">Modal heading </Modal.Title>
+                <button className="cm-crud-modal-footer-btn" style={{ backgroundColor: 'transparent', border: 0, marginRight: 8, position: 'absolute', right: 0 }} onClick={handleClose} >
+                    <span style={{ color: 'rgb(90, 98, 104)' }} className="fa fa-times" aria-hidden="true"></span>
+                </button>
             </Modal.Header>
             <Modal.Body className="cm-crud-modal-body">
                 {
@@ -65,11 +68,11 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
                     })
                 }
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose} >
+            <Modal.Footer className="cm-crud-modal-footer">
+                <Button className="cm-crud-modal-footer-btn" variant="secondary" onClick={handleClose} >
                     Close
                         </Button>
-                < Button variant="primary" onClick={handleClose} >
+                < Button className="cm-crud-modal-footer-btn" variant="primary" onClick={handleClose} >
                     Save Changes
                 </Button>
             </Modal.Footer>

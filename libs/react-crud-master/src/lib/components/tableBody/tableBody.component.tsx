@@ -74,8 +74,15 @@ export default function TableBodyComponent() {
                                 >
                                     {
                                         store.colModels.map((colModel, index) => {
-                                            if (colModel.columnType.show)
+                                            if (colModel.columnType.show) {
+                                                let val = getPropertyValueByString(dataRow, colModel.name);
+
+                                                if (colModel.columnType.name == ColumnTypeNames.BOOL) {
+                                                    return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name) == true ? 'true' : 'false'} </td>;
+                                                }
+
                                                 return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
+                                            }
                                         })
                                     }
                                 </tr>
