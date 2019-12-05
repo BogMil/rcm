@@ -4,6 +4,7 @@ import { InputControlTypeNames } from '../../constants/InputControlTypeNames'
 export interface NoneOptions extends CommonInputTypeConfigProps {
 }
 export class None implements InputControlType, NoneOptions {
+
     get inputType() { return InputControlTypeNames.NONE }
     disabled: boolean = false;
     default: boolean;
@@ -13,5 +14,9 @@ export class None implements InputControlType, NoneOptions {
 
     constructor(boolConfig?: Partial<NoneOptions>) {
         Object.assign(this, boolConfig);
+    }
+
+    render(rowData: import("../../components/crudModal/crudModal.types").IRowData, column: import("../..").ColModel, onRowDataChange: (name: string, value: any) => void): JSX.Element {
+        return null;
     }
 }

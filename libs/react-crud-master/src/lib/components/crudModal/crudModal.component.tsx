@@ -56,6 +56,7 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
                 {
                     store.colModels.map((column, i) => {
                         if (column.name.indexOf('.') < 0)
+                            // return column.InputControl.render(store.rowData, column, onRowDataChange);
                             return (
                                 <InputControl
                                     key={i}
