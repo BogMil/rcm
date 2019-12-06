@@ -77,7 +77,7 @@ export interface CrudModalStateProps {
   emptyRowData: IRowData,
   isInCreateMode: boolean;
   RCMID: number;
-
+  url: string;
 }
 
 export interface CrudModalDispatchProps {

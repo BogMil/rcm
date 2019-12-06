@@ -11,6 +11,8 @@ import { AppState } from '../../rootReducer'
 import * as CrudModalActions from '../crudModal/crudModal.actions'
 import { CrudModalOwnProps, CrudModalStateProps } from "./crudModal.types";
 import InputControl from './inputControl/inputControl.component'
+import { ColumnTypeNames } from '../../constants/columnTypeNames';
+import * as Service from './crudModal.service'
 
 export default function CrudModalComponent(props: CrudModalOwnProps) {
     const dispatch = useDispatch();
@@ -18,7 +20,8 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
         return {
             ...state.crudModal,
             colModels: state.reactCrudMaster.colModels,
-            RCMID: state.reactCrudMaster.RCMID
+            RCMID: state.reactCrudMaster.RCMID,
+            url: state.reactCrudMaster.url
         }
     }) as CrudModalStateProps;
 
@@ -39,6 +42,19 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
         // colModelMethods.createMode.afterChange();
     };
 
+    const save = () => {
+        let pk = store.colModels.find(s => s.columnType.name == ColumnTypeNames.PRIMARY_KEY)
+        if (store.rowData[pk.name]) {
+            console.log('update');
+        } else {
+            Service.create(store.url, store.rowData)
+                .then(res => console.log(res))
+        }
+    };
+
+    const create = () => {
+    }
+
     return (
         < Modal style={{ borderRadius: 0 }}
             show={store.show}
@@ -47,7 +63,7 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
             className="cm-crud-modal"
         >
             <Modal.Header className="cm-crud-modal-header" >
-                <Modal.Title as="h5">Modal heading </Modal.Title>
+                <Modal.Title as="h6">Add</Modal.Title>
                 <button className="cm-crud-modal-footer-btn" style={{ backgroundColor: 'transparent', border: 0, marginRight: 8, position: 'absolute', right: 0 }} onClick={handleClose} >
                     <span style={{ color: 'rgb(90, 98, 104)' }} className="fa fa-times" aria-hidden="true"></span>
                 </button>
@@ -73,7 +89,7 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
                 <Button className="cm-crud-modal-footer-btn" variant="secondary" onClick={handleClose} >
                     Close
                         </Button>
-                < Button className="cm-crud-modal-footer-btn" variant="primary" onClick={handleClose} >
+                < Button className="cm-crud-modal-footer-btn" variant="primary" onClick={save} >
                     Save Changes
                 </Button>
             </Modal.Footer>
