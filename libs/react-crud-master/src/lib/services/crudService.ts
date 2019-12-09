@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 export async function create(url, rowData) {
-
-    console.log(url);
     return axios.post(url, rowData)
+}
+
+export async function update(url, rowData) {
+    return axios.put(url, rowData)
 }
 
 export async function get(url) {

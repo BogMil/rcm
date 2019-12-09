@@ -32,6 +32,16 @@ export const create = (url: string, data: any): ThunkAction<Promise<void>, {}, {
     }
 }
 
+export const update = (url: string, data: any): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
+    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getStore): Promise<void> => {
+        await CrudService.update(url, data)
+
+        var dataInfo = StoreHelper.getDataInfo(getStore)
+        var refreshUrl = new UrlCreator({ baseUrl: url, currentPageNumber: dataInfo.currentPageNumber, numOfRowsPerPage: dataInfo.numOfRowsPerPage }).url;
+        dispatch(get(refreshUrl));
+    }
+}
+
 export const del = (url: string, row: any): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getStore): Promise<void> => {
         let pkName = StoreHelper.getPkName(getStore);

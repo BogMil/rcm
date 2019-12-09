@@ -48,7 +48,7 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
     const save = async () => {
         let pk = store.colModels.find(s => s.columnType.name == ColumnTypeNames.PRIMARY_KEY)
         if (store.rowData[pk.name]) {
-            console.log('update');
+            update(store.url, store.rowData);
         } else {
             create(store.url, store.rowData);
         }
@@ -59,12 +59,22 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
         dispatch(CrudModalActions.closeModal());
     }
 
+    const update = (url, data) => {
+        dispatch(CrudActions.update(url, data));
+        dispatch(CrudModalActions.closeModal());
+    }
+
+    const onShow = () => {
+        console.log(store.rowData)
+    }
+
     return (
         < Modal style={{ borderRadius: 0 }}
             show={store.show}
             onHide={handleClose}
             centered
             className="cm-crud-modal"
+            onShow={onShow}
         >
             <Modal.Header className="cm-crud-modal-header" >
                 <Modal.Title as="h6">Add</Modal.Title>

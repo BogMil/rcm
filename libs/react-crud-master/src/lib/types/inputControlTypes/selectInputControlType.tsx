@@ -40,9 +40,6 @@ export class Select implements InputControlType, SelectOptions {
                 dependency = dependency.dependency;
             }
 
-            console.log(dependecies)
-
-
             if (column.columnType.name == ColumnTypeNames.FOREIGN_KEY) {
                 axios({ url: this.optionsUrl, method: 'GET' })
                     .then(r => {
@@ -55,7 +52,7 @@ export class Select implements InputControlType, SelectOptions {
         let inputControlType = column.InputControl;
         if (inputControlType.inputType == InputControlTypeNames.SELECT) {
 
-            var htmlOptions = [];
+            var htmlOptions = [<option key={-1} value={null}>-</option>];
             options.forEach(o => htmlOptions.push(<option key={o.key} value={o.key}>{o.value}</option>))
             let label = (column.columnType as ForeignKey).valueColumnName
 
