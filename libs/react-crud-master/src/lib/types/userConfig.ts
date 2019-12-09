@@ -10,7 +10,7 @@ export class UserConfig implements UserConfigFieldProps {
         Object.assign(this, init);
     }
     rows?: any;
-    numOfRowsPerPage?: number = 2;
+    numOfRowsPerPage?: number = 4;
     listOfNumOfRowsPerPage?: number[] = [5, 10, 20, 30]
     url?: any;
     colModels: ColModel[] = null;

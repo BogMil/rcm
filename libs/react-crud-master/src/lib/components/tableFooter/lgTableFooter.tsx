@@ -107,8 +107,7 @@ export default function LgTableFooterComponent() {
                 </InputGroup>
             </Col>
             < Col xs={4} style={{ textAlign: "right" }}>
-                <Button>{"<"} </Button>
-                < Button > {">"} </Button>
+                {store.data.numOfRowsPerPage * (store.data.currentPageNumber - 1) + 1} - {store.data.numOfRowsPerPage * store.data.currentPageNumber} od {store.data.totalNumberOfRecords}
             </Col>
         </Row>
     );

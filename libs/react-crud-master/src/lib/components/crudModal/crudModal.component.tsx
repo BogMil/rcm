@@ -12,7 +12,9 @@ import * as CrudModalActions from '../crudModal/crudModal.actions'
 import { CrudModalOwnProps, CrudModalStateProps } from "./crudModal.types";
 import InputControl from './inputControl/inputControl.component'
 import { ColumnTypeNames } from '../../constants/columnTypeNames';
-import * as Service from './crudModal.service'
+import * as CrudService from '../../services/crudService'
+import { UrlCreator, UrlCreatorFactory } from '../../types/url';
+import * as CrudActions from '../../actions/crud'
 
 export default function CrudModalComponent(props: CrudModalOwnProps) {
     const dispatch = useDispatch();
@@ -21,7 +23,8 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
             ...state.crudModal,
             colModels: state.reactCrudMaster.colModels,
             RCMID: state.reactCrudMaster.RCMID,
-            url: state.reactCrudMaster.url
+            url: state.reactCrudMaster.url,
+            data: state.reactCrudMaster.data
         }
     }) as CrudModalStateProps;
 
@@ -42,17 +45,18 @@ export default function CrudModalComponent(props: CrudModalOwnProps) {
         // colModelMethods.createMode.afterChange();
     };
 
-    const save = () => {
+    const save = async () => {
         let pk = store.colModels.find(s => s.columnType.name == ColumnTypeNames.PRIMARY_KEY)
         if (store.rowData[pk.name]) {
             console.log('update');
         } else {
-            Service.create(store.url, store.rowData)
-                .then(res => console.log(res))
+            create(store.url, store.rowData);
         }
     };
 
-    const create = () => {
+    const create = (url, data) => {
+        dispatch(CrudActions.create(url, data));
+        dispatch(CrudModalActions.closeModal());
     }
 
     return (

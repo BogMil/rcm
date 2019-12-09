@@ -18,7 +18,7 @@ export class Bool implements InputControlType, BoolOptions {
     get inputType() { return InputControlTypeNames.BOOL }
     public presentationType: SelectBoolPresentationType | SwitchBoolPresentationType | CheckboxBoolPresentationType = new CheckboxBoolPresentationType()
     public disabled: boolean
-    public default: boolean
+    public default: boolean = false;
     public controlLabel: string
 
     /**
@@ -39,6 +39,7 @@ export class Bool implements InputControlType, BoolOptions {
         });
 
         const renderBoolInputControl = () => {
+            let val = getPropertyValueByString(rowData, column.name);
             let bool = column.InputControl as Bool;
             if (bool.presentationType instanceof SelectBoolPresentationType) {
                 let selectOptions = bool.presentationType as SelectBoolPresentationType;
@@ -67,8 +68,7 @@ export class Bool implements InputControlType, BoolOptions {
                         id={`${RCMID}-${column.name}`}
                         label={options.label}
                         className="cm-crud-modal-text-input"
-                        defaultChecked={bool.default}
-                        value={getPropertyValueByString(rowData, column.name)}
+                        checked={getPropertyValueByString(rowData, column.name)}
                     />
                 );
             }
@@ -85,7 +85,6 @@ export class Bool implements InputControlType, BoolOptions {
                         id={`${RCMID}-${column.name}`}
                         label={options.label}
                         className="cm-crud-modal-text-input cm-input-control"
-                        defaultChecked={bool.default}
                         value={getPropertyValueByString(rowData, column.name)}
                     />
                 );

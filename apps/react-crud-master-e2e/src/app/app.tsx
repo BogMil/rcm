@@ -45,7 +45,7 @@ export class App extends Component {
         width: 150,
         columnType: new ForeignKey({
           valueColumnName: 'city.name',
-          optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name}',
+          optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name} {postalCode}',
           dependencies: [
             new ForeignKeyDependency({
               optionsUrl: 'https://localhost:44368/api/City/OptionsForForeignKey?fkName=regionId&template={name}',
@@ -66,7 +66,7 @@ export class App extends Component {
       new ColModel({ name: 'nekiDecimal', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiFloat', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiDouble', width: 150, columnType: new Decimal() }),
-      new ColModel({ name: 'nekiBool', width: 150, columnType: new Bool(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH() }) }),
+      new ColModel({ name: 'nekiBool', width: 150, columnType: new Bool(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH(), default: true }) }),
 
     ]
   }
@@ -85,7 +85,10 @@ export class App extends Component {
     });
 
     return (
-      <ReactCrudMaster {...config2} />
+      <>
+        <ReactCrudMaster {...config2} />
+        <ReactCrudMaster {...config2} />
+      </>
     );
   }
 

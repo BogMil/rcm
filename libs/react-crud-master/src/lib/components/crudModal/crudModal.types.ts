@@ -1,5 +1,6 @@
 import { ColModel, ColModelMethods } from "../../types/colModel/colModel";
 import { IReduxAction } from "../../types/IReduxAction";
+import { Data } from '../reactCrudMaster/reactCrudMaster.types';
 
 export const CrudModalActionTypeNames = {
   CLOSE_MODAL: "CLOSE_MODAL",
@@ -78,6 +79,7 @@ export interface CrudModalStateProps {
   isInCreateMode: boolean;
   RCMID: number;
   url: string;
+  data: Data;
 }
 
 export interface CrudModalDispatchProps {

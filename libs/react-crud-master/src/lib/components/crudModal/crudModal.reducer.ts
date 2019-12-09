@@ -2,6 +2,8 @@ import { CrudModalStateProps, initialCrudModalStateProps, CrudModalActionType, C
 import update from 'immutability-helper'
 import { ColModel } from '../../types/colModel/colModel';
 import { CRUD_MODAL } from '../../actions/actionNamespaces';
+import { InputControlTypeNames } from '../../constants/InputControlTypeNames';
+import { Bool } from '../../types/inputControlTypes/boolInputControlType';
 export const initialState = {
     colModels: [],
     data: [],
@@ -50,9 +52,14 @@ export function crudModalReducer(
             let rowData: IRowData = {};
 
             typedAction.payload.colModels.map((colModel: ColModel) => {
-                if (colModel.name.indexOf('.') < 0)
-                    rowData[colModel.name] = "";
+                if (colModel.name.indexOf('.') < 0) {
+                    if (colModel.InputControl.inputType == InputControlTypeNames.BOOL)
+                        rowData[colModel.name] = (colModel.InputControl as Bool).default;
+                    else
+                        rowData[colModel.name] = "";
+                }
             });
+            console.log(rowData)
             return Object.assign({}, { ...state }, { rowData, emptyRowData: rowData });
         }
 

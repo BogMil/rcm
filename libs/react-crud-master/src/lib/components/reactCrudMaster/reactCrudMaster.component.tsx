@@ -2,12 +2,10 @@ import React, { Component, useEffect } from "react";
 import {
     Card, Row, Col
 } from "react-bootstrap";
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu'
-// import '../contexMenu.css';
 import './reactCrudMaster.css';
 
 import TableFooter from "../tableFooter/tableFooter.component"
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { ReactCrudMasterProps, Data, ReactCrudMasterStateProps, ReactCrudMasterDispatchProps } from "./reactCrudMaster.types";
 import { ColModel, ColModelMethodsExtractor } from "../../types/colModel/colModel";
 import { AppState } from '../../rootReducer'
@@ -22,6 +20,8 @@ import * as TextSelection from '../../utils/textSelection'
 import WarningModal from '../common/modals/warningModal/warningModal.component'
 import YesnoModal from '../common/modals/yesnoModal/yesnoModal.component'
 import axios from 'axios';
+import * as CrudService from '../../services/crudService'
+import * as CrudActions from '../../actions/crud'
 
 import { ThunkDispatch } from "redux-thunk";
 import { UserConfig } from '../../types/userConfig';
@@ -36,17 +36,7 @@ export default function ReactCrudMasterComponent(config: UserConfig) {
         dispatch(Actions.setSimpleProps(config))
         if (config.url) {
             var url = new UrlCreator({ baseUrl: config.url, currentPageNumber: 1, numOfRowsPerPage: config.numOfRowsPerPage }).url;
-            axios({
-                method: 'get',
-                url: url,
-            }).then((res) => {
-                let data = new Data;
-                data.rows = res.data.records;
-                data.currentPageNumber = res.data.currentPageNumber;
-                data.totalNumberOfPages = res.data.totalNumberOfPages;
-                data.totalNumberOfRecords = res.data.totalNumberOfRecords;
-                dispatch(Actions.setData(data));
-            });
+            dispatch(CrudActions.get(url));
         } else if (config.rows) {
             dispatch(Actions.setLocalData(config.rows));
         }

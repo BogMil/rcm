@@ -99,7 +99,9 @@ export default function SmTableFooterComponent() {
                     </Button>
                 </InputGroup>
             </Col>
-            <Col xs={4} > 102 - 103 / 123 </Col>
+            <Col xs={4} >
+                {store.data.numOfRowsPerPage * (store.data.currentPageNumber - 1) + 1} - {store.data.numOfRowsPerPage * store.data.currentPageNumber} od {store.data.totalNumberOfRecords}
+            </Col>
         </Row>
     );
 

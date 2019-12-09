@@ -31,7 +31,8 @@ export const initialContextMenuModalStateProps = () => {
   return {
     contextMenuTrigger: null,
     selectedRow: null,
-    RCMID: Date.now()
+    RCMID: Date.now(),
+    baseUrl: ""
   }
 };
 
@@ -39,6 +40,7 @@ export interface ContextMenuModalStateProps {
   contextMenuTrigger: any;
   RCMID: number;
   selectedRow: any;
+  baseUrl: string;
 }
 
 export interface ContextMenuModalDispatchProps {

@@ -17,13 +17,15 @@ import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import * as WarningModalActions from '../common/modals/warningModal/warningModal.actions'
 import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actions'
 import * as VModalActions from '../vModal/vModal.actions'
+import * as CrudActions from '../../actions/crud'
 
 export default function ContextMenuModal() {
     const dispatch = useDispatch();
     const store = useSelector((state: AppState) => {
         return {
             RCMID: state.reactCrudMaster.RCMID,
-            selectedRow: state.reactCrudMaster.selectedRow
+            selectedRow: state.reactCrudMaster.selectedRow,
+            baseUrl: state.reactCrudMaster.url
         }
     }) as ContextMenuModalStateProps;
 
@@ -39,7 +41,9 @@ export default function ContextMenuModal() {
             dispatch(WarningModalActions.openModal('Select row first'));
             return;
         }
-        dispatch(YesnoModalActions.openModal('title', 'areYouSure', () => console.log("deleted")));
+        dispatch(YesnoModalActions.openModal('title', 'areYouSure', () => {
+            dispatch(CrudActions.del(store.baseUrl, store.selectedRow))
+        }));
     }
 
     const onClickOnView = () => {
