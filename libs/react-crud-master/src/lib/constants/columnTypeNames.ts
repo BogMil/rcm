@@ -4,5 +4,6 @@ export const ColumnTypeNames = {
     PRIMARY_KEY: 'PRIMARY_KEY',
     DECIMAL: 'DECIMAL',
     BOOL: 'BOOL',
-    INTEGER: 'INTEGER'
+    INTEGER: 'INTEGER',
+    DATE_TIME: 'DATE_TIME'
 }

@@ -10,6 +10,7 @@ import { StringColumnType } from 'libs/react-crud-master/src/lib/types/columnTyp
 import { StringInputControlType, TextArea } from 'libs/react-crud-master/src/lib/types/inputControlTypes/stringInputControlType';
 import { ColumnTypeNames } from 'libs/react-crud-master/src/lib/constants/columnTypeNames';
 import IntegerColumnType from 'libs/react-crud-master/src/lib/types/columnTypes/integerColumnType';
+import DateTimeColumnType from 'libs/react-crud-master/src/lib/types/columnTypes/dateTimeColumnType';
 // import 'react-crud-master/css/bundle.css'
 
 export class App extends Component {
@@ -44,7 +45,7 @@ export class App extends Component {
         name: 'dtoCityId',
         width: 150,
         columnType: new ForeignKey({
-          valueColumnName: 'city.name',
+          valueColumnName: 'cityName',
           optionsUrl: 'https://localhost:44368/api/school/OptionsForForeignKey?fkName=DtoCityId&template={name} {postalCode}',
           dependencies: [
             new ForeignKeyDependency({
@@ -55,10 +56,10 @@ export class App extends Component {
         })
       }),
       new ColModel({
-        name: 'city.name',
+        name: 'cityName',
         label: 'city',
         width: 160,
-        InputControl: InputControlTypes.String(),
+        InputControl: InputControlTypes.None(),
         columnPosition: 4
       }),
       new ColModel({ name: 'nekiInt', width: 150, columnType: new IntegerColumnType() }),
@@ -67,6 +68,7 @@ export class App extends Component {
       new ColModel({ name: 'nekiFloat', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiDouble', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiBool', width: 150, columnType: new Bool(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH(), default: true }) }),
+      new ColModel({ name: 'nekiDatum', width: 200, columnType: new DateTimeColumnType() }),
 
     ]
   }

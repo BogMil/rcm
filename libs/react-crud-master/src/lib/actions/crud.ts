@@ -7,16 +7,30 @@ import { IReduxAction } from '../types/IReduxAction';
 import { UrlCreator } from '../types/url';
 import { AppState } from '../rootReducer';
 import * as StoreHelper from '../utils/reduxStoreHelper'
+import { colModels } from '../testData';
+import { ColumnTypeNames } from '../constants/columnTypeNames';
 
 export const get = (url: string): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
-    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
+    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getStore): Promise<void> => {
         await CrudService.get(url)
             .then((res) => {
                 let data = new Data;
-                data.rows = res.data.records;
+                // data.rows = res.data.records;
                 data.currentPageNumber = res.data.currentPageNumber;
                 data.totalNumberOfPages = res.data.totalNumberOfPages;
                 data.totalNumberOfRecords = res.data.totalNumberOfRecords;
+
+                let store = getStore() as AppState;
+                let colModels = store.reactCrudMaster.colModels;
+
+                data.rows = res.data.records.map((row) => {
+                    colModels.forEach(colModel => {
+                        if (colModel.columnType.name == ColumnTypeNames.DATE_TIME)
+                            row[colModel.name] = new Date(row[colModel.name]);
+                    });
+                    return row;
+                });
+
                 dispatch(ReactCrudMasterActions.setData(data));
             });
     }

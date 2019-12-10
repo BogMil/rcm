@@ -6,7 +6,7 @@ export const InputControlTypeNames = {
     BOOL: 'BOOL',
     IMAGE: 'IMAGE',
     FILE: 'FILE',
-    DATETIME: 'DATETIME',
+    DATE_TIME: 'DATE_TIME',
     FKEY: 'FKEY',
     SELECT: 'SELECT',
     NONE: 'NONE'

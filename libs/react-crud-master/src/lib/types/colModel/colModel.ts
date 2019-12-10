@@ -115,8 +115,12 @@ export class ColModel implements ColModelFieldProps {
 
             case ColumnTypeNames.BOOL:
                 return InputControlTypes.Bool();
+
             case ColumnTypeNames.INTEGER:
                 return InputControlTypes.Integer();
+
+            case ColumnTypeNames.DATE_TIME:
+                return InputControlTypes.DateTime();
         }
     }
 }

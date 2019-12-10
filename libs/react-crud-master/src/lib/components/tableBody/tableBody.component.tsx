@@ -81,6 +81,10 @@ export default function TableBodyComponent() {
                                                     return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name) == true ? 'true' : 'false'} </td>;
                                                 }
 
+                                                if (colModel.columnType.name == ColumnTypeNames.DATE_TIME) {
+                                                    return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name).toLocaleDateString()} </td>;
+                                                }
+
                                                 return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
                                             }
                                         })

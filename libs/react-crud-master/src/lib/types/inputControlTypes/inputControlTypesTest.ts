@@ -7,6 +7,8 @@ import { None } from './noneInputControlType'
 import Decimal from './decimalInputControlType'
 import IntegerColumnType from '../columnTypes/integerColumnType'
 import IntegerInputControlType from './integerInpuntControlType'
+import DateTimeColumnType from '../columnTypes/dateTimeColumnType'
+import DateTimeInputControlType from './dateTimeControlType'
 
 export const InputControlTypes = {
 
@@ -20,7 +22,7 @@ export const InputControlTypes = {
     None: () => new None(),
     Decimal: () => new Decimal(),
     Integer: () => new IntegerInputControlType(),
-
+    DateTime: () => new DateTimeInputControlType(),
 
     BoolPresentationTypes: {
         CHECKBOX(options?: Partial<CheckboxBoolPresentationTypeOptions>) { return new CheckboxBoolPresentationType(options) },
