@@ -20,10 +20,7 @@ import * as YesnoModalActions from '../common/modals/yesnoModal/yesnoModal.actio
 import * as VModalActions from '../vModal/vModal.actions'
 import * as FontAwesomeClasses from '../../FontAwesomeClasses'
 import './tableFooter.css'
-import { UrlCreator } from '../../types/url';
-import axios from 'axios'
-import { Data } from '../reactCrudMaster/reactCrudMaster.types';
-import { data } from '../../testData';
+import * as CrudActions from '../../actions/crud'
 
 export default function LgTableFooterComponent() {
     const dispatch = useDispatch();
@@ -56,17 +53,17 @@ export default function LgTableFooterComponent() {
     }
 
     const onClickOnNextPage = () => {
-        dispatch(ReactCrudMasterActions.goToNextPage());
+        dispatch(CrudActions.goToNextPage());
     }
 
     const onClickOnPreviousPage = () => {
-        dispatch(ReactCrudMasterActions.goToPreviousPage());
+        dispatch(CrudActions.goToPreviousPage());
     }
     const onClickOnLastPage = () => {
-        dispatch(ReactCrudMasterActions.goToLastPage());
+        dispatch(CrudActions.goToLastPage());
     }
     const onClickOnFirstPage = () => {
-        dispatch(ReactCrudMasterActions.goToFirstPage());
+        dispatch(CrudActions.goToFirstPage());
     }
     return (
         <Row className="cm-table-footer cm-table-footer-lg">

@@ -4,7 +4,7 @@ import * as CrudService from '../services/crudService'
 import { Data } from '../components/reactCrudMaster/reactCrudMaster.types';
 import * as ReactCrudMasterActions from '../components/reactCrudMaster/reactCrudMaster.actions'
 import { IReduxAction } from '../types/IReduxAction';
-import { UrlCreator } from '../types/url';
+import { UrlCreator, UrlCreatorFactory } from '../types/url';
 import { AppState } from '../rootReducer';
 import * as StoreHelper from '../utils/reduxStoreHelper'
 import { colModels } from '../testData';
@@ -64,5 +64,35 @@ export const del = (url: string, row: any): ThunkAction<Promise<void>, {}, {}, A
         var dataInfo = StoreHelper.getDataInfo(getStore)
         var refreshUrl = new UrlCreator({ baseUrl: url, currentPageNumber: dataInfo.currentPageNumber, numOfRowsPerPage: dataInfo.numOfRowsPerPage }).url;
         dispatch(get(refreshUrl));
+    }
+}
+
+export function goToNextPage() {
+    return (dispatch, getState) => {
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        dispatch(get(urlCreator.nextPage().url))
+    }
+}
+
+export function goToPreviousPage() {
+    return (dispatch, getState) => {
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        dispatch(get(urlCreator.previousPage().url))
+    }
+}
+
+export function goToFirstPage() {
+    return (dispatch, getState) => {
+        var urlCreator = UrlCreatorFactory.createFromStore(getState());
+        dispatch(get(urlCreator.nthPage(1).url))
+    }
+}
+
+export function goToLastPage() {
+    return (dispatch, getState) => {
+        let store = getState() as AppState;
+        var urlCreator = UrlCreatorFactory.createFromStore(store);
+        dispatch(get(urlCreator.nthPage(store.reactCrudMaster.data.totalNumberOfPages).url))
+
     }
 }
