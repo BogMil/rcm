@@ -1,7 +1,7 @@
 import { InputControlType } from '../inputControlTypes/commonInterfaces'
 import { IColumnType } from '../columnTypes/commonInterfaces';
 import { StringColumnType } from '../columnTypes/stringColumnType';
-// import { getCorespondingInputControl } from '../../utils/getCorespondingInputControl';
+
 export class ColModel implements ColModelFieldProps {
 
   private static created: boolean = false;
