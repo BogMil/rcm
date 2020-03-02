@@ -5,6 +5,8 @@ import { InputControlTypes } from '../..';
 import { getPropertyValueByString } from '../../utils/objectHelper';
 
 import React from 'react';
+import { SelectInputControlType } from '../inputControlTypes/selectInputControlType';
+import { InputControlType } from '../inputControlTypes/commonInterfaces';
 export interface ForeignKeyOptions {
   show?: boolean;
   valueColumnName: string
@@ -14,6 +16,7 @@ export interface ForeignKeyOptions {
   dependencies?: ForeignKeyDependency[]
 }
 export class ForeignKey implements IColumnType, ForeignKeyProps {
+  defaultInputControl = (): InputControlType => new SelectInputControlType();
   render(colModel: ColModel, dataRow: any, index: any): JSX.Element {
     return <td key={index} className="cm-data-cell" style={{ width: colModel.width }}> {getPropertyValueByString(dataRow, colModel.name)} </td>;
   }

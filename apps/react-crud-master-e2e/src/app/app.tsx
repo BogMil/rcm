@@ -4,7 +4,7 @@ import { ReactCrudMaster, ColModel, InputControlTypes } from '@react-crud-master
 import { UserConfig } from 'libs/react-crud-master/src/lib/types/userConfig';
 import { ForeignKey, ForeignKeyDependency } from 'libs/react-crud-master/src/lib/types/columnTypes/foreignKeyColumnType';
 import { PrimaryKey } from 'libs/react-crud-master/src/lib/types/columnTypes/primaryKeyColumnType';
-import { Bool } from 'libs/react-crud-master/src/lib/types/columnTypes/boolColumnType';
+import { BoolColType } from 'libs/react-crud-master/src/lib/types/columnTypes/boolColumnType';
 import Decimal from 'libs/react-crud-master/src/lib/types/columnTypes/decimalColumnType';
 import { StringColumnType } from 'libs/react-crud-master/src/lib/types/columnTypes/stringColumnType';
 import { StringInputControlType, TextArea } from 'libs/react-crud-master/src/lib/types/inputControlTypes/stringInputControlType';
@@ -67,7 +67,7 @@ export class App extends Component {
       new ColModel({ name: 'nekiDecimal', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiFloat', width: 150, columnType: new Decimal() }),
       new ColModel({ name: 'nekiDouble', width: 150, columnType: new Decimal() }),
-      new ColModel({ name: 'nekiBool', width: 150, columnType: new Bool(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH(), default: true }) }),
+      new ColModel({ name: 'nekiBool', width: 150, columnType: new BoolColType(), InputControl: InputControlTypes.Bool({ presentationType: InputControlTypes.BoolPresentationTypes.SWITCH(), default: true }) }),
       new ColModel({ name: 'nekiDatum', width: 200, columnType: new DateTimeColumnType() }),
 
     ]

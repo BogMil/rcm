@@ -4,10 +4,13 @@ import { ColModel } from '../colModel/colModel';
 // import { InputControlTypes } from '../inputControlTypes/inputControlTypesTest';
 import React from 'react';
 import { getPropertyValueByString } from '../../utils/objectHelper';
+import { InputControlType } from '../inputControlTypes/commonInterfaces';
+import { StringInputControlType } from '../inputControlTypes/stringInputControlType';
 
 export interface StringOptions {
 }
 export class StringColumnType implements IColumnType {
+  defaultInputControl = (): InputControlType => new StringInputControlType();
 
 
   get name() { return ColumnTypeNames.STRING }

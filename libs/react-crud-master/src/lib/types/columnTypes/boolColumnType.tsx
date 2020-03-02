@@ -3,11 +3,14 @@ import { IColumnType } from './commonInterfaces'
 import { ColumnTypeNames } from '../../constants/columnTypeNames'
 import { ColModel } from '../colModel/colModel';
 import { getPropertyValueByString } from '../../utils/objectHelper';
+import { InputControlType } from '../inputControlTypes/commonInterfaces';
+import { BoolInputControlType } from '../inputControlTypes/boolInputControlType';
 
 export interface BoolOptions {
   show?: boolean;
 }
-export class Bool implements IColumnType, BoolProps {
+export class BoolColType implements IColumnType, BoolProps {
+  defaultInputControl = (): InputControlType => new BoolInputControlType();
 
   show: boolean = true;
   get name() { return ColumnTypeNames.BOOL }
