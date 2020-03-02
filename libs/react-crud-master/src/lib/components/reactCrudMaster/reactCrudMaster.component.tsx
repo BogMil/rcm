@@ -103,6 +103,7 @@ export default function ReactCrudMasterComponent(config: UserConfig) {
   let colModelsMethods = config.colModels.map(colModel => {
     return ColModelMethodsExtractor.extractFromColModel(colModel);
   });
+
   return (
     <>
       <Card className="react-crud-master" id={`CMID-${store.RCMID}`}>

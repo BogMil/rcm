@@ -7,14 +7,13 @@ import { ColModel } from './types/colModel/colModel'
 import thunk from 'redux-thunk'
 import { UserConfig } from './types/userConfig';
 
-// let store = createStore(rootReducer, applyMiddleware(thunk));
 export function ReactCrudMaster(config: UserConfig) {
-    let store = createStore(rootReducer, applyMiddleware(thunk));
-    return (
-        <Provider store={store} >
-            <ReactCrudMasterComponent {...config} />
-        </Provider>
-    )
+  let store = createStore(rootReducer, applyMiddleware(thunk));
+  return (
+    <Provider store={store} >
+      <ReactCrudMasterComponent {...config} />
+    </Provider>
+  )
 }
 
 export default ReactCrudMaster
